@@ -1,8 +1,14 @@
 __author__ = 'socrates'
 
-import requests
+from PIL import Image
 
-# r = requests.get('https://github.com', verify=True)
-# r = requests.get('https://github.com',verify=False)
-r = requests.get('https://kyfw.12306.cn/otn/', verify=False)
-print(r.text)
+import StringIO
+import urllib2
+
+url = 'http://cdn.01happy.com/wp-content/uploads/2012/09/bg.png'
+file = urllib2.urlopen(url)
+tmpIm = cStringIO.StringIO(file.read())
+im = Image.open(tmpIm)
+
+image = Image.open(r"http://ww1.sinaimg.cn/large/840c9a4fgw1f8omnxdllhj20fp0kzn0v.jpg")
+image.show()

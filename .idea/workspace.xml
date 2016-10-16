@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7ee59f76-6ca0-4ec3-aece-2ada927d4001" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ygdy_new.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/try.py" afterPath="$PROJECT_DIR$/try.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/纯原创我心中的NBA2014-2015赛季现役50大.txt" afterPath="$PROJECT_DIR$/纯原创我心中的NBA2014-2015赛季现役50大.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ygdy_new.py" afterPath="$PROJECT_DIR$/ygdy_new.py" />
     </list>
     <ignored path="play.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,10 +24,10 @@
     <SUITE FILE_PATH="coverage/play$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1475751685741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/play$taobaomm.coverage" NAME="taobaomm Coverage Results" MODIFIED="1475822759788" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/play$bdtb_nba.coverage" NAME="bdtb_nba Coverage Results" MODIFIED="1475750389251" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/play$try.coverage" NAME="try Coverage Results" MODIFIED="1475822368191" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/play$try.coverage" NAME="try Coverage Results" MODIFIED="1476607640825" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/play$test1.coverage" NAME="test1 Coverage Results" MODIFIED="1475325852208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/play$qsbk.coverage" NAME="qsbk Coverage Results" MODIFIED="1475750411190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/play$ygdy_new.coverage" NAME="ygdy_new Coverage Results" MODIFIED="1475852630432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/play$ygdy_new.coverage" NAME="ygdy_new Coverage Results" MODIFIED="1476607435946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/play$sina_sport.coverage" NAME="sina_sport Coverage Results" MODIFIED="1475302970675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -46,8 +45,8 @@
       <file leaf-file-name="try.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/try.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
-              <caret line="6" column="59" selection-start-line="6" selection-start-column="59" selection-end-line="6" selection-end-column="59" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+              <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -56,7 +55,7 @@
       <file leaf-file-name="test1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
+            <state vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="782">
               <caret line="23" column="107" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="107" />
               <folding />
             </state>
@@ -76,8 +75,28 @@
       <file leaf-file-name="ygdy_new.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ygdy_new.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5555556" vertical-offset="289" max-vertical-offset="816">
-              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.18518518" vertical-offset="0" max-vertical-offset="2669">
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="qsbk.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/qsbk.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1479" max-vertical-offset="1938">
+              <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bdtb_nba.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bdtb_nba.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="2737">
+              <caret line="75" column="41" selection-start-line="74" selection-start-column="8" selection-end-line="75" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -102,11 +121,12 @@
         <option value="$PROJECT_DIR$/bdtb_nba.py" />
         <option value="$PROJECT_DIR$/test2.py" />
         <option value="$PROJECT_DIR$/taobaoPO.py" />
-        <option value="$PROJECT_DIR$/try.py" />
         <option value="$PROJECT_DIR$/taobaomm.py" />
         <option value="$PROJECT_DIR$/quotes_spider.py" />
         <option value="$PROJECT_DIR$/纯原创我心中的NBA2014-2015赛季现役50大.txt" />
+        <option value="$PROJECT_DIR$/a" />
         <option value="$PROJECT_DIR$/ygdy_new.py" />
+        <option value="$PROJECT_DIR$/try.py" />
       </list>
     </option>
   </component>
@@ -169,10 +189,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
-    <property name="options.lastSelected" value="pyconsole" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://E:/py/play/sina_sport.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PP4E" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -180,7 +201,7 @@
     </option>
     <option name="myIpythonEnabled" value="false" />
   </component>
-  <component name="RunManager" selected="Python.ygdy_new">
+  <component name="RunManager" selected="Python.try">
     <configuration default="false" name="test2" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -478,10 +499,10 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.ygdy_new" />
-        <item index="1" class="java.lang.String" itemvalue="Python.html_content" />
-        <item index="2" class="java.lang.String" itemvalue="Python.taobaomm" />
-        <item index="3" class="java.lang.String" itemvalue="Python.try" />
+        <item index="0" class="java.lang.String" itemvalue="Python.try" />
+        <item index="1" class="java.lang.String" itemvalue="Python.ygdy_new" />
+        <item index="2" class="java.lang.String" itemvalue="Python.html_content" />
+        <item index="3" class="java.lang.String" itemvalue="Python.taobaomm" />
         <item index="4" class="java.lang.String" itemvalue="Python.test2" />
       </list>
     </recent_temporary>
@@ -511,7 +532,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32841823" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3458445" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31903484" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21418338" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22277936" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -556,18 +577,90 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/qsbk.py">
+    <entry file="file://$PROJECT_DIR$/test1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="1938">
-          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="782">
+          <caret line="23" column="107" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="107" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bdtb_nba.py">
+    <entry file="file://$PROJECT_DIR$/html_content.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="2737">
-          <caret line="65" column="48" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="476">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ygdy_new.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/try.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="221">
+          <caret line="6" column="59" selection-start-line="6" selection-start-column="59" selection-end-line="6" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="782">
+          <caret line="23" column="107" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="107" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html_content.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="476">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ygdy_new.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/try.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="221">
+          <caret line="6" column="59" selection-start-line="6" selection-start-column="59" selection-end-line="6" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="782">
+          <caret line="23" column="107" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="107" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html_content.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="476">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ygdy_new.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -584,7 +677,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="1938">
           <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -592,7 +684,28 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="2737">
           <caret line="65" column="48" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/try.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="221">
+          <caret line="6" column="59" selection-start-line="6" selection-start-column="59" selection-end-line="6" selection-end-column="59" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsbk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="1938">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bdtb_nba.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="2737">
+          <caret line="65" column="48" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -608,7 +721,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="1938">
           <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -616,7 +728,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="2737">
           <caret line="65" column="48" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -653,7 +764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="1938">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -661,7 +771,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="2737">
           <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -698,7 +807,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="1938">
           <caret line="30" column="54" selection-start-line="30" selection-start-column="54" selection-end-line="30" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -706,7 +814,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2737">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -779,31 +886,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.59871244" vertical-offset="15599" max-vertical-offset="16371">
           <caret line="934" column="0" selection-start-line="934" selection-start-column="0" selection-end-line="934" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/try.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
-          <caret line="6" column="59" selection-start-line="6" selection-start-column="59" selection-end-line="6" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bdtb_nba.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47309417" vertical-offset="894" max-vertical-offset="2737">
-          <caret line="65" column="48" selection-start-line="65" selection-start-column="43" selection-end-line="65" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/qsbk.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1938">
-          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -823,10 +905,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/bdtb_nba.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="2737">
+          <caret line="75" column="41" selection-start-line="74" selection-start-column="8" selection-end-line="75" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/qsbk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1479" max-vertical-offset="1938">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/try.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+          <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ygdy_new.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5555556" vertical-offset="289" max-vertical-offset="816">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.18518518" vertical-offset="0" max-vertical-offset="2669">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding />
         </state>
       </provider>
