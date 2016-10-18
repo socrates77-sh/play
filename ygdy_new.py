@@ -129,7 +129,6 @@ def main():
 
     download = ''
     for url in tp.new_url:
-        print(url)
         dict_result = tp.scrap_a_movie(url)
         tp.print_a_movie(dict_result)
         key = input('Choice Quit/Download/Continue ... [q/d/enter]')
