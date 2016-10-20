@@ -10,5 +10,10 @@ file = urllib2.urlopen(url)
 tmpIm = cStringIO.StringIO(file.read())
 im = Image.open(tmpIm)
 
-image = Image.open(r"http://ww1.sinaimg.cn/large/840c9a4fgw1f8omnxdllhj20fp0kzn0v.jpg")
+image = Image.open(
+    r"http://ww1.sinaimg.cn/large/840c9a4fgw1f8omnxdllhj20fp0kzn0v.jpg")
 image.show()
+
+a = 0
+
+b = 0
