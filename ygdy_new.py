@@ -20,7 +20,8 @@ class TopPage():
 
     def get_new_url(self):
         r = requests.get(self.url_ygdy)
-        soup = BeautifulSoup(r.content, 'html.parser', from_encoding='gb18030')
+        soup = BeautifulSoup(r.content, 'html.parser', from_encoding='gbk')
+        # soup = BeautifulSoup(r.content, 'html.parser', from_encoding='gb18030')
         all_area2 = soup.find_all(class_='co_area2')
         movie1 = all_area2[2]
         movie2 = all_area2[3]
@@ -53,7 +54,7 @@ class TopPage():
         # Title
         dict_result['Title'] = soup.h1.font.string
 
-        # # 发布时间
+        # 发布时间
         pattern = re.compile('发布时间.*?(\d+-\d+-\d+)\s', re.S)
         result = re.search(pattern, str(content))
         dict_result['发布时间'] = result.group(1).strip()
@@ -84,10 +85,13 @@ class TopPage():
         dict_result['导演'] = result.group(1).strip()
 
         # 主演
-        pattern = re.compile('主\s*?演(.*?)<br/><br/>', re.S)
-        result = re.search(pattern, str(content))
-        actors = result.group(1).split(sep='<br/>')
-        dict_result['主演'] = actors
+        try:
+            pattern = re.compile('主\s*?演(.*?)<br\s*?/><br\s*?/>', re.S)
+            result = re.search(pattern, str(content))
+            actors = result.group(1).split(sep='<br/>')
+            dict_result['主演'] = actors
+        except AttributeError:
+            return
 
         # 简介
         pattern = re.compile('简\s*?介\s*?<br/><br/>(.*?)<', re.S)
@@ -102,9 +106,14 @@ class TopPage():
         return dict_result
 
     def print_a_movie(self, dict_result):
-        print('===============================================================')
+        if dict_result is None:
+            print('Parse unsuccessful! Skip...')
+            return
+        print(
+            '===============================================================')
         print('Title:\t\t%s' % dict_result['Title'])
-        print('===============================================================')
+        print(
+            '===============================================================')
         print('发布时间:\t%s' % dict_result['发布时间'])
         print('片名:\t\t%s' % dict_result['片名'])
         print('译名:\t\t%s' % dict_result['译名'])
@@ -118,10 +127,14 @@ class TopPage():
         else:
             show_list = dict_result['主演']
         for l in show_list:
-            print('\t\t%s' % l.strip())
+            try:
+                print('\t\t%s' % l.strip())
+            except UnicodeEncodeError:
+                pass
         print('简介:\n\t%s' % dict_result['简介'])
         print('下载地址:\n\t%s' % dict_result['下载地址'])
         print('\n')
+
 
 def main():
     tp = TopPage()
@@ -146,5 +159,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
