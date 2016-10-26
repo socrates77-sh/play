@@ -20,8 +20,8 @@ class TopPage():
 
     def get_new_url(self):
         r = requests.get(self.url_ygdy)
-        soup = BeautifulSoup(r.content, 'html.parser', from_encoding='gbk')
-        # soup = BeautifulSoup(r.content, 'html.parser', from_encoding='gb18030')
+        # soup = BeautifulSoup(r.content, 'html.parser', from_encoding='gbk')
+        soup = BeautifulSoup(r.content, 'html.parser', from_encoding='gb18030')
         all_area2 = soup.find_all(class_='co_area2')
         movie1 = all_area2[2]
         movie2 = all_area2[3]
@@ -109,11 +109,9 @@ class TopPage():
         if dict_result is None:
             print('Parse unsuccessful! Skip...')
             return
-        print(
-            '===============================================================')
+        print('===============================================================')
         print('Title:\t\t%s' % dict_result['Title'])
-        print(
-            '===============================================================')
+        print('===============================================================')
         print('发布时间:\t%s' % dict_result['发布时间'])
         print('片名:\t\t%s' % dict_result['片名'])
         print('译名:\t\t%s' % dict_result['译名'])
@@ -131,7 +129,10 @@ class TopPage():
                 print('\t\t%s' % l.strip())
             except UnicodeEncodeError:
                 pass
-        print('简介:\n\t%s' % dict_result['简介'])
+        try:
+            print('简介:\n\t%s' % dict_result['简介'])
+        except UnicodeEncodeError:
+            pass
         print('下载地址:\n\t%s' % dict_result['下载地址'])
         print('\n')
 
