@@ -88,6 +88,7 @@ class TopPage():
         try:
             pattern = re.compile('主\s*?演(.*?)<br\s*?/><br\s*?/>', re.S)
             result = re.search(pattern, str(content))
+            # print(result.group(1))
             actors = result.group(1).split(sep='<br/>')
             dict_result['主演'] = actors
         except AttributeError:
@@ -109,32 +110,29 @@ class TopPage():
         if dict_result is None:
             print('Parse unsuccessful! Skip...')
             return
-        print('===============================================================')
-        print('Title:\t\t%s' % dict_result['Title'])
-        print('===============================================================')
-        print('发布时间:\t%s' % dict_result['发布时间'])
-        print('片名:\t\t%s' % dict_result['片名'])
-        print('译名:\t\t%s' % dict_result['译名'])
-        print('年代:\t\t%s' % dict_result['年代'])
-        print('国家:\t\t%s' % dict_result['国家'])
-        print('导演:\t\t%s' % dict_result['导演'])
-        # 主演最多显示5个
-        print('主演:')
-        if len(dict_result['主演']) > 5:
-            show_list = dict_result['主演'][:5]
-        else:
-            show_list = dict_result['主演']
-        for l in show_list:
-            try:
-                print('\t\t%s' % l.strip())
-            except UnicodeEncodeError:
-                pass
         try:
+            print('===============================================================')
+            print('Title:\t\t%s' % dict_result['Title'])
+            print('===============================================================')
+            print('发布时间:\t%s' % dict_result['发布时间'])
+            print('片名:\t\t%s' % dict_result['片名'])
+            print('译名:\t\t%s' % dict_result['译名'])
+            print('年代:\t\t%s' % dict_result['年代'])
+            print('国家:\t\t%s' % dict_result['国家'])
+            print('导演:\t\t%s' % dict_result['导演'])
+            # 主演最多显示5个
+            print('主演:')
+            if len(dict_result['主演']) > 5:
+                show_list = dict_result['主演'][:5]
+            else:
+                show_list = dict_result['主演']
+            for l in show_list:
+                print('\t\t%s' % l.strip())
             print('简介:\n\t%s' % dict_result['简介'])
+            print('下载地址:\n\t%s' % dict_result['下载地址'])
+            print('\n')
         except UnicodeEncodeError:
             pass
-        print('下载地址:\n\t%s' % dict_result['下载地址'])
-        print('\n')
 
 
 def main():
