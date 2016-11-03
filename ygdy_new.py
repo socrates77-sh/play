@@ -51,58 +51,59 @@ class TopPage():
         soup = BeautifulSoup(r.content, 'html.parser', from_encoding='gb18030')
         content = soup.find(class_='co_content8').ul
 
-        # Title
-        dict_result['Title'] = soup.h1.font.string
-
-        # 发布时间
-        pattern = re.compile('发布时间.*?(\d+-\d+-\d+)\s', re.S)
-        result = re.search(pattern, str(content))
-        dict_result['发布时间'] = result.group(1).strip()
-
-        # 片名
-        pattern = re.compile('片\s*?名(.*?)<', re.S)
-        result = re.search(pattern, str(content))
-        dict_result['片名'] = result.group(1).strip()
-
-        # 译名
-        pattern = re.compile('译\s*?名(.*?)<', re.S)
-        result = re.search(pattern, str(content))
-        dict_result['译名'] = result.group(1).strip()
-
-        # 年代
-        pattern = re.compile('年\s*?代(.*?)<', re.S)
-        result = re.search(pattern, str(content))
-        dict_result['年代'] = result.group(1).strip()
-
-        # 国家
-        pattern = re.compile('国\s*?家(.*?)<', re.S)
-        result = re.search(pattern, str(content))
-        dict_result['国家'] = result.group(1).strip()
-
-        # 导演
-        pattern = re.compile('导\s*?演(.*?)<', re.S)
-        result = re.search(pattern, str(content))
-        dict_result['导演'] = result.group(1).strip()
-
-        # 主演
         try:
+            # Title
+            dict_result['Title'] = soup.h1.font.string
+
+            # 发布时间
+            pattern = re.compile('发布时间.*?(\d+-\d+-\d+)\s', re.S)
+            result = re.search(pattern, str(content))
+            dict_result['发布时间'] = result.group(1).strip()
+
+            # 片名
+            pattern = re.compile('片\s*?名(.*?)<', re.S)
+            result = re.search(pattern, str(content))
+            dict_result['片名'] = result.group(1).strip()
+
+            # 译名
+            pattern = re.compile('译\s*?名(.*?)<', re.S)
+            result = re.search(pattern, str(content))
+            dict_result['译名'] = result.group(1).strip()
+
+            # 年代
+            pattern = re.compile('年\s*?代(.*?)<', re.S)
+            result = re.search(pattern, str(content))
+            dict_result['年代'] = result.group(1).strip()
+
+            # 国家
+            pattern = re.compile('国\s*?家(.*?)<', re.S)
+            result = re.search(pattern, str(content))
+            dict_result['国家'] = result.group(1).strip()
+
+            # 导演
+            pattern = re.compile('导\s*?演(.*?)<', re.S)
+            result = re.search(pattern, str(content))
+            dict_result['导演'] = result.group(1).strip()
+
+            # 主演
+
             pattern = re.compile('主\s*?演(.*?)<br\s*?/><br\s*?/>', re.S)
             result = re.search(pattern, str(content))
             # print(result.group(1))
             actors = result.group(1).split(sep='<br/>')
             dict_result['主演'] = actors
+
+            # 简介
+            pattern = re.compile('简\s*?介\s*?<br/><br/>(.*?)<', re.S)
+            result = re.search(pattern, str(content))
+            dict_result['简介'] = result.group(1).strip()
+
+            # 下载地址
+            body = content.find('tbody')
+            alink = body.find('a')
+            dict_result['下载地址'] = alink.get('href')
         except AttributeError:
-            return
-
-        # 简介
-        pattern = re.compile('简\s*?介\s*?<br/><br/>(.*?)<', re.S)
-        result = re.search(pattern, str(content))
-        dict_result['简介'] = result.group(1).strip()
-
-        # 下载地址
-        body = content.find('tbody')
-        alink = body.find('a')
-        dict_result['下载地址'] = alink.get('href')
+                return
 
         return dict_result
 
