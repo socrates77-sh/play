@@ -1,19 +1,15 @@
 __author__ = 'socrates'
 
-from PIL import Image
+import openpyxl
 
-import StringIO
-import urllib2
 
-url = 'http://cdn.01happy.com/wp-content/uploads/2012/09/bg.png'
-file = urllib2.urlopen(url)
-tmpIm = cStringIO.StringIO(file.read())
-im = Image.open(tmpIm)
+wb = openpyxl.load_workbook(r'G:\temp\a\数字组_员工周报_李秀峰.xlsx')
+# print(wb.sheetnames)
 
-image = Image.open(
-    r"http://ww1.sinaimg.cn/large/840c9a4fgw1f8omnxdllhj20fp0kzn0v.jpg")
-image.show()
+# ws = wb.worksheets[0]
+# print(ws.title)
 
-a = 0
+c=ws['E2']
+print(c.value)
+print(c.number_format)
 
-b = 0
