@@ -16,8 +16,8 @@ import hashlib
 import datetime
 import shutil
 
-old_version_dir = r'e:\temp\PDK'
-new_version_dir = r'e:\temp\PDK_018MCU_V1.1_3.2_-_-180NM_3.3V_6V_MCU_PLATFORM20161216T131843'
+old_version_dir = r'D:\work\工艺文件\GlobalFoundries\GF180\PDK'
+new_version_dir = r'd:\temp\PDK_018MCU_V1.1_3.2_-_-180NM_3.3V_6V_MCU_PLATFORM20161216T131843'
 
 
 def calc_sha1(filepath):
