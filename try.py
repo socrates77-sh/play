@@ -1,55 +1,36 @@
-__author__ = 'socrates'
+import xlwt
+import os
 
-import requests
-from bs4 import BeautifulSoup
-import json
+f = xlwt.Workbook()  # 创建工作簿
+sheet1 = f.add_sheet('worklog', cell_overwrite_ok=True)
 
-from_data = {
-    'j_mode': 'static',
-    'j_locale': 'zh_CN',
-    'j_username': 'zwr',
-    'j_password': 'c3lzdGVtT0EsendyNzcwMjA3',
-    'Submit3': '登 录'
-}
+title = ['Date', 'Person', 'Task', 'Percent%']
+content = ['2017-1-21', '张文荣', '把else的位置与if处于同一缩进,for语句是python中的循环控制语句。可用来遍历某一对象，还具有一个附带的可选的else块',
+           90]
 
-my_cookies = {
-    'JSESSIONID': 'C98E5B8C9E87CA2F049D1B5B3123C310',
-    'userClose': '0'
-}
+alignment = xlwt.Alignment()
+alignment.vert = xlwt.Alignment.VERT_CENTER
+alignment.horz = xlwt.Alignment.HORZ_LEFT
+alignment.wrap = xlwt.Alignment.WRAP_AT_RIGHT
 
-s = requests.Session()
-# s.headers = {
-# 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-# 'Accept-Encoding': 'gzip, deflate',
-#     'Accept-Language': 'zh-CN,zh;q=0.8',
-#     'Cache-Control': 'max-age=0',
-#     'Connection': 'keep-alive',
-#     'Content-Length': '112',
-#     'Content-Type': 'application/x-www-form-urlencoded',
-#     'Cookie': 'JSESSIONID=D391B05A08DCD41DA70E4945DD2215D4; userClose=0',
-#     'Host': '192.168.1.228:7890',
-#     'Origin': 'http://192.168.1.228:7890',
-#     'Referer': 'http://192.168.1.228:7890/oa/themes/mskin/login/login.jsp',
-#     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36'
-# }
+style = xlwt.XFStyle()
+style.alignment = alignment
 
-# s.headers = {
-#     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36'
-# }
+for i in range(0, len(title)):
+    sheet1.write(0, i, title[i], xlwt.easyxf('font: bold on'))
+    sheet1.write(1, i, content[i], xlwt.easyxf('align: wrap on, horiz left, vert center'))
 
-s.verify = False
+sheet1.col(0).width = 3000
+sheet1.col(1).width = 3000
+sheet1.col(2).width = 10000
+sheet1.col(3).width = 3000
 
-url = 'http://192.168.1.228:7890/oa/j_acegi_security_check'
+desk_path = os.path.join(os.path.expanduser("~"), 'Desktop')
+print(desk_path)
+xl_file = os.path.join(desk_path, 'worklog.xls')
 
-# res = s.post(url, data=from_data)
-res = s.post(url, data=from_data, cookies=my_cookies)
-# res.encoding = 'utf-8'
-# print(res.text)
-
-# res1=s.post('http://192.168.1.228:7890/oa/modules/worklog/worklog.do?method=list&t=3', cookies=my_cookies)
-res2=s.post('http://192.168.1.228:7890/oa/modules/worklog/worklog.do?method=list&t=4', cookies=my_cookies)
-res3=s.post('http://192.168.1.228:7890/oa/modules/worklog/worklog.do?method=edit&id=27624&t=4', cookies=my_cookies)
-
-
-print(res3.text)
-
+try:
+    f.save(xl_file)
+except PermissionError:
+    print('ERROR: %s is opened now' % xl_file)
+    exit(1)

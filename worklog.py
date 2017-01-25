@@ -5,7 +5,6 @@ __author__ = 'zwr'
 
 import re
 import requests
-from bs4 import BeautifulSoup
 
 group_member = [
     ('曾晟', '李秀峰', '何用', '李殿英', '翁亚男', '杨颢飞'),
