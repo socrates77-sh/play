@@ -269,6 +269,12 @@ def filter_by_group(all_id, bygroup=0):
 
 
 def filter_by_date(all_id, bydate):
+    '''
+    根据输入的日期，早于该日期的ID均被滤除
+    :param all_id: 被筛选的列表
+    :param bydate: string, 限定的日期
+    :return: 返回筛选成功的列表
+    '''
     l_filtered_id = []
     for (idx, dx, px) in all_id:
         if dx >= bydate:
@@ -277,7 +283,11 @@ def filter_by_date(all_id, bydate):
 
 
 def get_date_boundry(all_id):
-    # print(all_id)
+    '''
+    获取一个ID列表的最早和最晚日期
+    :param all_id: 输入的列表
+    :return: 返回最晚、最早的日期
+    '''
     first = all_id[0][1]
     last = first
     for i in range(0, len(all_id)):
@@ -289,6 +299,11 @@ def get_date_boundry(all_id):
 
 
 def get_valid_last_date(days_from_latest):
+    '''
+    获取有效日期
+    :param days_from_latest: 从最晚日期回溯的间隔天数
+    :return: 返回最早的有效日期
+    '''
     if days_from_latest < 1:
         days_from_latest = 1
     wl = OaWorklog()
@@ -308,6 +323,11 @@ def get_valid_last_date(days_from_latest):
 
 
 def get_group(an_id):
+    '''
+    获取一个ID所属的组
+    :param an_id: 输入的ID
+    :return: 组名
+    '''
     for i in range(0, len(group_name)):
         if an_id[2] in group_member[i]:
             return group_name[i]
@@ -334,10 +354,12 @@ def getargs():
 
 
 def main():
+    # 分析命令行参数
     d, g = getargs()
     group_select = eval(g)
     days_from_latest = eval(d)
 
+    # 抓取网页
     wl = OaWorklog()
     wl.oa_login()
     d1 = get_valid_last_date(days_from_latest)
@@ -345,6 +367,7 @@ def main():
     all_by_g = filter_by_group(all_id, group_select)
     all_by_gd = filter_by_date(all_by_g, d1)
 
+    # XLS输出、保存
     xl = XlWrite()
     xl.print_title()
     for x in all_by_gd:
