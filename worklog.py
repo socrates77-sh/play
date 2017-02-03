@@ -246,7 +246,7 @@ class XlWrite():
             print('==========================================================================')
             print('[worklog v%s] ERROR: %s is opened now' % (VERSION, xl_file))
             print('==========================================================================')
-            exit(1)
+            sys.exit(1)
 
 
 def filter_by_group(all_id, bygroup=0):
@@ -346,9 +346,9 @@ def getargs():
         group = '-1'
     else:
         print('Usage:')
-        print('python worklog.py [group [days]]')
-        print('group: 选取组（0-数字；1-模拟；2-版图；3-SA；4-管理；其他-所有组；默认为所有组）')
+        print('python worklog.py [days [group]]')
         print('days： 从最新日志回溯的天数，默认为1天（即只选取最新1天的日志）')
+        print('group: 选取组（0-数字；1-模拟；2-版图；3-SA；4-管理；其他-所有组；默认为所有组）')
         sys.exit(-1)
     return day_count, group
 
@@ -370,15 +370,43 @@ def main():
     # XLS输出、保存
     xl = XlWrite()
     xl.print_title()
+    # 用了很原始的方式实现分组排序
     for x in all_by_gd:
         log = wl.get_one_log(x[0])
-        xl.print_log(x, get_group(x), log)
-        print(x, get_group(x), log)
+        group = get_group(x)
+        if group == '数字组':
+            xl.print_log(x, group, log)
+            print(x, group, log)
+    for x in all_by_gd:
+        log = wl.get_one_log(x[0])
+        group = get_group(x)
+        if group == '模拟组':
+            xl.print_log(x, group, log)
+            print(x, group, log)
+    for x in all_by_gd:
+        log = wl.get_one_log(x[0])
+        group = get_group(x)
+        if group == '版图组':
+            xl.print_log(x, group, log)
+            print(x, group, log)
+    for x in all_by_gd:
+        log = wl.get_one_log(x[0])
+        group = get_group(x)
+        if group == 'SA':
+            xl.print_log(x, group, log)
+            print(x, group, log)
+    for x in all_by_gd:
+        log = wl.get_one_log(x[0])
+        group = get_group(x)
+        if group == '管理':
+            xl.print_log(x, group, log)
+            print(x, group, log)
+
     xl.save_xl()
 
-    # for DEBUG
-    # r1 = wl.debug_a_log('27620').text
-    # print(r1)
+# for DEBUG
+# r1 = wl.debug_a_log('27620').text
+# print(r1)
 
 
 if __name__ == '__main__':

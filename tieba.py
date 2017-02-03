@@ -1,5 +1,4 @@
-#!/bin/env python
-# -*- coding: utf-8 -*-
+
 
 __author__ = 'socrates'
 
@@ -12,7 +11,7 @@ import sys
 VERSION = '1.0'  # 版本号
 star = '孙允珠'
 save_path = 'e:\download'  # 默认存放路径
-INTERVAL = 1  # 下载一张图片间隔时间
+INTERVAL = 0.3  # 下载一张图片间隔时间
 
 
 class TiebaPicPage():
