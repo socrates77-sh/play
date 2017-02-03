@@ -272,7 +272,7 @@ def usage():
     print('    file - download pictures defined by a file')
     print('        argument: file_name')
     print('-t: set mode for try')
-    print('        argument: same as -m, but not realy download')
+    print('        argument: same as -d, but not realy download')
 
 
 def usage_err():
