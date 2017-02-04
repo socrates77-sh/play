@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7ee59f76-6ca0-4ec3-aece-2ada927d4001" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/showwall.py" afterPath="$PROJECT_DIR$/showwall.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tieba.py" afterPath="$PROJECT_DIR$/tieba.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="play.iws" />
@@ -123,6 +121,11 @@
     </leaf>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="socrates77 &lt;zhwenrong@sina.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HierarchyBrowserManager">
@@ -546,6 +549,13 @@
       <option name="number" value="Default" />
       <updated>1475248527712</updated>
     </task>
+    <task id="LOCAL-00001" summary="dev tieba.py @home&#10;&#10;Signed-off-by: socrates77 &lt;zhwenrong@sina.com&gt;&#10;">
+      <created>1486224598577</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1486224598577</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -574,6 +584,7 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32348993" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3980424" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -631,6 +642,8 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="dev tieba.py @home&#10;&#10;Signed-off-by: socrates77 &lt;zhwenrong@sina.com&gt;&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="dev tieba.py @home&#10;&#10;Signed-off-by: socrates77 &lt;zhwenrong@sina.com&gt;&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
