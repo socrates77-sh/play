@@ -8,43 +8,74 @@ import datetime
 import sys
 import getopt
 
-stars = ['ayum_hamasaki', 'amuro_namie', 'saki_aibu', 'gouriki_ayame', 'asahina_aya',
-         'norika_fujiwara', 'fujimoto_miki', 'maki_goto', 'reika_hashimoto', 'satomi_ishihara',
-         'maki_horikita', 'kyoko_fukada', 'keiko_kitagaw', 'kuroki_meisa', 'kusumi_koharu',
-         'kinoshita_ayumi', 'kiritani_mirei', 'aya_matsuura', 'sasaki_nozomi', 'takako_tokiwa',
-         'aya_ueto', 'noriko_sakai', 'ai_takahashi', 'erika_sawajiri', 'mizuhara_kiko',
-         'cecilia_cheung', 'charlene_choi', 'elle_choi', 'gillian_chung', 'kelly_chen',
-         'athena_chu', 'cheung_maggie', 'kathy_chao', 'sharla_cheung', 'vivian_chow', 'coco_jiang',
-         'monica_chan', 'cherie_chung', 'chrissie_chau', 'jessica_cambensy', 'iynn_hung', 'gigi_leung',
-         'michelle_lee', 'rain_lee', 'tiffany_lee', 'bernice_liu', 'rosamund_kwan', 'gigi_lai',
-         'carman_lee', 'isabella_leung', 'karen_mok', 'maggie_q', 'faye_wong', 'joey_yung', 'kristy_yeung',
-         'cherrie_ying', 'anita_yuen', 'angela_yeung', 'stephy_tang', 'twins', 'alyssa_chia', 'vivian_chen',
-         'angela_chang', 'ady_an', 'ella_chen', 'chang_chun_ning', 'joe_chen', 'ivy_chen', 'michelle_chan',
-         'chou_tzu_yu', 'mavis_fan', 'vivian_hsu', 'yuki_hsu', 'barbie_hsu', 'tsui_hsu', 'patty_hou',
-         'coco_lee', 'ruby_lin', 'karena_lam', 'kelly_lin', 'rene_liu', 'ariel_lam', 'janet_lee',
-         'chiling_lin', 'hayden_kwok', 'pace_ng', 'meng_jessey', 'selina_yam', 'evle_sill', 'jolin_choi',
-         'shu_qi', 'hebe', 'cyndi_wong', 'joey_wong', 'rainie_yeung', 'zhang_ting', 'genie_zhuo', 's_h_e',
-         'boa', 'chae_lim', 'han_chae_young', 'ha_ji_won', 'han_ga_in', 'han_ye_sle', 'kim_hee_sun',
-         'jun_ji_hyun', 'lee_young_ae', 'jang_na_ra', 'lee_hyo_lee', 'kim_tae_hee', 'jessica', 'song_hye_kyo',
-         'yoona', 'girls_generation', 'cao_ying', 'jane_chang', 'chen_hao', 'chen_hong', 'fan_bingbing',
-         'dong_jie', 'dilraba_dilmurat', 'huang_yi', 'gao_yuanyuan', 'han_xue', 'hu_ke', 'huo_si_yan',
-         'huang_siu_lei', 'kym_gin', 'gan_ting_ting', 'gulnazar', 'li_bingbing', 'jacqueline_lu',
-         'chinchin_jiang',
-         'crystal_liu', 'li_xiao_ran', 'jin_qiao_qiao', 'liu_xuan', 'liu_zi', 'cecilia_liu', 'ada_liu',
-         'sally_jing', 'jiang_yi_yan', 'li_qin', 'ju_jing_yi', 'lin_yun', 'ning_jing', 'ma_yi_li', 'mei_ting',
-         'ni_ni', 'qu_ying', 'shum_sing', 'li_sun', 'tong_wei', 'tiffany_tong', 'tong_li_ya', 'jing_lei',
-         'xu_qing', 'eva_wong', 'wang_luo_dan', 'xiao_zhai', 'xu_dong_dong', 'olivia_wang', 'vicki_zhao',
-         'zhang_zi_yi', 'jue_zhou', 'zhang_jing_chu', 'yuan_quan', 'kristy_zhang', 'zhang_liang_yin',
-         'yu_na', 'ye_yi_qian', 'yang_mi', 'kitty_zhang', 'zhang_zi_lin', 'yao_chen', 'viann_zhang', 'yin_tao',
-         'zheng_shuang', 'zhou_dong_yu', 'yao_di', 'zhao_li_ying', 'crystal_zhang', 'lavigne_avril',
-         'audrey_hepburn', 'diaz_cameron', 'catherine_zeta_jones', 'cindy_crawford', 'emma_watson',
-         'megan_fox', 'clarke', 'paris_hilton', 'anne_hathaway', 'liv_tyler', 'jodie_foster', 'miranda_kerr',
-         'meg_ryan', 'nicole_kidman', 'natalie_portman', 'madonna', 'spears_britney', 'sophie_marceau',
-         'kristen_stewart', 'jolie_angelina', 'angelica_lee', 'penny_tai']
 
-stars = ['孙允珠', '倪妮', '杨幂', 'angelababy', '古力娜扎', '范冰冰', '李冰冰', '张静初', '唐嫣', '董洁',
-         '高圆圆', '迪丽热巴', '黄奕', '韩雪', '胡可', '金莎', '李小璐']
-# stars = ['胡可']
+stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩芽', '朝比奈彩',
+         '藤原纪香', '藤本美贵', '后藤真希', '桥本丽香', '石原里美',
+         '堀北真希', '深田恭子', '北川景子', '黑木明纱', '久住小春',
+         '木下亚由美', '桐谷美玲', '松浦亚弥', '佐佐木希', '常盘贵子',
+         '上户彩', '酒井法子', '高桥爱', '泽尻英龙华', '水原希子',
+         '张柏芝', '蔡卓妍', '钟欣桐', '陈慧琳',
+         '朱茵', '张曼玉', '周海媚', '张敏', '周慧敏', '蒋怡',
+         '陈法蓉', '钟楚红', '周秀娜', '熊黛林', '梁咏琪',
+         '李嘉欣', '李彩桦', '李茏怡', '廖碧儿', '关芝琳', '黎姿',
+         '李若彤', '梁洛施', '莫文蔚', 'maggieq', '王菲', '容祖儿', '杨恭如',
+         '应采儿', '袁咏仪', 'angelababy', '邓丽欣', 'twins', '贾静雯', '陈德容',
+         '张韶涵', '安以轩', '陈嘉桦', '张钧甯', '陈乔恩', '陈意涵', '陈妍希',
+         '周子瑜', '范晓萱', '徐若瑄', '徐怀钰', '徐熙媛', '徐熙娣', '侯佩岑',
+         '李玟', '林心如', '林嘉欣', '林熙蕾', '刘若英', '林依晨', '李倩蓉',
+         '林志玲', '郭采洁', '吴佩慈', '孟广美', '任家萱', '萧亚轩', '蔡依林',
+         '舒淇', '田馥甄', '王心凌', '王祖贤', '杨丞琳', '张庭', '卓文萱', 'she',
+         '权宝儿', '蔡琳', '韩彩英', '河智苑', '韩佳人', '韩艺瑟', '金喜善',
+         '全智贤', '李英爱', '张娜拉', '李孝利', '金泰熙', '郑秀妍', '宋慧乔',
+         '宋允儿', '少女时代', '曹颖', '张延', '陈好', '陈红', '范冰冰',
+         '董洁', '迪丽热巴', '黄奕', '高圆圆', '韩雪', '胡可', '霍思燕',
+         '黄小蕾', '金莎', '甘婷婷', '古力娜扎', '李冰冰', '李小璐', '刘涛',
+         '蒋勤勤', '刘亦菲', '李小冉', '金巧巧', '刘璇', '刘孜', '刘诗诗', '柳岩',
+         '景甜', '江一燕', '李沁', '鞠婧祎', '林允', '宁静', '马伊俐', '梅婷', '戚薇',
+         '倪妮', '瞿颖', '沈星', '孙俪', '汤唯', '唐嫣', '佟丽娅', '徐静蕾',
+         '许晴', '黄圣依', '王珞丹', '翟凌', '徐冬冬', '王子文', '赵薇',
+         '章子怡', '周迅', '张静初', '袁泉', '张含韵', '张靓颖', '马思纯',
+         '于娜', '叶一茜', '杨幂', '张雨绮', '张梓琳', '姚晨', '张馨予', '殷桃',
+         '郑爽', '周冬雨', '姚笛', '赵丽颖', '张天爱', '艾薇儿',
+         '奥黛丽赫本', '卡梅隆·迪亚兹', '泽塔琼斯', '克劳馥', '艾玛沃特森', '艾玛',
+         '梅根福克斯', '艾米莉亚克拉克', '希尔顿', '安妮·海瑟薇', '丽芙·泰勒', '朱迪福斯特', '米兰达可儿',
+         '梅格瑞恩', '妮可基德曼', '娜塔丽', '麦当娜', '布兰妮', '苏菲玛索',
+         '克里斯汀·斯图尔特', '安吉丽娜朱莉', '李心洁', '戴佩妮']
+
+stars = ['滨崎步', '安室奈美惠', '相武纱季', '刚力彩芽', '朝比奈彩',
+         '藤原纪香', '藤本美贵', '后藤真希', '桥本丽香', '石原里美',
+         '堀北真希', '深田恭子', '北川景子', '黑木明纱', '久住小春',
+         '木下亚由美', '桐谷美玲', '松浦亚弥', '佐佐木希', '常盘贵子',
+         '上户彩', '酒井法子', '高桥爱', '泽尻英龙华', '水原希子',
+         '张柏芝', '蔡卓妍', '钟欣桐', '陈慧琳',
+         '朱茵', '张曼玉', '周海媚', '张敏', '周慧敏', '蒋怡',
+         '陈法蓉', '钟楚红', '周秀娜', '熊黛林', '梁咏琪',
+         '李嘉欣', '李彩桦', '李茏怡', '廖碧儿', '关芝琳', '黎姿',
+         '李若彤', '梁洛施', '莫文蔚', 'maggieq', '王菲', '容祖儿', '杨恭如',
+         '应采儿', '袁咏仪', 'angelababy', '邓丽欣', 'twins', '贾静雯', '陈德容',
+         '张韶涵', '安以轩', '陈嘉桦', '张钧甯', '陈乔恩', '陈意涵', '陈妍希',
+         '周子瑜', '范晓萱', '徐若瑄', '徐怀钰', '徐熙媛', '徐熙娣', '侯佩岑',
+         '李玟', '林心如', '林嘉欣', '林熙蕾', '刘若英', '林依晨', '李倩蓉',
+         '林志玲', '郭采洁', '吴佩慈', '孟广美', '任家萱', '萧亚轩', '蔡依林',
+         '舒淇', '田馥甄', '王心凌', '王祖贤', '杨丞琳', '张庭', '卓文萱', 'she',
+         '权宝儿', '蔡琳', '韩彩英', '河智苑', '韩佳人', '韩艺瑟', '金喜善',
+         '全智贤', '李英爱', '张娜拉', '李孝利', '金泰熙', '郑秀妍', '宋慧乔',
+         '宋允儿', '少女时代', '曹颖', '张延', '陈好', '陈红', '范冰冰',
+         '董洁', '迪丽热巴', '黄奕', '高圆圆', '韩雪', '胡可', '霍思燕',
+         '黄小蕾', '金莎', '甘婷婷', '古力娜扎', '李冰冰', '李小璐', '刘涛',
+         '蒋勤勤', '刘亦菲', '李小冉', '金巧巧', '刘璇', '刘孜', '刘诗诗', '柳岩',
+         '景甜', '江一燕', '李沁', '鞠婧祎', '林允', '宁静', '马伊俐', '梅婷', '戚薇',
+         '倪妮', '瞿颖', '沈星', '孙俪', '汤唯', '唐嫣', '佟丽娅', '徐静蕾',
+         '许晴', '黄圣依', '王珞丹', '翟凌', '徐冬冬', '王子文', '赵薇',
+         '章子怡', '周迅', '张静初', '袁泉', '张含韵', '张靓颖', '马思纯',
+         '于娜', '叶一茜', '杨幂', '张雨绮', '张梓琳', '姚晨', '张馨予', '殷桃',
+         '郑爽', '周冬雨', '姚笛', '赵丽颖', '张天爱', '艾薇儿',
+         '奥黛丽赫本', '卡梅隆·迪亚兹', '泽塔琼斯', '克劳馥', '艾玛沃特森', '艾玛',
+         '梅根福克斯', '艾米莉亚克拉克', '希尔顿', '安妮·海瑟薇', '丽芙·泰勒', '朱迪福斯特', '米兰达可儿',
+         '梅格瑞恩', '妮可基德曼', '娜塔丽', '麦当娜', '布兰妮', '苏菲玛索',
+         '克里斯汀·斯图尔特', '安吉丽娜朱莉', '李心洁', '戴佩妮']
+
+# stars = ['孙允珠']
 
 VERSION = '1.0'  # 版本号
 # # star = '孙允珠'
@@ -168,7 +199,7 @@ class TiebaPicPage():
         :return: 下载成功返回True
         '''
         save_file = pic_url.split('/')[-1]
-        full_file = os.path.join(save_path, self.name + '-' + save_file)
+        full_file = os.path.join(save_path, self.name + '_' + save_file)
         pid = save_file.split('.')[0]
         down_url = 'http://imgsrc.baidu.com/forum/pic/item/%s.jpg' % pid
         try:
@@ -179,7 +210,7 @@ class TiebaPicPage():
             print(e)
             return False
         sz = open(full_file, 'wb').write(res.content)
-        print('[Save] %s <%d bytes>' % (save_file, sz))
+        print('[Save] %s <%d bytes>' % (self.name + '_' + save_file, sz))
         time.sleep(INTERVAL)
         return True
 
@@ -334,7 +365,7 @@ def main():
                 else:
                     day = get_day(eval(args[0]), eval(args[1]), eval(args[2]))
                     download_all_stars(stars, day, test)
-            if a == 'star':
+            elif a == 'star':
                 if len(args) != 4:
                     usage_err()
                 else:
@@ -342,8 +373,7 @@ def main():
                     download(args[0], day, test)
             else:
                 usage_err()
-        else:
-            usage_err()
+
 
 # def main():
 # download_all_stars(stars, '2017-01-04', True)
