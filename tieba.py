@@ -8,10 +8,43 @@ import datetime
 import sys
 import getopt
 
+stars = ['ayum_hamasaki', 'amuro_namie', 'saki_aibu', 'gouriki_ayame', 'asahina_aya',
+         'norika_fujiwara', 'fujimoto_miki', 'maki_goto', 'reika_hashimoto', 'satomi_ishihara',
+         'maki_horikita', 'kyoko_fukada', 'keiko_kitagaw', 'kuroki_meisa', 'kusumi_koharu',
+         'kinoshita_ayumi', 'kiritani_mirei', 'aya_matsuura', 'sasaki_nozomi', 'takako_tokiwa',
+         'aya_ueto', 'noriko_sakai', 'ai_takahashi', 'erika_sawajiri', 'mizuhara_kiko',
+         'cecilia_cheung', 'charlene_choi', 'elle_choi', 'gillian_chung', 'kelly_chen',
+         'athena_chu', 'cheung_maggie', 'kathy_chao', 'sharla_cheung', 'vivian_chow', 'coco_jiang',
+         'monica_chan', 'cherie_chung', 'chrissie_chau', 'jessica_cambensy', 'iynn_hung', 'gigi_leung',
+         'michelle_lee', 'rain_lee', 'tiffany_lee', 'bernice_liu', 'rosamund_kwan', 'gigi_lai',
+         'carman_lee', 'isabella_leung', 'karen_mok', 'maggie_q', 'faye_wong', 'joey_yung', 'kristy_yeung',
+         'cherrie_ying', 'anita_yuen', 'angela_yeung', 'stephy_tang', 'twins', 'alyssa_chia', 'vivian_chen',
+         'angela_chang', 'ady_an', 'ella_chen', 'chang_chun_ning', 'joe_chen', 'ivy_chen', 'michelle_chan',
+         'chou_tzu_yu', 'mavis_fan', 'vivian_hsu', 'yuki_hsu', 'barbie_hsu', 'tsui_hsu', 'patty_hou',
+         'coco_lee', 'ruby_lin', 'karena_lam', 'kelly_lin', 'rene_liu', 'ariel_lam', 'janet_lee',
+         'chiling_lin', 'hayden_kwok', 'pace_ng', 'meng_jessey', 'selina_yam', 'evle_sill', 'jolin_choi',
+         'shu_qi', 'hebe', 'cyndi_wong', 'joey_wong', 'rainie_yeung', 'zhang_ting', 'genie_zhuo', 's_h_e',
+         'boa', 'chae_lim', 'han_chae_young', 'ha_ji_won', 'han_ga_in', 'han_ye_sle', 'kim_hee_sun',
+         'jun_ji_hyun', 'lee_young_ae', 'jang_na_ra', 'lee_hyo_lee', 'kim_tae_hee', 'jessica', 'song_hye_kyo',
+         'yoona', 'girls_generation', 'cao_ying', 'jane_chang', 'chen_hao', 'chen_hong', 'fan_bingbing',
+         'dong_jie', 'dilraba_dilmurat', 'huang_yi', 'gao_yuanyuan', 'han_xue', 'hu_ke', 'huo_si_yan',
+         'huang_siu_lei', 'kym_gin', 'gan_ting_ting', 'gulnazar', 'li_bingbing', 'jacqueline_lu',
+         'chinchin_jiang',
+         'crystal_liu', 'li_xiao_ran', 'jin_qiao_qiao', 'liu_xuan', 'liu_zi', 'cecilia_liu', 'ada_liu',
+         'sally_jing', 'jiang_yi_yan', 'li_qin', 'ju_jing_yi', 'lin_yun', 'ning_jing', 'ma_yi_li', 'mei_ting',
+         'ni_ni', 'qu_ying', 'shum_sing', 'li_sun', 'tong_wei', 'tiffany_tong', 'tong_li_ya', 'jing_lei',
+         'xu_qing', 'eva_wong', 'wang_luo_dan', 'xiao_zhai', 'xu_dong_dong', 'olivia_wang', 'vicki_zhao',
+         'zhang_zi_yi', 'jue_zhou', 'zhang_jing_chu', 'yuan_quan', 'kristy_zhang', 'zhang_liang_yin',
+         'yu_na', 'ye_yi_qian', 'yang_mi', 'kitty_zhang', 'zhang_zi_lin', 'yao_chen', 'viann_zhang', 'yin_tao',
+         'zheng_shuang', 'zhou_dong_yu', 'yao_di', 'zhao_li_ying', 'crystal_zhang', 'lavigne_avril',
+         'audrey_hepburn', 'diaz_cameron', 'catherine_zeta_jones', 'cindy_crawford', 'emma_watson',
+         'megan_fox', 'clarke', 'paris_hilton', 'anne_hathaway', 'liv_tyler', 'jodie_foster', 'miranda_kerr',
+         'meg_ryan', 'nicole_kidman', 'natalie_portman', 'madonna', 'spears_britney', 'sophie_marceau',
+         'kristen_stewart', 'jolie_angelina', 'angelica_lee', 'penny_tai']
 
 stars = ['孙允珠', '倪妮', '杨幂', 'angelababy', '古力娜扎', '范冰冰', '李冰冰', '张静初', '唐嫣', '董洁',
-         '高圆圆', '迪丽热巴','黄奕','韩雪','胡可','金莎','李小璐']
-stars = ['李小璐']
+         '高圆圆', '迪丽热巴', '黄奕', '韩雪', '胡可', '金莎', '李小璐']
+# stars = ['胡可']
 
 VERSION = '1.0'  # 版本号
 # # star = '孙允珠'
@@ -20,6 +53,7 @@ VERSION = '1.0'  # 版本号
 # # star = 'angelababy'
 save_path = 'e:\download'  # 默认存放路径
 INTERVAL = 0.5  # 下载一张图片间隔时间
+INTERVAL1 = 0  # 访问原帖间隔时间
 
 # my_cookies = dict(
 # userFromPsNeedShowTab='1',
@@ -67,12 +101,17 @@ class TiebaPicPage():
     def post_id(self):
         '''
         通过图片贴的内容，找到原帖id
-        :return: 原帖id
+        # :return: 原帖id
         '''
         html_text = self.page_html()
         # p = re.compile('"post_id":(\d+)', re.S)
         p = re.compile('post_id\D+(\d+)', re.S)
-        result = re.search(p, html_text).group(1).strip()
+        # result = re.search(p, html_text).group(1).strip()
+        result = 0
+        try:
+            result = re.search(p, html_text).group(1).strip()
+        except Exception as e:
+            print(e, ' -- Not find post id')
         return result
 
     def find_all_pic(self):
@@ -80,6 +119,7 @@ class TiebaPicPage():
         通过访问原帖找出pic的地址
         :return: 返回原帖日期及所有pic的地址
         '''
+        time.sleep(INTERVAL1)
         post_id = self.post_id()
         url = 'http://tieba.baidu.com/p/%s?pid=%s#%s' % (self.tid, post_id, post_id)
         # r = requests.get(url=url, cookies=my_cookies, headers=my_headers)
@@ -91,11 +131,11 @@ class TiebaPicPage():
         l_pic = re.findall(p, html_text)
         p = re.compile('\d{4}-\d{2}-\d{2}', re.S)
         m = re.search(p, html_text)
-        day='0'
+        day = '0'
         try:
             day = m.group(0)
         except Exception as e:
-            print(e,'Not find day')
+            print(e, ' -- Not find day')
 
         # print(day)
         return day, l_pic
@@ -106,16 +146,20 @@ class TiebaPicPage():
         下载原题网页的所有图片（在指定日期前的）
         :param before_this_day: 制定日期
         :param test: test=True不下载，test=False下载
+        :retuen: 下载数量
         '''
+        count = 0
         day, l_pic = self.find_all_pic()
-        if day >= before_this_day:
+        if day > before_this_day:
             if not test:
                 for l in l_pic:
                     self.save_a_pic(l)
                     # pass  # for debug
             print('Download %d pictures %s %s' % (len(l_pic), self.name, day))
+            count += len(l_pic)
         else:
             print(self.name, day)
+        return count
 
     def save_a_pic(self, pic_url):
         '''
@@ -189,13 +233,18 @@ def download(star, before_this_day, test):
     :param star: 贴吧名
     :param before_this_day: 指定的日期
     :param test: test为True，则不下载
+    :retuen: 下载数量
     '''
+    count = 0
     tba = TiebaAll(star)
     l_tid = tba.page_list()
     # print(l_tid)
     for l in l_tid:
         tb = TiebaPicPage(star, l)
-        tb.save_all_pic(before_this_day, test)
+        count += tb.save_all_pic(before_this_day, test)
+    print('----------------------------------------')
+    print(star, count, 'pictures\n')
+    return count
 
 
 def download_all_stars(stars, before_this_day, test):
@@ -205,8 +254,11 @@ def download_all_stars(stars, before_this_day, test):
     :param before_this_day: 指定的日期
     :param test: test为True，则不下载
     '''
+    count = 0
     for l in stars:
-        download(l, before_this_day, test)
+        count += download(l, before_this_day, test)
+    print('----------------------------------------')
+    print('Total', count, 'pictures')
 
 
 def get_day(y, m, d):
@@ -261,6 +313,9 @@ def main():
     except getopt.GetoptError:
         print(getopt.GetoptError.msg)
         usage_err()
+
+    if len(opts) == 0:
+        usage_err()
     for o, a in opts:
         if o == '-h':
             usage()
@@ -285,9 +340,10 @@ def main():
                 else:
                     day = get_day(eval(args[0]), eval(args[1]), eval(args[2]))
                     download(args[0], day, test)
+            else:
+                usage_err()
         else:
-            usage()
-            sys.exit(1)
+            usage_err()
 
 # def main():
 # download_all_stars(stars, '2017-01-04', True)
