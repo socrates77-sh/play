@@ -27,7 +27,7 @@ my_cookies = dict(
 )
 
 INTERVAL = 5  # 下载一张图片间隔时间
-
+f_miss = 0
 
 # 自动下载时默认选择的人物
 intest_stars = ['ayum_hamasaki', 'amuro_namie', 'saki_aibu', 'gouriki_ayame', 'asahina_aya',
@@ -51,7 +51,7 @@ intest_stars = ['ayum_hamasaki', 'amuro_namie', 'saki_aibu', 'gouriki_ayame', 'a
                 'yoona', 'girls_generation', 'cao_ying', 'jane_chang', 'chen_hao', 'chen_hong', 'fan_bingbing',
                 'dong_jie', 'dilraba_dilmurat', 'huang_yi', 'gao_yuanyuan', 'han_xue', 'hu_ke', 'huo_si_yan',
                 'huang_siu_lei', 'kym_gin', 'gan_ting_ting', 'gulnazar', 'li_bingbing', 'jacqueline_lu',
-                'chinchin_jiang', 'liu_tao','stephy_qi',
+                'chinchin_jiang', 'liu_tao', 'stephy_qi',
                 'crystal_liu', 'li_xiao_ran', 'jin_qiao_qiao', 'liu_xuan', 'liu_zi', 'cecilia_liu', 'ada_liu',
                 'sally_jing', 'jiang_yi_yan', 'li_qin', 'ju_jing_yi', 'lin_yun', 'ning_jing', 'ma_yi_li', 'mei_ting',
                 'ni_ni', 'qu_ying', 'shum_sing', 'li_sun', 'tong_wei', 'tiffany_tong', 'tong_li_ya', 'jing_lei',
@@ -164,11 +164,17 @@ class ShowwallStar():
             try:
                 res = requests.get(url, cookies=my_cookies, timeout=60)
                 if res.status_code != 200:
+                    print('status error')
+                    return False
+                sz = open(full_file, 'wb').write(res.content)
+                if sz <= 0:
+                    print('size 0')
                     return False
             except Exception as e:
                 print(e)
+                print('exception')
                 return False
-            sz = open(full_file, 'wb').write(res.content)
+            # sz = open(full_file, 'wb').write(res.content)
             print('[Save] %s <%d bytes>' % (save_file, sz))
             time.sleep(INTERVAL)
             return True
@@ -180,15 +186,16 @@ class ShowwallStar():
         :param g: 是否glance
         :return: None
         '''
+        global f_miss
         l_missing = []
         for x in id_all:
-            if self.save_a_pic(self.name, x, g):
+            if not self.save_a_pic(self.name, x, g):
                 l_missing.append((self.name, x))
+                print(l_missing)
         if len(l_missing) > 0:
-            missing_file = save_path + '\log\missing.txt'
-            with open(missing_file, 'w') as f:
-                for x in l_missing:
-                    f.write(x[0] + ' ' + x[1] + '\n')
+            for x in l_missing:
+                print('save missing')
+                f_miss.write(x[0] + ' ' + x[1] + '\n')
 
 
 def save_log(last_id):
@@ -198,7 +205,7 @@ def save_log(last_id):
     :return: None
     '''
     log_file = save_path + '\log\log.txt'
-    with open(log_file, 'w') as f:
+    with open(log_file, 'w+') as f:
         f.write(last_id)
 
 
@@ -209,6 +216,9 @@ def auto_mode(last_id, g):
     :param g: 是否glance
     :return: None
     '''
+    global f_miss
+    missing_file = save_path + '\log\missing.txt'
+    f_miss = open(missing_file, 'w+')
     count_pic = 0
     real_last = 0
     for star in intest_stars:
@@ -222,6 +232,7 @@ def auto_mode(last_id, g):
     print('Download %d pictures' % count_pic)
     if not g and real_last > 0:
         save_log(str(real_last))
+    f_miss.close()
 
 
 def star_mode(name, last_id, g):
@@ -232,10 +243,14 @@ def star_mode(name, last_id, g):
     :param g: 是否glance
     :return: None
     '''
+    global f_miss
+    missing_file = save_path + '\log\missing.txt'
+    f_miss = open(missing_file, 'w+')
     sw = ShowwallStar(name, last_id)
     r1 = sw.id_all()
     sw.save_all(r1, g)
     print('Download %d pictures' % len(r1))
+    f_miss.close()
 
 
 def file_mode(file_name, g):
