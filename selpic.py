@@ -15,6 +15,7 @@ def search_img(imgdir):
         if (os.path.isfile(imgfile_full)):
             if (imghdr.what(imgfile_full)):
                 img_list.append(imgfile_full)
+                print(imgfile_full)
     return img_list
 
 
