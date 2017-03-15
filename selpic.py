@@ -39,6 +39,7 @@ def resize(w0, h0, w_box, h_box, pil_image):
 
 
 class ImageShow(Frame):
+
     def __init__(self, parent=None, picdir='.', **args):
         Frame.__init__(self, parent, **args)
         self.lbl = Label(self)
@@ -76,7 +77,6 @@ class ImageShow(Frame):
         self.drawImage()
         # print('right', self.num)
 
-
     def onLeftKey(self, event):
         if self.num == 0:
             self.num = len(self.files) - 1
@@ -85,7 +85,6 @@ class ImageShow(Frame):
             self.num -= 1
         self.drawImage()
         # print('left', self.num)
-
 
     def onSpaceKey(self, event):
         # self.bell()
@@ -109,10 +108,10 @@ class ImageShow(Frame):
         self.h1 = h1
         self.w1 = w1
 
-    def center_cor(self):
-        x = (SHOW_WIDTH - self.w1) / 2
-        y = (SHOW_HEIGHT - self.h1) / 2
-        return x, y
+    # def center_cor(self):
+    #     x = (SHOW_WIDTH - self.w1) / 2
+    #     y = (SHOW_HEIGHT - self.h1) / 2
+    #     return x, y
 
     def drawImage(self):
         if len(self.files) == 0:
@@ -125,8 +124,9 @@ class ImageShow(Frame):
         # self.img = PhotoImage(file=self.files[self.num])
         self.proc_img()
         # print(factor, w1, h1)
-        x, y = self.center_cor()
-        self.drawn = self.canvas.create_image(x, y, image=self.img, anchor=NW)
+        # x, y = self.center_cor()
+        self.drawn = self.canvas.create_image(
+            SHOW_WIDTH / 2, SHOW_HEIGHT / 2, image=self.img, anchor=CENTER)
         self.canvas.update()
         self.show_title()
 
