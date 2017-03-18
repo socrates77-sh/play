@@ -1,10 +1,13 @@
-'''
-处理《上杉谦信》电子书
-'''
-__author__ = 'zwr'
-
 import os
 import sys
+
+# -*- coding: utf-8 -*-
+
+'''
+处理上传到kindle的txt文件，防止encoding的问题
+'''
+
+org_file = 'e:\\temp\\论美国的民主.txt'
 
 
 def do_format(filename):
@@ -16,11 +19,14 @@ def do_format(filename):
     # dir_name = os.path.split(abs_filename)[0]
     prefix = os.path.splitext(filename)[0]
     ext = os.path.splitext(filename)[1]
-    # print(dir_name, prefix, ext)
+    print(filename)
 
     l_lines = ''
     try:
-        with open(filename, 'r', encoding='utf-8', errors=ignore) as f:
+        with open(filename, 'r') as f:
+        # with open(filename, 'r', encoding='utf-8', errors='ignore') as f:
+        # with open(filename, 'r', errors='ignore') as f:
+            # l_lines = f.readlines()
             l_lines = f.readlines()
     except Exception as e:
         print(e)
@@ -34,14 +40,7 @@ def do_format(filename):
     with open(out_file, 'w+') as f:
         for l in l_lines:
             try:
-                if l.startswith('第'):
-                    f.write('\n')
-                    f.write(l)
-                    print(l)
-                elif len(l) > 1 and l[-1] == '\n':
-                    f.write(l[:-1])
-                else:
-                    f.write(l)
+                f.write(l)
             except Exception as e:
                 print(e)
 
@@ -49,7 +48,7 @@ def do_format(filename):
 
 
 def main():
-    do_format(r'e:\download\ssqx.txt')
+    do_format(org_file)
 
 
 if __name__ == '__main__':
