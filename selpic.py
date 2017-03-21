@@ -19,8 +19,8 @@ def search_img(imgdir):
     return img_list
 
 
-def move_img(imgdir, imgfile):
-    target_dir = os.path.join(imgdir, '1')
+def move_img(imgdir, destdir, imgfile):
+    target_dir = os.path.join(imgdir, destdir)
     os.makedirs(target_dir, exist_ok=True)
     shutil.move(imgfile, target_dir)
     # print(imgfile)
@@ -64,6 +64,7 @@ class ImageShow(Frame):
         self.lbl.bind("<Right>", self.onRightKey)
         self.lbl.bind("<Left>", self.onLeftKey)
         self.lbl.bind("<Key-space>", self.onSpaceKey)
+        self.lbl.bind("<Delete>", self.onDelKey)
         self.lbl.focus()
         self.drawImage()
         # self.num = 1
@@ -88,7 +89,16 @@ class ImageShow(Frame):
 
     def onSpaceKey(self, event):
         # self.bell()
-        move_img(self.picdir, self.files[self.num])
+        move_img(self.picdir, '1', self.files[self.num])
+        del self.files[self.num]
+        if self.num == len(self.files):
+            self.num -= 1
+        self.drawImage()
+        # print('return', self.num)
+
+    def onDelKey(self, event):
+        # self.bell()
+        move_img(self.picdir, '2', self.files[self.num])
         del self.files[self.num]
         if self.num == len(self.files):
             self.num -= 1
