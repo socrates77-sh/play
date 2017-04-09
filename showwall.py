@@ -62,7 +62,7 @@ intest_stars = ['ayum_hamasaki', 'amuro_namie', 'saki_aibu', 'gouriki_ayame', 'a
                 'audrey_hepburn', 'diaz_cameron', 'catherine_zeta_jones', 'cindy_crawford', 'emma_watson',
                 'megan_fox', 'clarke', 'paris_hilton', 'anne_hathaway', 'liv_tyler', 'jodie_foster', 'miranda_kerr',
                 'meg_ryan', 'nicole_kidman', 'natalie_portman', 'madonna', 'spears_britney', 'sophie_marceau',
-                'kristen_stewart', 'jolie_angelina', 'angelica_lee', 'penny_tai']
+                'kristen_stewart', 'jolie_angelina', 'angelica_lee', 'penny_tai','scarlett_johansson']
 
 
 class ShowwallStar():
