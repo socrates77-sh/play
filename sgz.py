@@ -9,6 +9,8 @@ import re
 
 dirname = r'e:\temp\sgz'
 
+vol_n = 1
+
 
 def search_index(path):
     all_index = []
@@ -26,26 +28,40 @@ def read_htm(file):
 
 
 def extract_txt(htm_txt):
+    global vol_n
     p = re.compile('<title>(.*?)</title>', re.S)
     m = re.search(p, htm_txt)
     vol = m.group(1).strip()
-    result = vol + '\n'
+    result = '第' + str(vol_n) + '卷  '
+    # result = '第' + str(vol_n) + '卷  ' + vol + '  '
+    vol_n = vol_n + 1
 
-    p = re.compile('face="黑体" size="5" color="#A60053"><span style="font-size: 18pt">(.*?)</span></font><p><font', re.S)
+    p = re.compile(
+        'face="黑体" size="5" color="#A60053"><span style="font-size: 18pt">(.*?)</span></font><p><font', re.S)
     m = re.search(p, htm_txt)
     vol1 = m.group(1).strip()
-    result += vol1 + '\n'
+    result += vol1 + '  '
 
-    p = re.compile('style="font-size: 16pt"><font color="#CA00CA"><strong>(.*?)</strong></font></span><font', re.S)
+    p = re.compile(
+        'style="font-size: 16pt"><font color="#CA00CA"><strong>(.*?)</strong></font></span><font', re.S)
     m = re.search(p, htm_txt)
     title = m.group(1).strip()
+    if title == '':
+        p = re.compile(
+            'style="font-size: 14pt"><font color="#0000A0">　　◎(.*?)</font><font color="#FFFFFF">', re.S)
+        m = re.search(p, htm_txt)
+        title = m.group(1).strip()
     result += title + '\n'
+    # print(result)
 
-    p = re.compile('style="font-size: 14pt"><font color="#0000A0">(.*?)</font><font color="#FFFFFF">', re.S)
+    p = re.compile(
+        'style="font-size: 14pt"><font color="#0000A0">(.*?)</font><font color="#FFFFFF">', re.S)
     m = re.findall(p, htm_txt)
     for line in m:
-        line1 = line.replace('</font></span><span class="body" style="font-size: 12pt"><font color="#FF80C0">', ' <<')
-        line2 = line1.replace('</font></span><span class="body" style="font-size: 14pt"><font color="#0000A0">', '>> ')
+        line1 = line.replace(
+            '</font></span><span class="body" style="font-size: 12pt"><font color="#FF80C0">', ' <<')
+        line2 = line1.replace(
+            '</font></span><span class="body" style="font-size: 14pt"><font color="#0000A0">', '>> ')
         result += '    ' + line2 + '\n'
 
     result += '\n\n\n'
@@ -68,6 +84,7 @@ def main():
         for l in l_all_txt:
             htm = read_htm(l)
             f.write(extract_txt(htm))
+            # extract_txt(htm)
             print('[Read]', l)
 
 
