@@ -1,3 +1,5 @@
+__author__ = 'socrates'
+
 import re
 import requests
 import os
@@ -37,14 +39,14 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '郑爽', '周冬雨', '姚笛', '赵丽颖', '张天爱', '艾薇儿',
          '奥黛丽赫本', '卡梅隆·迪亚兹', '泽塔琼斯', '克劳馥', '艾玛沃特森', '艾玛',
          '梅根福克斯', '艾米莉亚克拉克', '希尔顿', '安妮·海瑟薇', '丽芙·泰勒', '朱迪福斯特', '米兰达可儿',
-         '梅格瑞恩', '妮可基德曼', '娜塔丽', '麦当娜', '布兰妮', '苏菲玛索', '斯嘉丽·约翰逊',
+         '梅格瑞恩', '妮可基德曼', '娜塔丽', '麦当娜', '布兰妮', '苏菲玛索','斯嘉丽·约翰逊',
          '克里斯汀·斯图尔特', '安吉丽娜朱莉', '李心洁', '戴佩妮',
          '唐艺昕']
 
 
-# stars = ['滨崎步']
+# stars = ['张俪']
 
-VERSION = '2.0'  # 版本号
+VERSION = '1.0'  # 版本号
 # # star = '孙允珠'
 # star = '倪妮'
 # # star = '杨幂'
@@ -75,6 +77,7 @@ class TiebaPicPage():
     def __init__(self, name, tid):
         self.name = name
         self.tid = tid
+
 
     def page_url(self):
         '''
@@ -118,8 +121,7 @@ class TiebaPicPage():
         '''
         time.sleep(INTERVAL1)
         post_id = self.post_id()
-        url = 'http://tieba.baidu.com/p/%s?pid=%s#%s' % (
-            self.tid, post_id, post_id)
+        url = 'http://tieba.baidu.com/p/%s?pid=%s#%s' % (self.tid, post_id, post_id)
         # r = requests.get(url=url, cookies=my_cookies, headers=my_headers)
         r = requests.get(url)
         html_text = r.text
@@ -138,22 +140,25 @@ class TiebaPicPage():
         # print(day)
         return day, l_pic
 
-    def save_all_pic(self, test):
+
+    def save_all_pic(self, before_this_day, test):
         '''
         下载原题网页的所有图片（在指定日期前的）
+        :param before_this_day: 制定日期
         :param test: test=True不下载，test=False下载
         :retuen: 下载数量
         '''
         count = 0
         day, l_pic = self.find_all_pic()
-        if not test:
-            for l in l_pic:
-                self.save_a_pic(l)
-                # pass  # for debug
-        print('Download %d pictures %s %s' % (len(l_pic), self.name, day))
-        count += len(l_pic)
-        # else:
-        #     print(self.name, day)
+        if day > before_this_day:
+            if not test:
+                for l in l_pic:
+                    self.save_a_pic(l)
+                    # pass  # for debug
+            print('Download %d pictures %s %s' % (len(l_pic), self.name, day))
+            count += len(l_pic)
+        else:
+            print(self.name, day)
         return count
 
     def save_a_pic(self, pic_url):
@@ -187,80 +192,71 @@ class TiebaAll():
     def __init__(self, name):
         self.name = name
 
-    def page_urls(self):
+    def page_url(self):
         '''
-        :return: 贴吧前10页的url
+        :return: 图片汇总页的url
         '''
-        urls = []
         s = ''
         for b in self.name.encode('utf-8'):
             s += '%%%2X' % b
-        first_page_url = 'http://tieba.baidu.com/f?kw=%s&ie=utf-8' % s
-        r = requests.get(first_page_url)
-        p = re.compile(
-            '<a href="(\S+)" class=" pagination-item " >\d+</a>', re.S)
-        m = re.finditer(p, r.text)
-        urls.append(first_page_url)
-        for x in m:
-            urls.append('http:%s' % x.group(1).strip())
-        # print(urls)
-        return urls
+        r = 'http://tieba.baidu.com/f?kw=%s&tab=album&subTab=album_thread' % s
+        # print(r)
+        return r
+
+    def page_html(self):
+        '''
+        :return: 图片汇总页的html文本
+        '''
+        url = self.page_url()
+        r = requests.get(url)
+        # print(r.text)
+        return r.text
 
     def page_list(self):
         '''
-        :return: 前10页所有帖子tid列表
+        在图片汇总页找到所有的图片贴
+        :return: 图片贴的id列表
         '''
-        urls = []
-        page_urls = self.page_urls()
-
-        for page in page_urls:
-            r = requests.get(page)
-            p = re.compile('<a href="/p/(\d+)" title=', re.S)
-            m = re.finditer(p, r.text)
-            for x in m:
-                urls.append(x.group(1).strip())
-                # print(x.group(1).strip())
-        # print(urls, len(urls))
-        return urls
+        html_text = self.page_html()
+        p = re.compile('id="pic_item_(\d+)"', re.S)
+        l_tid = []
+        m = re.finditer(p, html_text)
+        for x in m:
+            l_tid.append(x.group(1).strip())
+        # print(l_tid)
+        return l_tid
 
 
-def download(star, last_id, test):
+def download(star, before_this_day, test):
     '''
     下载一个指定贴吧，在某一日期前所有的图片
     :param star: 贴吧名
-    :param last_id: 最后已下载的id
+    :param before_this_day: 指定的日期
     :param test: test为True，则不下载
     :retuen: 下载数量
     '''
     count = 0
-    real_last = 0
     tba = TiebaAll(star)
     l_tid = tba.page_list()
     # print(l_tid)
     for l in l_tid:
-        if eval(l) > last_id:
-            tb = TiebaPicPage(star, l)
-            count += tb.save_all_pic(test)
-            if eval(l) > real_last:
-                real_last = eval(l)
-    # print(l)
+        tb = TiebaPicPage(star, l)
+        count += tb.save_all_pic(before_this_day, test)
     print('----------------------------------------')
     print(star, count, 'pictures\n')
-    if real_last > 0:
-        save_log(str(real_last))
     return count
 
 
-def download_all_stars(stars, last_id, test):
+def download_all_stars(stars, before_this_day, test):
     '''
     下载一个指定贴吧，在某一日期前所有的图片
     :param stars: 贴吧名表
-    :param last_id: 最后已下载的id
+    :param before_this_day: 指定的日期
     :param test: test为True，则不下载
     '''
     count = 0
     for l in stars:
-        count += download(l, last_id, test)
+        count += download(l, before_this_day, test)
     print('----------------------------------------')
     print('Total', count, 'pictures')
 
@@ -279,17 +275,6 @@ def get_day(y, m, d):
     return str
 
 
-def save_log(last_id):
-    '''
-    将last_id存到log文件
-    :param last_id: 最后已下载的id
-    :return: None
-    '''
-    log_file = save_path + '\log\log.txt'
-    with open(log_file, 'w+') as f:
-        f.write(last_id)
-
-
 def version():
     print('tieba.py %s' % VERSION)
 
@@ -300,9 +285,9 @@ def usage():
     print('-v: print version')
     print('-d: set mode')
     print('    auto - automatically download pictures')
-    print('        argument: last_id')
+    print('        argument: y m d')
     print('    star - download picture of a star')
-    print('        argument: name last_id')
+    print('        argument: name y m d')
     print('-t: set mode for try')
     print('        argument: same as -d, but not realy download')
 
@@ -344,17 +329,17 @@ def main():
             else:
                 test = True
             if a == 'auto':
-                if len(args) != 1:
+                if len(args) != 3:
                     usage_err()
                 else:
-                    last_id = eval(args[0])
-                    download_all_stars(stars, last_id, test)
+                    day = get_day(eval(args[0]), eval(args[1]), eval(args[2]))
+                    download_all_stars(stars, day, test)
             elif a == 'star':
-                if len(args) != 2:
+                if len(args) != 4:
                     usage_err()
                 else:
-                    last_id = eval(args[1])
-                    download(args[0], last_id, test)
+                    day = get_day(eval(args[0]), eval(args[1]), eval(args[2]))
+                    download(args[0], day, test)
             else:
                 usage_err()
 
@@ -368,3 +353,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
