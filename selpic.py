@@ -6,16 +6,52 @@ import shutil
 
 SHOW_WIDTH = 1200
 SHOW_HEIGHT = 800
+MIN_HEIGHT = 600
 
+VERSION = 'v1.1'
+
+
+# def search_img(imgdir):
+#     img_list = []
+#     for imgfile in os.listdir(imgdir):
+#         imgfile_full = os.path.join(imgdir, imgfile)
+#         if (os.path.isfile(imgfile_full)):
+#             if (imghdr.what(imgfile_full)):
+#                 pil_image = Image.open(imgfile_full)
+#                 w0, h0 = pil_image.size
+#                 pil_image.close()
+#                 if h0 >= MIN_HEIGHT:
+#                     img_list.append(imgfile_full)
+#                     print(imgfile_full)
+#                 else:
+#                     move_img(imgdir, '2', imgfile)
+#                     print('%s [skip]' % imgfile)
+#             else:
+#                 move_img(imgdir, '2', imgfile)
+#                 print('%s [skip]' % imgfile)
+#     return img_list
 
 def search_img(imgdir):
     img_list = []
     for imgfile in os.listdir(imgdir):
         imgfile_full = os.path.join(imgdir, imgfile)
-        if (os.path.isfile(imgfile_full)):
-            if (imghdr.what(imgfile_full)):
+        if os.path.isfile(imgfile_full) and (not imgfile_full.endswith('.py')):
+            try:
+                w0, h0 = (0, 0)
+                pil_image = Image.open(imgfile_full)
+                w0, h0 = pil_image.size
+                pil_image.close()
+            except Exception as e:
+                # pil_image.close()
+                print(e)
+                # move_img(imgdir, '2', imgfile)
+
+            if h0 >= MIN_HEIGHT:
                 img_list.append(imgfile_full)
                 print(imgfile_full)
+            else:
+                move_img(imgdir, '2', imgfile)
+                print('%s [bad]' % imgfile_full)
     return img_list
 
 
@@ -154,7 +190,7 @@ def main():
     # maindir = 'E:\\download\\b'
 
     win = Tk()
-    win.title('selpic')
+    win.title('selpic %s' % VERSION)
     # win.state("zoomed")
     win.resizable(0, 0)
     ImageShow(parent=win, picdir=maindir)
