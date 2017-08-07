@@ -49,7 +49,7 @@ def do_format(filename):
 
 
 def main():
-    do_format(r'e:\download\ssqx.txt')
+    do_format(r'f:\download\ssqx.txt')
 
 
 if __name__ == '__main__':

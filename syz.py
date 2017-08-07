@@ -6,6 +6,7 @@ import datetime
 import sys
 import getopt
 
+4882637963
 
 stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩芽', '朝比奈彩',
          '藤原纪香', '藤本美贵', '后藤真希', '桥本丽香', '石原里美',
@@ -49,7 +50,7 @@ VERSION = '2.0'  # 版本号
 # star = '倪妮'
 # # star = '杨幂'
 # # star = 'angelababy'
-save_path = 'f:\download'  # 默认存放路径
+save_path = 'f:\\download\\164'  # 默认存放路径
 INTERVAL = 0  # 下载一张图片间隔时间
 INTERVAL1 = 0  # 访问原帖间隔时间
 real_last = 0
@@ -200,14 +201,19 @@ class TiebaAll():
         for b in self.name.encode('utf-8'):
             s += '%%%2X' % b
         first_page_url = 'http://tieba.baidu.com/f?kw=%s&ie=utf-8' % s
-        r = requests.get(first_page_url)
-        p = re.compile(
-            '<a href="(\S+)" class=" pagination-item " >\d+</a>', re.S)
-        m = re.finditer(p, r.text)
-        urls.append(first_page_url)
-        for x in m:
-            urls.append('http:%s' % x.group(1).strip())
-        # print(urls)
+        # r = requests.get(first_page_url)
+        # p = re.compile(
+        #     '<a href="(\S+)" class=" pagination-item " >\d+</a>', re.S)
+        # m = re.finditer(p, r.text)
+        # urls.append(first_page_url)
+        # for x in m:
+        #     urls.append('http:%s' % x.group(1).strip())
+
+        for n in range(0, 8060, 50):
+        # for n in range(0, 60, 50):
+            url = '%s&pn=%d' % (first_page_url, n)
+            urls.append(url)
+        # print(urls, len(urls))
         return urls
 
     def page_list(self):
@@ -218,13 +224,14 @@ class TiebaAll():
         page_urls = self.page_urls()
 
         for page in page_urls:
+            print(page)
             r = requests.get(page)
             p = re.compile('<a href="/p/(\d+)" title=', re.S)
             m = re.finditer(p, r.text)
             for x in m:
                 urls.append(x.group(1).strip())
                 # print(x.group(1).strip())
-        # print(urls, len(urls))
+        # # print(urls, len(urls))
         return urls
 
 
@@ -242,18 +249,25 @@ def download(star, last_id, test):
     tba = TiebaAll(star)
     l_tid = tba.page_list()
     # print(l_tid)
-    for l in l_tid:
-        if eval(l) > last_id:
+
+    # for n in range(0, len(l_tid)):
+    for n in range(7140, len(l_tid)):
+        # n += 1
+        l = l_tid[n]
+        if eval(l) < last_id:
             tb = TiebaPicPage(star, l)
+            print(l)
+            print('%d/%d' % (n, len(l_tid)))
+            # pass
             count += tb.save_all_pic(test)
-            if eval(l) > real_last:
-                real_last = eval(l)
+            # if eval(l) > real_last:
+            #     real_last = eval(l)
     # print(l)
-    print('----------------------------------------')
-    print(star, count, 'pictures\n')
-    if real_last > 0:
-        save_log(str(real_last))
-    return count
+    # print('----------------------------------------')
+    # print(star, count, 'pictures\n')
+    # if real_last > 0:
+    #     save_log(str(real_last))
+    # return count
 
 
 def download_all_stars(stars, last_id, test):
@@ -325,50 +339,53 @@ def usage_err():
 # else:
 # usage_err()
 
-def main():
-    if len(sys.argv) == 1:
-        usage_err()
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], 'hvd:t:')
-    except getopt.GetoptError:
-        print(getopt.GetoptError.msg)
-        usage_err()
-
-    if len(opts) == 0:
-        usage_err()
-    for o, a in opts:
-        if o == '-h':
-            usage()
-            sys.exit(0)
-        elif o == '-v':
-            version()
-            sys.exit(0)
-        elif o in ('-d', '-t'):
-            if o == '-d':
-                test = False
-            else:
-                test = True
-            if a == 'auto':
-                if len(args) != 1:
-                    usage_err()
-                else:
-                    last_id = eval(args[0])
-                    download_all_stars(stars, last_id, test)
-            elif a == 'star':
-                if len(args) != 2:
-                    usage_err()
-                else:
-                    last_id = eval(args[1])
-                    download(args[0], last_id, test)
-            else:
-                usage_err()
-
-
 # def main():
-# download_all_stars(stars, '2017-01-04', True)
-# # tb = TiebaPicPage(star, '4963013075')
-# # l_pid = tb.find_all_pic()
-# # print(len(l_pid), l_pid)
+#     if len(sys.argv) == 1:
+#         usage_err()
+#     try:
+#         opts, args = getopt.getopt(sys.argv[1:], 'hvd:t:')
+#     except getopt.GetoptError:
+#         print(getopt.GetoptError.msg)
+#         usage_err()
+
+#     if len(opts) == 0:
+#         usage_err()
+#     for o, a in opts:
+#         if o == '-h':
+#             usage()
+#             sys.exit(0)
+#         elif o == '-v':
+#             version()
+#             sys.exit(0)
+#         elif o in ('-d', '-t'):
+#             if o == '-d':
+#                 test = False
+#             else:
+#                 test = True
+#             if a == 'auto':
+#                 if len(args) != 1:
+#                     usage_err()
+#                 else:
+#                     last_id = eval(args[0])
+#                     download_all_stars(stars, last_id, test)
+#             elif a == 'star':
+#                 if len(args) != 2:
+#                     usage_err()
+#                 else:
+#                     last_id = eval(args[1])
+#                     download(args[0], last_id, test)
+#             else:
+#                 usage_err()
+
+
+def main():
+    star = '孙允珠'
+    last_id = 4882637963
+    # download_all_stars(stars, '2017-01-04', True)
+    download(star, last_id, False)
+    # tb = TiebaPicPage(star, '4963013075')
+    # l_pid = tb.find_all_pic()
+    # print(len(l_pid), l_pid)
 
 
 if __name__ == '__main__':

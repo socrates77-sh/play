@@ -51,7 +51,7 @@ VERSION = '1.0'  # 版本号
 # star = '倪妮'
 # # star = '杨幂'
 # # star = 'angelababy'
-save_path = 'e:\download'  # 默认存放路径
+save_path = 'f:\download'  # 默认存放路径
 INTERVAL = 0  # 下载一张图片间隔时间
 INTERVAL1 = 0  # 访问原帖间隔时间
 

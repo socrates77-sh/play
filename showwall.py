@@ -12,7 +12,7 @@ import getopt
 # from bs4 import BeautifulSoup
 
 VERSION = '1.0'  # 版本号
-save_path = 'e:\download'  # 默认存放路径
+save_path = 'f:\download'  # 默认存放路径
 url_main = 'http://www.showwall.com'  # 主页网址
 my_cookies = dict(
     __cfduid='d3d96b32a79d4f9f2828f2c556b6518521485350718',

@@ -10,7 +10,7 @@ import os
 import time
 import sys
 
-save_path = 'e:\download\丰臣秀吉'  # 默认存放路径
+save_path = 'f:\download\丰臣秀吉'  # 默认存放路径
 url_main = 'http://www.yooread.com/5/2518/'
 header = {
     'Accept-Language': 'zh-CN,zh;q=0.8',

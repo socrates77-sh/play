@@ -41,7 +41,7 @@ def do_format(filename):
     print('[Save]', out_file)
 
 def main():
-    do_format(r'e:\download\ydzz.txt')
+    do_format(r'f:\download\ydzz.txt')
 
 
 if __name__ == '__main__':
