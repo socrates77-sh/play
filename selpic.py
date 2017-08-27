@@ -1,5 +1,5 @@
 import os
-import imghdr
+import glob
 from tkinter import *
 from PIL import Image, ImageTk
 import shutil
@@ -8,7 +8,7 @@ SHOW_WIDTH = 1200
 SHOW_HEIGHT = 800
 MIN_HEIGHT = 600
 
-VERSION = 'v1.1'
+VERSION = 'v1.2'
 
 
 # def search_img(imgdir):
@@ -33,9 +33,12 @@ VERSION = 'v1.1'
 
 def search_img(imgdir):
     img_list = []
-    for imgfile in os.listdir(imgdir):
+    pic_files = glob.glob('*.jpg') + glob.glob('*.png') + \
+        glob.glob('*.gif') + glob.glob('*.bmp')
+    for imgfile in pic_files:
+        # print(imgfile)
         imgfile_full = os.path.join(imgdir, imgfile)
-        if os.path.isfile(imgfile_full) and (not imgfile_full.endswith('.py')):
+        if os.path.isfile(imgfile_full):
             try:
                 w0, h0 = (0, 0)
                 pil_image = Image.open(imgfile_full)
