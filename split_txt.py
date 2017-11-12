@@ -1,8 +1,3 @@
-#!/bin/env python
-# -*- coding: utf-8 -*-
-
-__author__ = 'zwr'
-
 import os
 import sys
 
@@ -20,8 +15,9 @@ def split_txt(filename, num):
 
     l_lines = ''
     try:
-        with open(filename, 'r') as f:
+        with open(filename, 'r', encoding='utf-8', errors='ignore') as f:
             l_lines = f.readlines()
+            # print(l_lines)
     except Exception as e:
         print(e)
 
@@ -31,15 +27,17 @@ def split_txt(filename, num):
     for i in range(0, num - 1):
         out_file = '%s%02d%s' % (prefix, i, ext)
         # print('[Save] ', out_file)
-        print('[Save] %s (Line: %d - %d)' % (out_file, i * unit, i * unit + unit - 1))
-        with open(out_file, 'w+') as f:
+        print('[Save] %s (Line: %d - %d)' %
+              (out_file, i * unit, i * unit + unit - 1))
+        with open(out_file, 'w+', encoding='utf-8') as f:
             for j in range(0, unit):
                 f.write(l_lines[i * unit + j])
                 # print(i * unit + j)
                 # print('=' * 10)
 
     out_file = '%s%02d%s' % (prefix, num - 1, ext)
-    print('[Save] %s (Line: %d - %d)' % (out_file, (num - 2) * unit + unit, len(l_lines) - 1))
+    print('[Save] %s (Line: %d - %d)' %
+          (out_file, (num - 2) * unit + unit, len(l_lines) - 1))
     with open(out_file, 'w+') as f:
         for j in range((num - 2) * unit + unit, len(l_lines)):
             f.write(l_lines[j])
@@ -54,9 +52,9 @@ def main():
         print('Usage:')
         print('python split_txt.py filename num')
         sys.exit(-1)
-
     split_txt(filename, eval(num))
-    # split_txt(r'e:\download\dcjk.txt', 7)
+
+    # split_txt(r'e:\temp\st.txt', 3)
 
 
 if __name__ == '__main__':

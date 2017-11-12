@@ -62,10 +62,12 @@ intest_stars = ['ayum_hamasaki', 'amuro_namie', 'saki_aibu', 'gouriki_ayame', 'a
                 'audrey_hepburn', 'diaz_cameron', 'catherine_zeta_jones', 'cindy_crawford', 'emma_watson',
                 'megan_fox', 'clarke', 'paris_hilton', 'anne_hathaway', 'liv_tyler', 'jodie_foster', 'miranda_kerr',
                 'meg_ryan', 'nicole_kidman', 'natalie_portman', 'madonna', 'spears_britney', 'sophie_marceau',
-                'kristen_stewart', 'jolie_angelina', 'angelica_lee', 'penny_tai','scarlett_johansson']
+                'kristen_stewart', 'jolie_angelina', 'angelica_lee', 'penny_tai', 'scarlett_johansson',
+                'yui_aragaki', 'janice_man', 'du_juan']
 
 
 class ShowwallStar():
+
     def __init__(self, name, last_id=0):
         '''
         :param name: 人物
@@ -84,10 +86,12 @@ class ShowwallStar():
         if page <= 1:
             url = url_main + '/wallpaper/' + self.name + '/'
         else:
-            url = url_main + '/wallpaper/' + self.name + '/page/' + str(page) + '/'
+            url = url_main + '/wallpaper/' + \
+                self.name + '/page/' + str(page) + '/'
         r = requests.get(url)
         r.encoding = 'utf-8'
-        print('[Access] %s page %d ... (status:%d)' % (self.name, page, r.status_code))
+        print('[Access] %s page %d ... (status:%d)' %
+              (self.name, page, r.status_code))
         return r.text
 
     @staticmethod
@@ -154,7 +158,8 @@ class ShowwallStar():
         :param g: 是否glance
         :return: 成功返回True，失败返回False
         '''
-        url = 'http://img.showwall.com/download.php?id=' + str(id) + '&k=' + name + '&u=9999999999'
+        url = 'http://img.showwall.com/download.php?id=' + \
+            str(id) + '&k=' + name + '&u=9999999999'
         save_file = name + '_' + str(id) + '.jpg'
         full_file = os.path.join(save_path, save_file)
         if g:
