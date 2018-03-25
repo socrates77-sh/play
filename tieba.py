@@ -40,12 +40,12 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '梅格瑞恩', '妮可基德曼', '娜塔丽', '麦当娜', '布兰妮', '苏菲玛索', '斯嘉丽·约翰逊',
          '克里斯汀·斯图尔特', '安吉丽娜朱莉', '李心洁', '戴佩妮',
          '唐艺昕', '潘晓婷', '关晓彤', '欧阳娜娜', '新垣结衣', '郭碧婷',
-         '何穗', '奚梦瑶']
+         '何穗', '奚梦瑶', '坎迪斯', '安布罗休', '辛芷蕾', '张蓝心']
 
 
-# stars = ['滨崎步']
+# stars = ['孙允珠']
 
-VERSION = '2.1'  # 版本号
+VERSION = '2.2'  # 版本号
 # # star = '孙允珠'
 # star = '倪妮'
 # # star = '杨幂'
@@ -126,7 +126,11 @@ class TiebaPicPage():
         url = 'http://tieba.baidu.com/p/%s?pid=%s#%s' % (
             self.tid, post_id, post_id)
         # r = requests.get(url=url, cookies=my_cookies, headers=my_headers)
-        r = requests.get(url)
+        # r = requests.get(url)
+        while(1):
+                r = requests.get(url)
+                if r.status_code == 200:
+                    break
         html_text = r.text
         # print(html_text)
         p = re.compile('http://imgsrc\.baidu\.com/forum/w.*?.jpg', re.S)
@@ -217,14 +221,14 @@ class TiebaAll():
         '''
         urls = []
         page_urls = self.page_urls()
-
+        # print(page_urls)
         for page in page_urls:
             while(1):
                 r = requests.get(page)
                 if r.status_code == 200:
                     break
-
-            p = re.compile('<a href="/p/(\d+)" title=', re.S)
+            # print(page)
+            p = re.compile('<a rel="noreferrer"  href="/p/(\d+)" title=', re.S)
             m = re.finditer(p, r.text)
             for x in m:
                 urls.append(x.group(1).strip())
