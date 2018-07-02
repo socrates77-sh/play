@@ -1,3 +1,8 @@
+# history:
+# 2018/07/01  v1.0  initial
+# 2018/07/02  v1.1  skip exited file when download
+
+
 import re
 import requests
 import json
@@ -5,7 +10,7 @@ import sys
 import io
 import os
 
-VERSION = '0.1'
+VERSION = '1.1'
 
 URL_TRACK = 'http://www.ximalaya.com/revision/play/tracks?trackIds='
 # m4a_url = 'http://audio.xmcdn.com/group36/M03/14/33/wKgJTVs1ra7CRKMTAISxdTec9wM851.m4a'
@@ -93,7 +98,11 @@ def download_track(track):
             print('Error: %s %s' % (ERR_WEB_EXTRACT_FAIL, url))
             return False
         file_name = '%03d-%s.m4a' % (int(index), title)
-        save_m4a(m4a_url, file_name)
+        if os.path.exists(file_name):
+            return False
+        else:
+            save_m4a(m4a_url, file_name)
+            return True
 
     else:
         print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, url))
@@ -102,6 +111,8 @@ def download_track(track):
 
 def main():
     # sys.stdout = io.TextIOWrapper(sys.stdout, encoding='gb18030')
+    sys.stdout = io.TextIOWrapper(
+        sys.stdout.buffer, encoding='gb18030', line_buffering=True)
 
     print_version(VERSION)
     if len(sys.argv) != 2:
@@ -111,12 +122,14 @@ def main():
     album_url = sys.argv[1]
     album = XmldAlbum(album_url)
 
+    count_of_download = 0
     for track in album.track_list:
         # print(track)
-        download_track(track)
+        if download_track(track):
+            count_of_download += 1
 
     print('=' * 70)
-    print('%d files saved' % album.count_of_tracks)
+    print('%d files saved' % count_of_download)
 
 
 if __name__ == '__main__':
