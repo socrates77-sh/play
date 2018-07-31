@@ -13,7 +13,7 @@ import os
 
 VERSION = '1.2'
 
-INVALID_CHAR_OF_FILENAME = ['.', '?']
+INVALID_CHAR_OF_FILENAME = ['.', '?', '\\', '/', ':', '*', '<', '>', '"', '|']
 
 URL_TRACK = 'http://www.ximalaya.com/revision/play/tracks?trackIds='
 # m4a_url = 'http://audio.xmcdn.com/group36/M03/14/33/wKgJTVs1ra7CRKMTAISxdTec9wM851.m4a'
