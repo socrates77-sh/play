@@ -1,6 +1,7 @@
 # history:
 # 2018/07/01  v1.0  initial
-# 2018/07/02  v1.1  skip exited file when download
+# 2018/07/02  v1.1  skip existed file when download
+# 2018/07/31  v1.2  delete invalid char of file name
 
 
 import re
@@ -10,7 +11,9 @@ import sys
 import io
 import os
 
-VERSION = '1.1'
+VERSION = '1.2'
+
+INVALID_CHAR_OF_FILENAME = ['.', '?']
 
 URL_TRACK = 'http://www.ximalaya.com/revision/play/tracks?trackIds='
 # m4a_url = 'http://audio.xmcdn.com/group36/M03/14/33/wKgJTVs1ra7CRKMTAISxdTec9wM851.m4a'
@@ -81,6 +84,13 @@ def save_m4a(url, file_name):
     print('[save] %s (%d bytes)' % (file_name, size_of_file))
 
 
+def delete_invalid_char(name):
+    clean_name = name
+    for invalid_char in INVALID_CHAR_OF_FILENAME:
+        clean_name = clean_name.replace(invalid_char, '')
+    return clean_name
+
+
 def download_track(track):
     index = track[0]
     track_id = track[1]
@@ -97,11 +107,14 @@ def download_track(track):
         except Exception as e:
             print('Error: %s %s' % (ERR_WEB_EXTRACT_FAIL, url))
             return False
-        file_name = '%03d-%s.m4a' % (int(index), title)
+        clean_title = delete_invalid_char(title)
+        file_name = '%03d-%s.m4a' % (int(index), clean_title)
+
         if os.path.exists(file_name):
             return False
         else:
             save_m4a(m4a_url, file_name)
+            # print(file_name)
             return True
 
     else:
