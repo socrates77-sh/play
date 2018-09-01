@@ -5,7 +5,6 @@ import time
 import datetime
 import sys
 import getopt
-import io
 
 
 stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩芽', '朝比奈彩',
@@ -41,10 +40,10 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '梅格瑞恩', '妮可基德曼', '娜塔丽', '麦当娜', '布兰妮', '苏菲玛索', '斯嘉丽·约翰逊',
          '克里斯汀·斯图尔特', '安吉丽娜朱莉', '李心洁', '戴佩妮',
          '唐艺昕', '潘晓婷', '关晓彤', '欧阳娜娜', '新垣结衣', '郭碧婷',
-         '何穗', '奚梦瑶', '坎迪斯', '安布罗休', '辛芷蕾', '张蓝心', '钟楚曦', '宋祖儿', '张芷溪']
+         '何穗', '奚梦瑶', '坎迪斯', '安布罗休', '辛芷蕾', '张蓝心', '钟楚曦', '宋祖儿']
 
 
-stars1 = ['张芷溪']
+stars1 = ['钟楚曦', '宋祖儿']
 # stars = ['孙允珠']
 
 VERSION = '2.2'  # 版本号
@@ -130,9 +129,9 @@ class TiebaPicPage():
         # r = requests.get(url=url, cookies=my_cookies, headers=my_headers)
         # r = requests.get(url)
         while(1):
-            r = requests.get(url)
-            if r.status_code == 200:
-                break
+                r = requests.get(url)
+                if r.status_code == 200:
+                    break
         html_text = r.text
         # print(html_text)
         p = re.compile('http://imgsrc\.baidu\.com/forum/w.*?.jpg', re.S)
@@ -230,8 +229,7 @@ class TiebaAll():
                 if r.status_code == 200:
                     break
             # print(page)
-            # print(r.text)
-            p = re.compile('<a rel="noreferrer"\s+?href="/p/(\d+)" title=', re.S)
+            p = re.compile('<a rel="noreferrer"  href="/p/(\d+)" title=', re.S)
             m = re.finditer(p, r.text)
             for x in m:
                 urls.append(x.group(1).strip())
@@ -338,9 +336,6 @@ def usage_err():
 # usage_err()
 
 def main():
-    sys.stdout = io.TextIOWrapper(
-        sys.stdout.buffer, encoding='gb18030', line_buffering=True)
-
     if len(sys.argv) == 1:
         usage_err()
     try:
