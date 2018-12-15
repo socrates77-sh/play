@@ -7,6 +7,7 @@ import sys
 import getopt
 import io
 
+stars_obs = ['周慧敏', '王祖贤']
 
 stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩芽', '朝比奈彩',
          '藤原纪香', '藤本美贵', '后藤真希', '桥本丽香', '石原里美',
@@ -14,7 +15,7 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '木下亚由美', '桐谷美玲', '松浦亚弥', '佐佐木希', '常盘贵子',
          '上户彩', '酒井法子', '高桥爱', '泽尻英龙华', '水原希子',
          '张柏芝', '蔡卓妍', '钟欣桐', '陈慧琳',
-         '朱茵', '张曼玉', '周海媚', '张敏', '周慧敏', '蒋怡',
+         '朱茵', '张曼玉', '周海媚', '张敏',  '蒋怡',
          '陈法蓉', '钟楚红', '周秀娜', '熊黛林', '梁咏琪',
          '李嘉欣', '李彩桦', '李茏怡', '廖碧儿', '关芝琳', '黎姿',
          '李若彤', '梁洛施', '莫文蔚', 'maggieq', '王菲', '容祖儿', '杨恭如',
@@ -23,7 +24,7 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '周子瑜', '范晓萱', '徐若瑄', '徐怀钰', '徐熙媛', '徐熙娣', '侯佩岑',
          '李玟', '林心如', '林嘉欣', '林熙蕾', '刘若英', '林依晨', '李倩蓉',
          '林志玲', '郭采洁', '吴佩慈', '孟广美', '任家萱', '萧亚轩', '蔡依林',
-         '舒淇', '田馥甄', '王心凌', '王祖贤', '杨丞琳', '张庭', '卓文萱', 'she',
+         '舒淇', '田馥甄', '王心凌',  '杨丞琳', '张庭', '卓文萱', 'she',
          '蔡琳', '韩彩英', '河智苑', '韩佳人', '韩艺瑟', '金喜善',
          '全智贤', '李英爱', '张娜拉', '李孝利', '金泰熙', '宋慧乔',
          '林允儿', '少女时代', '曹颖', '张延', '陈好', '陈红', '范冰冰',
@@ -41,13 +42,14 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '梅格瑞恩', '妮可基德曼', '娜塔丽', '麦当娜', '布兰妮', '苏菲玛索', '斯嘉丽·约翰逊',
          '克里斯汀·斯图尔特', '安吉丽娜朱莉', '李心洁', '戴佩妮',
          '唐艺昕', '潘晓婷', '关晓彤', '欧阳娜娜', '新垣结衣', '郭碧婷',
-         '何穗', '奚梦瑶', '坎迪斯', '安布罗休', '辛芷蕾', '张蓝心', '钟楚曦', '宋祖儿', '张芷溪']
+         '何穗', '奚梦瑶', '坎迪斯', '安布罗休', '辛芷蕾', '张蓝心', '钟楚曦', '宋祖儿', '张芷溪',
+         '孙怡', '户田惠梨香']
 
 
-stars1 = ['张芷溪']
+stars1 = ['户田惠梨香']
 # stars = ['孙允珠']
 
-VERSION = '2.2'  # 版本号
+VERSION = '2.3'  # 版本号
 # # star = '孙允珠'
 # star = '倪妮'
 # # star = '杨幂'
@@ -174,7 +176,13 @@ class TiebaPicPage():
         :return: 下载成功返回True
         '''
         save_file = pic_url.split('/')[-1]
-        full_file = os.path.join(save_path, self.name + '_' + save_file)
+        save_path_date = '%s\%s' % (
+            save_path, datetime.datetime.now().date().strftime('%y%m%d'))
+        # save_path_date = save_path + '\' +
+        # datetime.datetime.now().date().strftime('%y  m % d')
+        if not os.path.exists(save_path_date):
+            os.mkdir(save_path_date)
+        full_file = os.path.join(save_path_date, self.name + '_' + save_file)
         pid = save_file.split('.')[0]
         down_url = 'http://imgsrc.baidu.com/forum/pic/item/%s.jpg' % pid
         try:
@@ -231,7 +239,8 @@ class TiebaAll():
                     break
             # print(page)
             # print(r.text)
-            p = re.compile('<a rel="noreferrer"\s+?href="/p/(\d+)" title=', re.S)
+            p = re.compile(
+                '<a rel="noreferrer"\s+?href="/p/(\d+)" title=', re.S)
             m = re.finditer(p, r.text)
             for x in m:
                 urls.append(x.group(1).strip())
