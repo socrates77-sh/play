@@ -7,7 +7,7 @@ import sys
 处理上传到kindle的txt文件，防止encoding的问题
 '''
 
-org_file = 'e:\\temp\\论美国的民主.txt'
+org_file = r'E:\temp\js\晋书\晋书.txt'
 
 
 def do_format(filename):
