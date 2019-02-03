@@ -1,3 +1,5 @@
+# scan PIC_PATH and save md5sum to picinfo.csv
+
 # history:
 # 2019/01/16  v1.0  initial
 
@@ -11,7 +13,7 @@ VERSION = '1.0'
 
 # PIC_PATH = r'e:\temp\pic'
 PIC_PATH = r'd:\pic'
-SAVE_FILE = r'e:\temp\picinfo.csv'
+SAVE_FILE = r'd:\temp\picinfo.csv'
 
 # df_pic = pd.DataFrame(columns=['name', 'md5'])
 

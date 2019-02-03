@@ -1,17 +1,23 @@
+# compare md5sum of picture files in current directory from in pic directory
+# move duplitcated files to DUP_PATH
+# need picinfo.csv first
+
 # history:
 # 2019/01/16  v1.0  initial
+# 2019/01/18  v1.1  check pic file only
 
 
 import os
 import hashlib
 import msvcrt
 import shutil
+import glob
 import pandas as pd
 
 VERSION = '1.0'
 
-INFO_FILE = r'e:\temp\picinfo.csv'
-PIC_PATH = r'e:\temp\a'
+INFO_FILE = r'd:\temp\picinfo.csv'
+PIC_PATH = r'.'
 DUP_PATH = '3'
 
 # df_pic = pd.DataFrame(columns=['name', 'md5'])
@@ -43,14 +49,16 @@ def read_df(csv_file):
 
 
 def get_files(dir):
-    files = []
-    for l in os.listdir(dir):
-        if os.path.isfile(os.path.join(dir, l)):
-            files.append(l)
+    files = glob.glob(dir + '\\*.jpg')
+    # files = []
+    # for l in os.listdir(dir):
+    #     if os.path.isfile(os.path.join(dir, l)):
+    #         files.append(l)
     md5s = []
     for f in files:
+        # print(f)
         md5sum = calc_md5(os.path.join(PIC_PATH, f))
-        # print(f, md5sum)
+        print(f, md5sum)
         md5s.append(calc_md5(os.path.join(PIC_PATH, f)))
 
     # df_test = pd.DataFrame(md5s, index=files, columns=['md5'])
@@ -70,7 +78,10 @@ def mov_dup_file(file):
     os.makedirs(target_dir, exist_ok=True)
     full_file_name = os.path.join(PIC_PATH, file)
     print('%s ->　%s' % (full_file_name, target_dir))
-    shutil.move(full_file_name, target_dir)
+    try:
+        shutil.move(full_file_name, target_dir)
+    except Exception as e:
+        print(e)
 
 
 def main():
