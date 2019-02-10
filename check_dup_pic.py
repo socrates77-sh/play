@@ -4,6 +4,7 @@
 
 # history:
 # 2019/02/03  v1.0  initial
+# 2019/02/10  v1.1  add file size check
 
 
 import os
@@ -13,10 +14,10 @@ import shutil
 import glob
 import pandas as pd
 
-VERSION = '1.0'
+VERSION = '1.1'
 
 INFO_FILE = r'd:\temp\picinfo.csv'
-WORK_DIR = r'.'
+WORK_DIR = r'd:\temp'
 PIC_DIR = r'd:\pic'
 DUP_PATH = '5'
 
@@ -26,7 +27,7 @@ def wait_any_key():
     msvcrt.getch()
 
 
- def read_df(csv_file):
+def read_df(csv_file):
     print('load data from csv file %s ...' % INFO_FILE)
     df_pic = pd.read_csv(csv_file)
     # print(pd_pic)
@@ -38,7 +39,7 @@ def get_dup_files():
     # df_test = get_files(PIC_PATH)
     print('search duplicated files ...')
     # df_dup = df_pic[df_pic.duplicated('md5', keep=False)]
-    df_dup = df_pic[df_pic.duplicated('md5')]
+    df_dup = df_pic[df_pic.duplicated('md5_size')]
     print(df_dup)
     return df_dup
 

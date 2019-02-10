@@ -2,6 +2,7 @@
 
 # history:
 # 2019/01/16  v1.0  initial
+# 2019/02/10  v1.1  add file size
 
 
 import os
@@ -9,7 +10,7 @@ import hashlib
 import msvcrt
 import pandas as pd
 
-VERSION = '1.0'
+VERSION = '1.1'
 
 # PIC_PATH = r'e:\temp\pic'
 PIC_PATH = r'd:\pic'
@@ -36,6 +37,11 @@ def calc_md5(filepath):
         return sha1sum
 
 
+def get_filesize(filepath):
+    fsize = os.path.getsize(filepath)
+    return fsize
+
+
 def scan_pic_dir(dir):
     print('scanning whole pic directory ...')
     files = os.listdir(dir)
@@ -43,15 +49,16 @@ def scan_pic_dir(dir):
     # for l in os.listdir(dir):
     #     if os.path.isfile(os.path.join(dir, l)):
     #         files.append(l)
-    md5s = []
+    md5_size = []
     for f in files:
         md5sum = calc_md5(os.path.join(PIC_PATH, f))
-        print(f, md5sum)
-        md5s.append(calc_md5(os.path.join(PIC_PATH, f)))
+        fsize = get_filesize(os.path.join(PIC_PATH, f))
+        print(f, fsize, md5sum)
+        md5_size.append('%s_%d' % (md5sum, fsize))
 
     # df_pic['name'] = files
     # df_pic['md5'] = md5s
-    df_pic = pd.DataFrame({'name': files, 'md5': md5s})
+    df_pic = pd.DataFrame({'name': files, 'md5_size': md5_size})
     # df_pic = pd.DataFrame(md5s, index=files, columns=['md5'])
 
     print('write data to csv file %s ...' % SAVE_FILE)
