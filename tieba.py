@@ -1,3 +1,6 @@
+# history:
+# 2019/03/28  v2.4  add input function
+
 import re
 import requests
 import os
@@ -6,6 +9,7 @@ import datetime
 import sys
 import getopt
 import io
+import msvcrt
 
 stars_obs = ['周慧敏', '王祖贤']
 
@@ -50,7 +54,7 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
 stars1 = ['amberheard', 'mackenziefoy']
 # stars = ['孙允珠']
 
-VERSION = '2.3'  # 版本号
+VERSION = '2.4'  # 版本号
 # # star = '孙允珠'
 # star = '倪妮'
 # # star = '杨幂'
@@ -347,46 +351,61 @@ def usage_err():
 # else:
 # usage_err()
 
+def input_last_id():
+    print('input last id:')
+    input_line = sys.stdin.readline().strip()
+    return input_line
+
+
+def wait_any_key():
+    print('press any key to exit...')
+    msvcrt.getch()
+
+
 def main():
     sys.stdout = io.TextIOWrapper(
         sys.stdout.buffer, encoding='gb18030', line_buffering=True)
 
-    if len(sys.argv) == 1:
-        usage_err()
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], 'hvd:t:')
-    except getopt.GetoptError:
-        print(getopt.GetoptError.msg)
-        usage_err()
+    last_id = input_last_id()
+    download_all_stars(stars, last_id, False)
+    wait_any_key()
 
-    if len(opts) == 0:
-        usage_err()
-    for o, a in opts:
-        if o == '-h':
-            usage()
-            sys.exit(0)
-        elif o == '-v':
-            version()
-            sys.exit(0)
-        elif o in ('-d', '-t'):
-            if o == '-d':
-                test = False
-            else:
-                test = True
-            if a == 'auto':
-                if len(args) != 1:
-                    usage_err()
-                else:
-                    last_id = eval(args[0])
-                    download_all_stars(stars, last_id, test)
-            elif a == 'star':
-                if len(args) != 2:
-                    usage_err()
-                else:
-                    last_id = eval(args[1])
-                    download(args[0], last_id, test)
-            else:
-                usage_err()
+    # if len(sys.argv) == 1:
+    #     usage_err()
+    # try:
+    #     opts, args = getopt.getopt(sys.argv[1:], 'hvd:t:')
+    # except getopt.GetoptError:
+    #     print(getopt.GetoptError.msg)
+    #     usage_err()
+
+    # if len(opts) == 0:
+    #     usage_err()
+    # for o, a in opts:
+    #     if o == '-h':
+    #         usage()
+    #         sys.exit(0)
+    #     elif o == '-v':
+    #         version()
+    #         sys.exit(0)
+    #     elif o in ('-d', '-t'):
+    #         if o == '-d':
+    #             test = False
+    #         else:
+    #             test = True
+    #         if a == 'auto':
+    #             if len(args) != 1:
+    #                 usage_err()
+    #             else:
+    #                 last_id = eval(args[0])
+    #                 download_all_stars(stars, last_id, test)
+    #         elif a == 'star':
+    #             if len(args) != 2:
+    #                 usage_err()
+    #             else:
+    #                 last_id = eval(args[1])
+    #                 download(args[0], last_id, test)
+    #         else:
+    #             usage_err()
 
 
 # def main():
@@ -394,7 +413,6 @@ def main():
 # # tb = TiebaPicPage(star, '4963013075')
 # # l_pid = tb.find_all_pic()
 # # print(len(l_pid), l_pid)
-
 
 if __name__ == '__main__':
     main()
