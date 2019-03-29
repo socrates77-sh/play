@@ -66,7 +66,7 @@ def save_all_files(url, files):
     for i in range(len(files)):
         down_url = url + files[i]
         sz = save_a_file(down_url, files[i])
-        print('[Save %d/%d] %s <%d bytes>' % (i, len(files), files[i], sz))
+        print('[Save %d/%d] %s <%d bytes>' % (i+1, len(files), files[i], sz))
         # pbar.update(i)
 
     # pbar.finish()
@@ -74,12 +74,12 @@ def save_all_files(url, files):
 
 def main():
     print_version(VERSION)
-    # ip = input_from_console('input ip:')
-    ip = '192.168.137.253'
+    ip = input_from_console('input ip:')
+    # ip = '192.168.137.253'
     url = 'http://%s:%s/%s/' % (ip, PORT, DIR)
     all_files = find_all_files(url)
     save_all_files(url, all_files)
-    # wait_any_key()
+    wait_any_key()
 
 
 def dosomework():

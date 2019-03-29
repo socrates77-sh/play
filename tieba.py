@@ -366,7 +366,7 @@ def main():
     sys.stdout = io.TextIOWrapper(
         sys.stdout.buffer, encoding='gb18030', line_buffering=True)
 
-    last_id = input_last_id()
+    last_id = eval(input_last_id())
     download_all_stars(stars, last_id, False)
     wait_any_key()
 
