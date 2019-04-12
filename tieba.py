@@ -47,7 +47,7 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '克里斯汀·斯图尔特', '安吉丽娜朱莉', '李心洁', '戴佩妮',
          '唐艺昕', '潘晓婷', '关晓彤', '欧阳娜娜', '新垣结衣', '郭碧婷',
          '何穗', '奚梦瑶', '坎迪斯', '安布罗休', '辛芷蕾', '张蓝心', '钟楚曦', '宋祖儿', '张芷溪',
-         '孙怡', '户田惠梨香', '白百合', '文咏珊',
+         '孙怡', '户田惠梨香', '白百合', '文咏珊', '林珍娜',
          'amberheard', 'mackenziefoy', 'evanrachelwood', 'lilyjames', 'emiliaclarke']
 
 
@@ -363,8 +363,8 @@ def wait_any_key():
 
 
 def main():
-    sys.stdout = io.TextIOWrapper(
-        sys.stdout.buffer, encoding='gb18030', line_buffering=True)
+    # sys.stdout = io.TextIOWrapper(
+    #     sys.stdout.buffer, encoding='gb18030', line_buffering=True)
 
     last_id = eval(input_last_id())
     download_all_stars(stars, last_id, False)
