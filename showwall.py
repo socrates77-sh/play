@@ -1,7 +1,5 @@
-'''
-用于下载www.showwall.com的图片
-'''
-__author__ = 'socrates'
+# history:
+# 2019/05/21  v1.1  add input function
 
 import re
 import requests
@@ -9,10 +7,12 @@ import os
 import sys
 import time
 import getopt
+import msvcrt
 # from bs4 import BeautifulSoup
 
-VERSION = '1.0'  # 版本号
-save_path = 'f:\download'  # 默认存放路径
+VERSION = '1.1'  # 版本号
+save_path = 'f:\download\a'  # 默认存放路径
+log_path = 'f:\download\log'
 url_main = 'http://www.showwall.com'  # 主页网址
 my_cookies = dict(
     __cfduid='d3d96b32a79d4f9f2828f2c556b6518521485350718',
@@ -63,7 +63,9 @@ intest_stars = ['ayum_hamasaki', 'amuro_namie', 'saki_aibu', 'gouriki_ayame', 'a
                 'megan_fox', 'clarke', 'paris_hilton', 'anne_hathaway', 'liv_tyler', 'jodie_foster', 'miranda_kerr',
                 'meg_ryan', 'nicole_kidman', 'natalie_portman', 'madonna', 'spears_britney', 'sophie_marceau',
                 'kristen_stewart', 'jolie_angelina', 'angelica_lee', 'penny_tai', 'scarlett_johansson',
-                'yui_aragaki', 'janice_man', 'du_juan']
+                'yui_aragaki', 'janice_man', 'du_juan', 'toda_erika', 'kanna_hashimoto']
+
+intest_stars = ['yui_aragaki']
 
 
 class ShowwallStar():
@@ -209,7 +211,7 @@ def save_log(last_id):
     :param last_id: 最后已下载的id
     :return: None
     '''
-    log_file = save_path + '\log\log.txt'
+    log_file = log_path + '\log.txt'
     with open(log_file, 'w+') as f:
         f.write(last_id)
 
@@ -222,7 +224,7 @@ def auto_mode(last_id, g):
     :return: None
     '''
     global f_miss
-    missing_file = save_path + '\log\missing.txt'
+    missing_file = log_path + '\missing.txt'
     f_miss = open(missing_file, 'w+')
     count_pic = 0
     real_last = 0
@@ -249,7 +251,7 @@ def star_mode(name, last_id, g):
     :return: None
     '''
     global f_miss
-    missing_file = save_path + '\log\missing.txt'
+    missing_file = log_path + '\missing.txt'
     f_miss = open(missing_file, 'w+')
     sw = ShowwallStar(name, last_id)
     r1 = sw.id_all()
@@ -301,49 +303,64 @@ def usage_err():
     sys.exit(1)
 
 
+def input_last_id():
+    print('input last id:')
+    input_line = sys.stdin.readline().strip()
+    return input_line
+
+
+def wait_any_key():
+    print('press any key to exit...')
+    msvcrt.getch()
+
+
 def main():
-    if len(sys.argv) == 1:
-        usage_err()
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], 'hvd:t:')
-    except getopt.GetoptError:
-        print(getopt.GetoptError.msg)
-        usage_err()
-    for o, a in opts:
-        if o == '-h':
-            usage()
-            sys.exit(0)
-        elif o == '-v':
-            version()
-            sys.exit(0)
-        elif o in ('-d', '-t'):
-            if o == '-d':
-                glance = False
-            else:
-                glance = True
-            if a == 'auto':
-                if len(args) != 1:
-                    usage_err()
-                else:
-                    auto_mode(eval(args[0]), glance)
-            if a == 'one':
-                if len(args) != 2:
-                    usage_err()
-                else:
-                    ShowwallStar.save_a_pic(args[0], eval(args[1]), glance)
-            if a == 'star':
-                if len(args) != 2:
-                    usage_err()
-                else:
-                    star_mode(args[0], eval(args[1]), glance)
-            if a == 'file':
-                if len(args) != 1:
-                    usage_err()
-                else:
-                    file_mode(args[0], glance)
-        else:
-            usage()
-            sys.exit(1)
+    last_id = eval(input_last_id())
+    auto_mode(last_id, False)
+    wait_any_key()
+
+    # if len(sys.argv) == 1:
+    #     usage_err()
+    # try:
+    #     opts, args = getopt.getopt(sys.argv[1:], 'hvd:t:')
+    # except getopt.GetoptError:
+    #     print(getopt.GetoptError.msg)
+    #     usage_err()
+    # for o, a in opts:
+    #     if o == '-h':
+    #         usage()
+    #         sys.exit(0)
+    #     elif o == '-v':
+    #         version()
+    #         sys.exit(0)
+    #     elif o in ('-d', '-t'):
+    #         if o == '-d':
+    #             glance = False
+    #         else:
+    #             glance = True
+    #         if a == 'auto':
+    #             if len(args) != 1:
+    #                 usage_err()
+    #             else:
+    #                 auto_mode(eval(args[0]), glance)
+    #         if a == 'one':
+    #             if len(args) != 2:
+    #                 usage_err()
+    #             else:
+    #                 ShowwallStar.save_a_pic(args[0], eval(args[1]), glance)
+    #         if a == 'star':
+    #             if len(args) != 2:
+    #                 usage_err()
+    #             else:
+    #                 star_mode(args[0], eval(args[1]), glance)
+    #         if a == 'file':
+    #             if len(args) != 1:
+    #                 usage_err()
+    #             else:
+    #                 file_mode(args[0], glance)
+    #     else:
+    #         usage()
+    #         sys.exit(1)
 
 
 if __name__ == '__main__':
