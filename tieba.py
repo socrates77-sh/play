@@ -363,10 +363,17 @@ def wait_any_key():
     msvcrt.getch()
 
 
+def print_version(version):
+    print('=' * 70)
+    print('%s version: %s' % (os.path.basename(__file__), VERSION))
+    print('=' * 70)
+
+
 def main():
     # sys.stdout = io.TextIOWrapper(
     #     sys.stdout.buffer, encoding='gb18030', line_buffering=True)
 
+    print_version(VERSION)
     last_id = eval(input_last_id())
     download_all_stars(stars, last_id, False)
     wait_any_key()

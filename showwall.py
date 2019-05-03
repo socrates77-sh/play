@@ -1,5 +1,6 @@
 # history:
-# 2019/05/21  v1.1  add input function
+# 2019/05/01  v1.1  add input function
+# 2019/05/02  v1.2  corect page count bug
 
 import re
 import requests
@@ -8,10 +9,11 @@ import sys
 import time
 import getopt
 import msvcrt
+import math
 # from bs4 import BeautifulSoup
 
-VERSION = '1.1'  # 版本号
-save_path = 'f:\download\a'  # 默认存放路径
+VERSION = '1.2'  # 版本号
+save_path = 'f:\download\c'  # 默认存放路径
 log_path = 'f:\download\log'
 url_main = 'http://www.showwall.com'  # 主页网址
 my_cookies = dict(
@@ -63,9 +65,11 @@ intest_stars = ['ayum_hamasaki', 'amuro_namie', 'saki_aibu', 'gouriki_ayame', 'a
                 'megan_fox', 'clarke', 'paris_hilton', 'anne_hathaway', 'liv_tyler', 'jodie_foster', 'miranda_kerr',
                 'meg_ryan', 'nicole_kidman', 'natalie_portman', 'madonna', 'spears_britney', 'sophie_marceau',
                 'kristen_stewart', 'jolie_angelina', 'angelica_lee', 'penny_tai', 'scarlett_johansson',
-                'yui_aragaki', 'janice_man', 'du_juan', 'toda_erika', 'kanna_hashimoto']
+                'yui_aragaki', 'janice_man', 'du_juan', 'toda_erika', 'kanna_hashimoto',
+                'dan_mitsu', 'yuri_ebihara', 'lim_jin_ah']
 
-intest_stars = ['yui_aragaki']
+# intest_stars = ['yui_aragaki', 'toda_erika', 'kanna_hashimoto']
+# intest_stars = ['dan_mitsu', 'yuri_ebihara', 'lim_jin_ah', 'kanna_hashimoto']
 
 
 class ShowwallStar():
@@ -138,18 +142,24 @@ class ShowwallStar():
         l_id_all = []
         t = self.page_text(1)
         count = self.pic_count(t)
+        # print(count)
         l_id_page = self.id_one_page(t)
         l_id_all += [x for x in l_id_page if eval(x) > self.last_id]
         if eval(l_id_page[-1]) <= self.last_id or int(count / 20) + 1 == 1:
             return l_id_all
 
-        for i in range(2, int(count / 20) + 2):
+        page_count = math.ceil(count/20)
+        # print(page_count)
+        for i in range(2, page_count+1):
             # print('page=%d' % i)
             t = self.page_text(i)
             l_id_page = self.id_one_page(t)
             l_id_all += [x for x in l_id_page if eval(x) > self.last_id]
-            if eval(l_id_page[-1]) <= self.last_id or i == int(count / 20) + 1:
-                return l_id_all
+            # if eval(l_id_page[-1]) <= self.last_id or i == int(count / 20) + 1:
+            # print(l_id_page[-1])
+            if eval(l_id_page[-1]) <= self.last_id:
+                break
+        return l_id_all
 
     @staticmethod
     def save_a_pic(name, id, g):
@@ -196,9 +206,11 @@ class ShowwallStar():
         global f_miss
         l_missing = []
         for x in id_all:
-            if not self.save_a_pic(self.name, x, g):
-                l_missing.append((self.name, x))
-                print(l_missing)
+            if eval(x) > self.last_id:
+                if not self.save_a_pic(self.name, x, g):
+                    l_missing.append((self.name, x))
+                    print(l_missing)
+
         if len(l_missing) > 0:
             for x in l_missing:
                 print('save missing')
@@ -314,7 +326,14 @@ def wait_any_key():
     msvcrt.getch()
 
 
+def print_version(version):
+    print('=' * 70)
+    print('%s version: %s' % (os.path.basename(__file__), VERSION))
+    print('=' * 70)
+
+
 def main():
+    print_version(VERSION)
     last_id = eval(input_last_id())
     auto_mode(last_id, False)
     wait_any_key()
