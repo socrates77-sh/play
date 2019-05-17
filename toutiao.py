@@ -16,27 +16,71 @@ VERSION = '1.0'
 
 DST_PATH = r'e:\download\5'
 
+# ('username', 'id', type)
+# type, main page url like:
+# 0：https://www.toutiao.com/m1628218742667278/
+# 1: https://www.toutiao.com/c/user/58868350934/#mid=1577199391283214
+all_users = [
+    ('安全的情网', '1628218742667278', 0),
+    ('倾城视图', '58868350934', 1),
+    ('图影度光阴', '65767525786', 1),
+    ('在下子程', '61713811819', 1)
+]
+
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
 
+# MY_COOKIES = dict(
+#     tt_webid='6691101051205502477',
+#     WEATHER_CITY='%E5%8C%97%E4%BA%AC',
+#     UM_distinctid='16ab9aea4d23f1-0cdb430dfdfdd6-8383268-100200-16ab9aea4d334b',
+#     csrftoken='921e5b74805b24ab139be1ca38fcead9',
+#     s_v_web_id='c44b6a1e4cb787de9d6e29c8aa76d1bc',
+#     passport_auth_status='7ba19e5c8c1250194a7d44722e21de6c',
+#     sso_uid_tt='1def03a7e1503fc53068b964e250e137',
+#     toutiao_sso_user='677fad1be30833611f169f1933509938',
+#     login_flag='24dd313bfc805db42654cc776c8b9985',
+#     sessionid='8e4f38c474c2c27f0d49bfe44eeda260',
+#     uid_tt='b5494efde40796477d4b367260e23678',
+#     sid_tt='8e4f38c474c2c27f0d49bfe44eeda260',
+#     sid_guard="8e4f38c474c2c27f0d49bfe44eeda260|1557893910|15552000|Mon\054 11-Nov-2019 04:18:30 GMT",
+#     __tasessionId='65yldlp911557906502579',
+#     CNZZDATA1259612802='2057682951-1557889129-%7C1557905329'
+# )
+
 MY_COOKIES = dict(
-    # tt_webid='6691101051205502477',
-    # WEATHER_CITY='%E5%8C%97%E4%BA%AC',
-    # tt_webid='6691101051205502477',
-    # UM_distinctid='16ab9aea4d23f1-0cdb430dfdfdd6-8383268-100200-16ab9aea4d334b',
-    # csrftoken='921e5b74805b24ab139be1ca38fcead9',
-    s_v_web_id='c44b6a1e4cb787de9d6e29c8aa76d1bc'
-    # passport_auth_status='7ba19e5c8c1250194a7d44722e21de6c',
-    # sso_uid_tt='1def03a7e1503fc53068b964e250e137',
-    # toutiao_sso_user='677fad1be30833611f169f1933509938',
-    # login_flag='24dd313bfc805db42654cc776c8b9985',
-    # sessionid='8e4f38c474c2c27f0d49bfe44eeda260',
-    # uid_tt='b5494efde40796477d4b367260e23678',
-    # sid_tt='8e4f38c474c2c27f0d49bfe44eeda260',
-    # sid_guard="8e4f38c474c2c27f0d49bfe44eeda260|1557893910|15552000|Mon\054 11-Nov-2019 04:18:30 GMT",
-    # __tasessionId='65yldlp911557906502579',
-    # CNZZDATA1259612802='2057682951-1557889129-%7C1557905329'
+    UM_distinctid='16ab9aea4d23f1-0cdb430dfdfdd6-8383268-100200-16ab9aea4d334b',
+    csrftoken='921e5b74805b24ab139be1ca38fcead9',
+    passport_auth_status='7ba19e5c8c1250194a7d44722e21de6c',
+    sso_uid_tt='1def03a7e1503fc53068b964e250e137',
+    toutiao_sso_user='677fad1be30833611f169f1933509938',
+    login_flag='24dd313bfc805db42654cc776c8b9985',
+    sessionid='8e4f38c474c2c27f0d49bfe44eeda260',
+    uid_tt='b5494efde40796477d4b367260e23678',
+    sid_tt='8e4f38c474c2c27f0d49bfe44eeda260',
+    sid_guard="8e4f38c474c2c27f0d49bfe44eeda260|1557893910|15552000|Mon\054 11-Nov-2019 04:18:30 GMT",
+    tt_webid='75486819522',
+    uuid="w:ae821e41340d4a53b131b77fedd32970",
+    __tasessionId='mw3jwv1mw1558087742926',
+    s_v_web_id='c44b6a1e4cb787de9d6e29c8aa76d1bc',
+    cp='5CDEB89CBAE84E1',
+    CNZZDATA1259612802='2057682951-1557889129-%7C1558088929'
 )
+
+MY_HEADERS = {
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
+}
+
+
+class TTUserType0():
+    def __init__(self, user_id):
+        self.__page_list = []
+        self.__extract_page(user_id)
+
+    def __extract_page(self, user_id):
+        url = 'https://www.toutiao.com/pgc/ma/?media_id=%s&page_type=1&max_behot_time=0&count=10&version=2&platform=pc&as=A1853C3D2E98CA8&cp=5CDEB89CBAE84E1' % user_id
+        res = requests.get(url, headers=MY_HEADERS)
+        print(res.text)
 
 
 def getcookiefromchrome(host='.oschina.net'):
@@ -216,17 +260,17 @@ def main():
     # page_url = 'https://www.toutiao.com/a6690854000499098120/'  # type1
     # # page_url = 'https://www.toutiao.com/a6690434218440262156/'  # type2
     # # page_url = 'https://www.toutiao.com/a6475469222464979469' # type1_1
-    page_url = 'https://www.toutiao.com/i6691049901360415245/' # type1_1
-    pic_urls = get_pic_urls_from_a_page(page_url)
-    print(len(pic_urls))
-    for url in pic_urls:
-        pic_url = url.replace('\\', '')
-        # print(pic_url)
-        file_name = pic_url.split('/')[-1]+'.jpg'
-        save_a_pic(pic_url, file_name)
+    # page_url = 'https://www.toutiao.com/i6691049901360415245/'  # type1_1
+    # pic_urls = get_pic_urls_from_a_page(page_url)
+    # print(len(pic_urls))
+    # for url in pic_urls:
+    #     pic_url = url.replace('\\', '')
+    #     # print(pic_url)
+    #     file_name = pic_url.split('/')[-1]+'.jpg'
+    #     save_a_pic(pic_url, file_name)
 
-    username = '安全的情网'
-    username = '倾城视图'
+    # username = '安全的情网'
+    # username = '倾城视图'
     # page_urls = get_page_urls_from_username(username)
     # print(page_urls)
 
@@ -240,6 +284,11 @@ def main():
     #         save_a_pic(pic_url, file_name)
 
     # scan_all_pages(username)
+
+    (username, id, type) = all_users[0]
+    print(id)
+
+    tt = TTUserType0(id)
 
     # wait_any_key()
 
