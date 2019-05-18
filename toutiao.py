@@ -88,23 +88,47 @@ class TTUserType1():
         url = 'https://www.toutiao.com/api/pc/feed/?category=pc_profile_ugc&utm_source=toutiao&visit_user_id=58868350934&max_behot_time=0&t=1558101919299'
         url = 'https://www.toutiao.com/c/user/article/?page_type=1&user_id=58868350934&max_behot_time=1557881000&count=20&as=A1B54C6D6E6C339&cp=5CDEEC9313D92E1&_signature=HOb.WRAYQDzvq6IUG-pAPBzm.0'
         url = 'https://www.toutiao.com/c/user/article/?page_type=1&user_id=%s&max_behot_time=0&count=100&_signature=gmIjeRAW3spxL340QyDYzYJiI2' % user_id
-        res = requests.get(url, headers=MY_HEADERS, cookies=MY_COOKIES)
-        html_json = res.json()
+        url = 'https://www.toutiao.com/c/user/article/?page_type=1&user_id=107952533857&max_behot_time=0&count=20&as=A125ACBD5F7852E&cp=5CDFC85532DEEE1&_signature=IDYozRAQfPHuXa4fsqQ7aSA2KN'
+        # res = requests.get(url, headers=MY_HEADERS, cookies=MY_COOKIES)
+        # html_json = res.json()
         # print(html_json)
         # print(json.dumps(html_json, indent=4))
 
-        print((html_json.keys()))
-        print(html_json['login_status'])
-        data = html_json['data']
-        
-        for d in data:
-            print(d['item_id'], d['behot_time'], d['title'])
+        # print((html_json.keys()))
+        # print(html_json['login_status'])
+        # data = html_json['data']
 
-        firefox = webdriver.ie()
-        firefox.get('https://www.toutiao.com/c/user/107952533857/#mid=1628218742667278')
-        ascp = firefox.execute_script('return ascp.getHoney()')
+        # for d in data:
+        #     print(d['item_id'], d['behot_time'], d['title'])
+
+        chrome_options = webdriver.chrome.options.Options()
+        chrome_options.add_argument('--headless')
+        driver = webdriver.Chrome(options=chrome_options)
+        # driver = webdriver.Chrome()
+
+        # firefox = webdriver.Chrome()
+        driver.get(
+            'https://www.toutiao.com/c/user/107952533857/#mid=1628218742667278')
+        ascp = driver.execute_script('return ascp.getHoney()')
         print(ascp)
-        # sinature = firefox.execute_script('return TAC.sign(' + str(user_id) + str(max_behot_time) + ')')
+
+        max_behot_time = 0
+        user_id = '107952533857'
+
+        sinature = driver.execute_script(
+            'return TAC.sign(' + str(user_id) + str(max_behot_time) + ')')
+
+        print(sinature)
+
+        url1 = 'https://www.toutiao.com/c/user/article/?page_type=1&user_id=107952533857&max_behot_time=0&count=20&as=A1F53CADFF99CB4&cp=5CDF998CAB941E1&_signature=PzC4FxAZY.U2fMICtH70ZD8wuA'
+
+        url = 'https://www.toutiao.com/c/user/article/?page_type=1&user_id=%s&max_behot_time=%d&count=20&as=A125ACBD5F7852E&cp=5CDFC85532DEEE1&_signature=%s' % (
+            user_id, max_behot_time, sinature)
+
+        print(url1)
+        print(url)
+
+        driver.quit()
 
 
 def getcookiefromchrome(host='.oschina.net'):
