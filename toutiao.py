@@ -10,6 +10,7 @@ import requests
 import json
 import sqlite3
 from win32.win32crypt import CryptUnprotectData
+from selenium import webdriver
 
 
 VERSION = '1.0'
@@ -68,19 +69,42 @@ MY_COOKIES = dict(
 )
 
 MY_HEADERS = {
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
+    # 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
 }
 
 
-class TTUserType0():
+class TTUserType1():
     def __init__(self, user_id):
         self.__page_list = []
         self.__extract_page(user_id)
 
     def __extract_page(self, user_id):
         url = 'https://www.toutiao.com/pgc/ma/?media_id=%s&page_type=1&max_behot_time=0&count=10&version=2&platform=pc&as=A1853C3D2E98CA8&cp=5CDEB89CBAE84E1' % user_id
-        res = requests.get(url, headers=MY_HEADERS)
-        print(res.text)
+        url = 'https://www.toutiao.com/pgc/ma/?media_id=1628218742667278&page_type=1&max_behot_time=0&count=10&version=2&platform=pc&as=A1152CED2EAB4B9&cp=5CDEFBF46BF9EE1'
+        url = 'https://www.toutiao.com/pgc/ma/?media_id=1628218742667278&page_type=1&max_behot_time=0&count=10&version=2&platform=pc&as=A1152CED2EAB4B9'
+        # url = 'https://www.toutiao.com/api/search/content/?aid=24&app_name=web_search&offset=0&format=json&keyword=%E5%AE%89%E5%85%A8%E7%9A%84%E6%83%85%E7%BD%91&autoload=true&count=20&en_qc=1&cur_tab=1&from=search_tab&pd=synthesis&timestamp=1558100276381'
+        # url = 'https://www.toutiao.com/c/user/107952533857/#mid=1628218742667278'
+        url = 'https://www.toutiao.com/api/pc/feed/?category=pc_profile_ugc&utm_source=toutiao&visit_user_id=58868350934&max_behot_time=0&t=1558101919299'
+        url = 'https://www.toutiao.com/c/user/article/?page_type=1&user_id=58868350934&max_behot_time=1557881000&count=20&as=A1B54C6D6E6C339&cp=5CDEEC9313D92E1&_signature=HOb.WRAYQDzvq6IUG-pAPBzm.0'
+        url = 'https://www.toutiao.com/c/user/article/?page_type=1&user_id=%s&max_behot_time=0&count=100&_signature=gmIjeRAW3spxL340QyDYzYJiI2' % user_id
+        res = requests.get(url, headers=MY_HEADERS, cookies=MY_COOKIES)
+        html_json = res.json()
+        # print(html_json)
+        # print(json.dumps(html_json, indent=4))
+
+        print((html_json.keys()))
+        print(html_json['login_status'])
+        data = html_json['data']
+        
+        for d in data:
+            print(d['item_id'], d['behot_time'], d['title'])
+
+        firefox = webdriver.ie()
+        firefox.get('https://www.toutiao.com/c/user/107952533857/#mid=1628218742667278')
+        ascp = firefox.execute_script('return ascp.getHoney()')
+        print(ascp)
+        # sinature = firefox.execute_script('return TAC.sign(' + str(user_id) + str(max_behot_time) + ')')
 
 
 def getcookiefromchrome(host='.oschina.net'):
@@ -285,10 +309,10 @@ def main():
 
     # scan_all_pages(username)
 
-    (username, id, type) = all_users[0]
-    print(id)
+    (username, id, type) = all_users[1]
+    # print(id)
 
-    tt = TTUserType0(id)
+    tt = TTUserType1(id)
 
     # wait_any_key()
 
