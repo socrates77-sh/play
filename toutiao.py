@@ -1,5 +1,5 @@
 # history:
-# 2019/05/18  v1.0  initial
+# 2019/05/19  v1.0  initial
 
 import time
 import sys
@@ -17,22 +17,29 @@ VERSION = '1.0'
 
 DST_PATH = r'f:\download'
 
-pic_count = 0
-
+# https://www.toutiao.com/c/user/107952533857/#mid=1628218742667278
 # ('username', 'uid', mid)
 
 all_users = [
     ('安全的情网', '107952533857', '1628218742667278'),
     ('倾城视图', '58868350934', '1577199391283214'),
     ('图影度光阴', '65767525786', '1631120772459524'),
+    ('孙允珠精品美图', '2818790666547229', '1632605670327303'),
+    ('一路高飞', '4187341958', '1575656257167374'),
     ('在下子程', '61713811819', '1617661839064067')
+]
+
+all_users = [
+    ('一路高飞', '4187341958', '1575656257167374')
 ]
 
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
 
-WAIT_RESPONSE = 3
-END_CMD_LIMIT = 1000
+WAIT_RESPONSE = 5
+END_CMD_LIMIT = 200
+
+pic_count = 0
 
 
 def my_str2dt(dt_str):
@@ -151,9 +158,7 @@ def save_a_pic(pic_url, path, filename):
     pic_count += 1
 
 
-def download_a_page(username, page, save_path):
-    page_url = 'https://www.toutiao.com/i%s/' % page[0]
-    print(page_url, p[2])
+def download_a_page(username, page_url, save_path):
     pic_urls = get_pic_urls_from_a_page(page_url)
     for url in pic_urls:
         pic_url = url.replace('\\', '')
@@ -198,19 +203,22 @@ def main():
     if(not os.path.exists(save_path_date)):
         os.makedirs(save_path_date, exist_ok=True)
 
+    save_log()
+
     last_date = my_str2dt(input_last_date())
 
     for (username, uid, mid) in all_users:
         user_url = 'https://www.toutiao.com/c/user/%s/#mid=%s' % (uid, mid)
         tt = TTUserValidPages(user_url, last_date)
         pages = tt.page_list
-        for p in pages:
-            download_a_page(username, p, save_path_date)
+        count_pages = len(pages)
+        for i in range(count_pages):
+            page_url = 'https://www.toutiao.com/i%s/' % pages[i][0]
+            print('%s %s [%d/%d] ' % (page_url, pages[i][2], i, count_pages))
+            download_a_page(username, page_url, save_path_date)
 
     print('=' * 70)
     print('%d pictures download' % pic_count)
-
-    save_log()
 
     wait_any_key()
 
