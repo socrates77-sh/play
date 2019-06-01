@@ -1,5 +1,6 @@
 # history:
 # 2019/05/19  v1.0  initial
+# 2019/06/01  v1.1  optimize display
 
 import time
 import sys
@@ -13,7 +14,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
-VERSION = '1.0'
+VERSION = '1.1'
 
 DST_PATH = r'f:\download'
 
@@ -26,18 +27,19 @@ all_users = [
     ('图影度光阴', '65767525786', '1631120772459524'),
     ('孙允珠精品美图', '2818790666547229', '1632605670327303'),
     ('一路高飞', '4187341958', '1575656257167374'),
-    ('在下子程', '61713811819', '1617661839064067')
+    ('在下子程', '61713811819', '1617661839064067'),
+    ('小小的世界我只保护你', '3635977242', '1570148542825474')
 ]
 
-all_users = [
-    ('一路高飞', '4187341958', '1575656257167374')
-]
+all_users1 = [all_users[-1]]
 
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
 
 WAIT_RESPONSE = 5
 END_CMD_LIMIT = 200
+# END_CMD_LIMIT = 1000
+# END_CMD_LIMIT = 1
 
 pic_count = 0
 
@@ -51,10 +53,11 @@ def wait_refresh():
 
 
 class TTUserValidPages():
-    def __init__(self, user_url, last_date):
+    def __init__(self, username, user_url, last_date):
         self.__page_list = []
         self.__last_date = last_date
         self.__init_web(user_url)
+        self.__username = username
         self.__extract_pages()
 
     # def __del__(self):
@@ -95,7 +98,8 @@ class TTUserValidPages():
     def __extract_pages(self):
         for i in range(END_CMD_LIMIT):
             self.__refresh_cmd()
-            print('send end command %d' % (i+1))
+            print('%s: send end command %d/%d' %
+                  (self.__username, i+1, END_CMD_LIMIT))
 
         pages = self.__find_pages()
         self.__page_list = self.__valid_pages(pages)
@@ -209,7 +213,7 @@ def main():
 
     for (username, uid, mid) in all_users:
         user_url = 'https://www.toutiao.com/c/user/%s/#mid=%s' % (uid, mid)
-        tt = TTUserValidPages(user_url, last_date)
+        tt = TTUserValidPages(username, user_url, last_date)
         pages = tt.page_list
         count_pages = len(pages)
         for i in range(count_pages):
