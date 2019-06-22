@@ -1,6 +1,7 @@
 # history:
 # 2019/05/19  v1.0  initial
 # 2019/06/01  v1.1  optimize display
+# 2019/06/22  v1.2  modify log
 
 import time
 import sys
@@ -14,7 +15,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
-VERSION = '1.1'
+VERSION = '1.2'
 
 DST_PATH = r'f:\download'
 
@@ -28,7 +29,9 @@ all_users = [
     ('孙允珠精品美图', '2818790666547229', '1632605670327303'),
     ('一路高飞', '4187341958', '1575656257167374'),
     ('在下子程', '61713811819', '1617661839064067'),
-    ('小小的世界我只保护你', '3635977242', '1570148542825474')
+    ('小小的世界我只保护你', '3635977242', '1570148542825474'),
+    ('丹丹视觉美', '89923571455', '1591554527990797'),
+    ('美图珠', '61704193641', '1589024159354893')
 ]
 
 all_users1 = [all_users[-1]]
@@ -42,6 +45,7 @@ END_CMD_LIMIT = 200
 # END_CMD_LIMIT = 1
 
 pic_count = 0
+f_log = 0
 
 
 def my_str2dt(dt_str):
@@ -170,11 +174,31 @@ def download_a_page(username, page_url, save_path):
         save_a_pic(pic_url, save_path, filename)
 
 
-def save_log():
-    log_file = DST_PATH + '\log\log_tt.txt'
+# def save_log():
+#     log_file = DST_PATH + r'\log\log_tt.txt'
+#     now_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+#     with open(log_file, 'w') as f:
+#         f.write(now_date + '\n')
+
+
+def open_log():
+    global f_log
+    log_file = DST_PATH + r'\log\log_tt.txt'
+    f_log = open(log_file, 'w')
+
+
+def save_date():
+    # global f_log
     now_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    with open(log_file, 'w') as f:
-        f.write(now_date + '\n')
+    f_log.write(now_date + '\n')
+
+
+def save_info(info):
+    # global f_log
+    f_log.write('=' * 30)
+    f_log.write('\n')
+    f_log.write(info)
+    f_log.close()
 
 
 def wait_any_key():
@@ -207,7 +231,8 @@ def main():
     if(not os.path.exists(save_path_date)):
         os.makedirs(save_path_date, exist_ok=True)
 
-    save_log()
+    open_log()
+    save_date()
 
     last_date = my_str2dt(input_last_date())
 
@@ -218,11 +243,12 @@ def main():
         count_pages = len(pages)
         for i in range(count_pages):
             page_url = 'https://www.toutiao.com/i%s/' % pages[i][0]
-            print('%s %s [%d/%d] ' % (page_url, pages[i][2], i, count_pages))
+            print('%s %s [%d/%d] ' % (page_url, pages[i][2], i+1, count_pages))
             download_a_page(username, page_url, save_path_date)
 
     print('=' * 70)
     print('%d pictures download' % pic_count)
+    save_info('%d pictures download' % pic_count)
 
     wait_any_key()
 

@@ -1,5 +1,6 @@
 # history:
 # 2019/03/28  v2.4  add input function
+# 2019/06/22  v2.5  modify log
 
 import re
 import requests
@@ -10,6 +11,8 @@ import sys
 import getopt
 import io
 import msvcrt
+
+f_log = 0
 
 stars_obs = ['周慧敏', '王祖贤', '张雪迎']
 
@@ -49,13 +52,14 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '何穗', '奚梦瑶', '坎迪斯', '安布罗休', '辛芷蕾', '张蓝心', '钟楚曦', '宋祖儿', '张芷溪',
          '孙怡', '户田惠梨香', '白百合', '文咏珊', '林珍娜', '杨超越', '桥本环奈',
          '林珍娜', '蛯原友里',
-         'amberheard', 'mackenziefoy', 'evanrachelwood', 'lilyjames', 'emiliaclarke']
+         'amberheard', 'mackenziefoy', 'evanrachelwood', 'lilyjames', 'emiliaclarke',
+         '盖尔加朵']
 
 
-stars1 = ['蛯原友里']
+stars1 = ['盖尔加朵']
 # stars = ['孙允珠']
 
-VERSION = '2.4'  # 版本号
+VERSION = '2.5'  # 版本号
 # # star = '孙允珠'
 # star = '倪妮'
 # # star = '杨幂'
@@ -279,7 +283,7 @@ def download(star, last_id, test):
     print('----------------------------------------')
     print(star, count, 'pictures\n')
     if real_last > 0:
-        save_log(str(real_last))
+        save_last_id(str(real_last))
     return count
 
 
@@ -294,7 +298,8 @@ def download_all_stars(stars, last_id, test):
     for l in stars:
         count += download(l, last_id, test)
     print('----------------------------------------')
-    print('Total', count, 'pictures')
+    print('%d pictures download' % count)
+    save_info('%d pictures download' % count)
 
 
 def get_day(y, m, d):
@@ -311,15 +316,33 @@ def get_day(y, m, d):
     return str
 
 
-def save_log(last_id):
-    '''
-    将last_id存到log文件
-    :param last_id: 最后已下载的id
-    :return: None
-    '''
-    log_file = save_path + '\log\log.txt'
-    with open(log_file, 'w') as f:
-        f.write(last_id + '\n')
+# def save_log(last_id):
+#     '''
+#     将last_id存到log文件
+#     :param last_id: 最后已下载的id
+#     :return: None
+#     '''
+#     log_file = save_path + '\log\log.txt'
+#     with open(log_file, 'w') as f:
+#         f.write(last_id + '\n')
+
+
+def open_log():
+    global f_log
+    log_file = save_path + r'\log\log_tb.txt'
+    f_log = open(log_file, 'w')
+
+
+def save_last_id(last_id):
+    f_log.write(last_id + '\n')
+
+
+def save_info(info):
+    global f_log
+    f_log.write('=' * 30)
+    f_log.write('\n')
+    f_log.write(info)
+    f_log.close()
 
 
 def version():
@@ -375,6 +398,9 @@ def main():
 
     print_version(VERSION)
     last_id = eval(input_last_id())
+
+    open_log()
+
     download_all_stars(stars, last_id, False)
     wait_any_key()
 

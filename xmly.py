@@ -61,8 +61,10 @@ class XmldAlbum():
 
     def __extract_tracks(self, album_url):
         res = requests.get(album_url, headers=HEADERS)
+        # print(album_url)
         if res.status_code == 200:
             html_text = res.text
+            # print(html_text)
             p = re.compile(
                 '{"index":(\d+?),"trackId":(\d+?),"isPaid":false,"tag":0,"title":"(.+?)","playCount"', re.S)
             result = re.findall(p, html_text)
@@ -98,6 +100,7 @@ def download_track(track):
 
     url = URL_TRACK + track_id
     res = requests.get(url, headers=HEADERS)
+    # print(res.text)
 
     if res.status_code == 200:
         try:
