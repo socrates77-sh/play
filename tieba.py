@@ -107,6 +107,7 @@ class TiebaPicPage():
         :return: 图片贴的html文本
         '''
         url = self.page_url()
+        # print(url)
         r = ''
         try:
             r = requests.get(url).text
@@ -121,7 +122,7 @@ class TiebaPicPage():
         '''
         html_text = self.page_html()
         # p = re.compile('"post_id":(\d+)', re.S)
-        p = re.compile('post_id\D+(\d+)', re.S)
+        p = re.compile('post_id\D+?(\d+)', re.S)
         # result = re.search(p, html_text).group(1).strip()
         result = 0
         try:
@@ -131,7 +132,7 @@ class TiebaPicPage():
         return result
 
     def find_all_pic(self):
-        '''
+        '''1
         通过访问原帖找出pic的地址
         :return: 返回原帖日期及所有pic的地址
         '''
@@ -141,6 +142,7 @@ class TiebaPicPage():
             self.tid, post_id, post_id)
         # r = requests.get(url=url, cookies=my_cookies, headers=my_headers)
         # r = requests.get(url)
+        # print(url)
         while(1):
             r = requests.get(url)
             if r.status_code == 200:
@@ -148,6 +150,7 @@ class TiebaPicPage():
         html_text = r.text
         # print(html_text)
         p = re.compile('http://imgsrc\.baidu\.com/forum/w.*?.jpg', re.S)
+        # p = re.compile('src="http://imgsrc\.baidu\.com.*?.jpg"', re.S)
         # p = re.compile('src="http://imgsrc\.baidu\.com.*?.jpg"', re.S)
         l_pic = re.findall(p, html_text)
         p = re.compile('\d{4}-\d{2}-\d{2}', re.S)
