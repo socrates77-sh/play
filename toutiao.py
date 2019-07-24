@@ -18,24 +18,26 @@ from selenium.webdriver.common.keys import Keys
 
 VERSION = '1.3'
 
-DST_PATH = r'e:\download'
+DST_PATH = r'f:\download'
 
 # https://www.toutiao.com/c/user/107952533857/#mid=1628218742667278
-# ('username', 'uid', mid)
+# (username, uid, mid, weitoutiao)
 
 all_users = [
-    ('安全的情网', '107952533857', '1628218742667278'),
-    ('倾城视图', '58868350934', '1577199391283214'),
+    ('安全的情网', '107952533857', '1628218742667278', False),
+    ('倾城视图', '58868350934', '1577199391283214', False),
     ('图影度光阴', '65767525786', '1631120772459524'),
-    ('孙允珠精品美图', '2818790666547229', '1632605670327303'),
-    ('一路高飞', '4187341958', '1575656257167374'),
-    ('在下子程', '61713811819', '1617661839064067'),
-    ('小小的世界我只保护你', '3635977242', '1570148542825474'),
-    ('丹丹视觉美', '89923571455', '1591554527990797'),
-    ('美图珠', '61704193641', '1589024159354893')
+    ('孙允珠精品美图', '2818790666547229', '1632605670327303', False),
+    ('一路高飞', '4187341958', '1575656257167374', False),
+    ('在下子程', '61713811819', '1617661839064067', False),
+    ('小小的世界我只保护你', '3635977242', '1570148542825474', False),
+    ('丹丹视觉美', '89923571455', '1591554527990797', False),
+    ('美图珠', '61704193641', '1589024159354893', False),
+    (' 周秀娜', '63324591791', '63326138854', True),
+    ('Angelababy情报站', '4472462177744952', '1634147228048398', True)
 ]
 
-all_users1 = [all_users[-1]]
+all_users1 = [all_users[-2]]
 
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
@@ -58,7 +60,8 @@ def wait_refresh():
 
 
 class TTUserValidPages():
-    def __init__(self, username, user_url, last_date):
+    def __init__(self, username, user_url, last_date, weitoutiao):
+        self.weitoutiao = weitoutiao
         self.__page_list = []
         self.__last_date = last_date
         self.__init_web(user_url)
@@ -79,11 +82,22 @@ class TTUserValidPages():
         # self.__web_driver = webdriver.Chrome()
         self.__web_driver.get(user_url)
         wait_refresh()
+        if self.weitoutiao:
+            tab_xpath = '//div[@id="wrapper"]/div[2]/div[1]/ul/li[3]'
+            elem = self.__web_driver.find_element_by_xpath(xpath=tab_xpath)
+            if elem:
+                elem.click()
+                wait_refresh()
+                # self.weitoutiao = True
 
     def __find_pages(self):
         html_txt = self.__web_driver.page_source
-        p = re.compile(
-            r'<a class=\"link title\" target=\"_blank\" href=\"/item/(.*?)/\">(.*?)</a>.*?<span class=\"lbtn\">.*?(\d{4}.*?)</span>', re.M)
+        if self.weitoutiao:
+            p = re.compile(
+                '"ugc_comment_count" target="_blank" href="(https://www.toutiao.com/a.+?)".+?(;)(\d{4}-\d{2}-\d{2} \d{2}:\d{2})', re.S)
+        else:
+            p = re.compile(
+                r'<a class=\"link title\" target=\"_blank\" href=\"/item/(.*?)/\">(.*?)</a>.*?<span class=\"lbtn\">.*?(\d{4}.*?)</span>', re.M)
         result = re.findall(p, html_txt)
         return result
 
@@ -112,9 +126,6 @@ class TTUserValidPages():
 
 
 def extract_pic_type_1(html_text):
-    # html_text = res.text
-    # p = re.compile(
-    #     '(http://p.+?pstatp.com/large/.+?)&quot', re.S)
     p = re.compile('(http://p.+?pstatp.com/large/pgc-image/.+?)"', re.S)
     # http://p9.pstatp.com/large/pgc-image/f52f5ffc3842460ea84f492276e6542d
     result = re.findall(p, html_text)
@@ -122,17 +133,9 @@ def extract_pic_type_1(html_text):
 
 
 def extract_pic_type_2(html_text):
-    html_text1 = html_text.replace('\u002F', '')
-    # html_text = res.text
-    # p = re.compile(
-    #     '\"url\":\"http:\\/\\/p1.pstatp.com\\/origin\\/pgc-image\\/b222b8f1f6724931bd385f874cbefc09\"', re.S)
-    # p = re.compile(
-    #     r':\[{\\\"url\\\":\\\"(http:\\\\/\\\\/p.+?pstatp.com.*?)\\\",.*?url_list', re.S)
-    # p = re.compile(
-    #     r'\"url_list\\\":\[{\\\"url\\\":\\"(http:\\\\/\\\\/p.+?.pstatp.com.*?)\\\"}', re.S)
     p = re.compile(
         'url_list....{."url.":."http:\\\\.+?(p.+?pstatp.com)\\\\.+?origin\\\\.+?pgc-image\\\\.......(.+?)"', re.S)
-    result = re.findall(p, html_text1)
+    result = re.findall(p, html_text)
     pic_urls = []
     for (p, id) in result:
         url = 'http://%s/origin/pgc-image/%s' % (p, id)
@@ -141,14 +144,27 @@ def extract_pic_type_2(html_text):
     return pic_urls
 
 
-# def extract_pic_type_3(html_text):
-#     # html_text = res.text
-#     # p = re.compile(
-#     #     '(http://p.+?pstatp.com/large/.+?)&quot', re.S)
-#     p = re.compile('(http://p.+?pstatp.com/large/pgc-image/.+?)"', re.S)
-#     # http://p9.pstatp.com/large/pgc-image/f52f5ffc3842460ea84f492276e6542d
-#     result = re.findall(p, html_text)
-#     return result
+def extract_pic_type_3(html_text):
+    p = re.compile(
+        '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002Fpgc-image\\\\u002F(.+?)"', re.S)
+    result = re.findall(p, html_text)
+    pic_urls = []
+    for (p, id) in result:
+        url = 'https://%s/img/pgc-image/%s' % (p, id)
+        # print(url)
+        pic_urls.append(url)
+    return pic_urls
+
+def extract_pic_type_4(html_text):
+    p = re.compile(
+        '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002Ftos-cn-i-0022\\\\u002F(.+?)"', re.S)
+    result = re.findall(p, html_text)
+    pic_urls = []
+    for (p, id) in result:
+        url = 'https://%s/img/tos-cn-i-0022/%s' % (p, id)
+        # print(url)
+        pic_urls.append(url)
+    return pic_urls
 
 
 def get_page_source(page_url):
@@ -172,9 +188,12 @@ def get_pic_urls_from_a_page(page_url):
         result = extract_pic_type_2(html)
         if result != []:
             return result
-        # result = extract_pic_type_3(html)
-        # if result != []:
-        #     return result
+        result = extract_pic_type_3(html)
+        if result != []:
+            return result
+        result = extract_pic_type_4(html)
+        if result != []:
+            return result
 
         else:
             print('Error: %s %s' % (ERR_WEB_EXTRACT_FAIL, page_url))
@@ -270,13 +289,16 @@ def main():
 
     last_date = my_str2dt(input_last_date())
 
-    for (username, uid, mid) in all_users:
+    for (username, uid, mid, weitoutiao) in all_users:
         user_url = 'https://www.toutiao.com/c/user/%s/#mid=%s' % (uid, mid)
-        tt = TTUserValidPages(username, user_url, last_date)
+        tt = TTUserValidPages(username, user_url, last_date, weitoutiao)
         pages = tt.page_list
         count_pages = len(pages)
         for i in range(count_pages):
-            page_url = 'https://www.toutiao.com/i%s/' % pages[i][0]
+            if tt.weitoutiao:
+                page_url = pages[i][0]
+            else:
+                page_url = 'https://www.toutiao.com/i%s/' % pages[i][0]
             print('%s %s [%d/%d] ' % (page_url, pages[i][2], i+1, count_pages))
             download_a_page(username, page_url, save_path_date)
 
