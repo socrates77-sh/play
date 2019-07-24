@@ -2,6 +2,7 @@
 # 2019/05/19  v1.0  initial
 # 2019/06/01  v1.1  optimize display
 # 2019/06/22  v1.2  modify log
+# 2019/07/24  v1.3  update web access method
 
 import time
 import sys
@@ -15,9 +16,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 
-VERSION = '1.2'
+VERSION = '1.3'
 
-DST_PATH = r'f:\download'
+DST_PATH = r'e:\download'
 
 # https://www.toutiao.com/c/user/107952533857/#mid=1628218742667278
 # ('username', 'uid', mid)
@@ -110,38 +111,70 @@ class TTUserValidPages():
         self.__web_driver.quit()
 
 
-def extract_pic_type_1(res):
-    html_text = res.text
-    p = re.compile(
-        '(http://p.+?pstatp.com/large/.+?)&quot', re.S)
+def extract_pic_type_1(html_text):
+    # html_text = res.text
     # p = re.compile(
-    #     '(http://p.+?pstatp.com/large/pgc-image/.+?)&quot', re.S)
+    #     '(http://p.+?pstatp.com/large/.+?)&quot', re.S)
+    p = re.compile('(http://p.+?pstatp.com/large/pgc-image/.+?)"', re.S)
+    # http://p9.pstatp.com/large/pgc-image/f52f5ffc3842460ea84f492276e6542d
     result = re.findall(p, html_text)
     return result
 
 
-def extract_pic_type_2(res):
-    html_text = res.text
+def extract_pic_type_2(html_text):
+    html_text1 = html_text.replace('\u002F', '')
+    # html_text = res.text
     # p = re.compile(
     #     '\"url\":\"http:\\/\\/p1.pstatp.com\\/origin\\/pgc-image\\/b222b8f1f6724931bd385f874cbefc09\"', re.S)
+    # p = re.compile(
+    #     r':\[{\\\"url\\\":\\\"(http:\\\\/\\\\/p.+?pstatp.com.*?)\\\",.*?url_list', re.S)
+    # p = re.compile(
+    #     r'\"url_list\\\":\[{\\\"url\\\":\\"(http:\\\\/\\\\/p.+?.pstatp.com.*?)\\\"}', re.S)
     p = re.compile(
-        r':\[{\\\"url\\\":\\\"(http:\\\\/\\\\/p.+?pstatp.com.*?)\\\",.*?url_list', re.S)
-    p = re.compile(
-        r'\"url_list\\\":\[{\\\"url\\\":\\"(http:\\\\/\\\\/p.+?.pstatp.com.*?)\\\"}', re.S)
-    result = re.findall(p, html_text)
+        'url_list....{."url.":."http:\\\\.+?(p.+?pstatp.com)\\\\.+?origin\\\\.+?pgc-image\\\\.......(.+?)"', re.S)
+    result = re.findall(p, html_text1)
+    pic_urls = []
+    for (p, id) in result:
+        url = 'http://%s/origin/pgc-image/%s' % (p, id)
+        pic_urls.append(url)
     # print(result)
-    return result
+    return pic_urls
+
+
+# def extract_pic_type_3(html_text):
+#     # html_text = res.text
+#     # p = re.compile(
+#     #     '(http://p.+?pstatp.com/large/.+?)&quot', re.S)
+#     p = re.compile('(http://p.+?pstatp.com/large/pgc-image/.+?)"', re.S)
+#     # http://p9.pstatp.com/large/pgc-image/f52f5ffc3842460ea84f492276e6542d
+#     result = re.findall(p, html_text)
+#     return result
+
+
+def get_page_source(page_url):
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    browser = webdriver.Chrome(options=chrome_options)
+    browser.get(page_url)
+    time.sleep(WAIT_RESPONSE)
+    html = browser.page_source
+    browser.quit()
+    return html
 
 
 def get_pic_urls_from_a_page(page_url):
-    res = requests.get(page_url)
-    if res.status_code == 200:
-        result = extract_pic_type_1(res)
+    html = get_page_source(page_url)
+    # print(res.text)
+    if html:
+        result = extract_pic_type_1(html)
         if result != []:
             return result
-        result = extract_pic_type_2(res)
+        result = extract_pic_type_2(html)
         if result != []:
             return result
+        # result = extract_pic_type_3(html)
+        # if result != []:
+        #     return result
 
         else:
             print('Error: %s %s' % (ERR_WEB_EXTRACT_FAIL, page_url))
@@ -168,6 +201,7 @@ def save_a_pic(pic_url, path, filename):
 
 def download_a_page(username, page_url, save_path):
     pic_urls = get_pic_urls_from_a_page(page_url)
+    # print(pic_urls)
     for url in pic_urls:
         pic_url = url.replace('\\', '')
         filename = username + '_' + pic_url.split('/')[-1] + '.jpg'
