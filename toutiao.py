@@ -2,7 +2,7 @@
 # 2019/05/19  v1.0  initial
 # 2019/06/01  v1.1  optimize display
 # 2019/06/22  v1.2  modify log
-# 2019/07/24  v1.3  update web access method
+# 2019/07/25  v1.3  update web access method
 
 import time
 import sys
@@ -33,17 +33,45 @@ all_users = [
     ('小小的世界我只保护你', '3635977242', '1570148542825474', False),
     ('丹丹视觉美', '89923571455', '1591554527990797', False),
     ('美图珠', '61704193641', '1589024159354893', False),
-    (' 周秀娜', '63324591791', '63326138854', True),
-    ('Angelababy情报站', '4472462177744952', '1634147228048398', True)
+    ('周秀娜', '63324591791', '63326138854', True),
+    ('Angelababy情报站', '4472462177744952', '1634147228048398', True),
+    ('AngelaBaby官方粉丝团', '53020919205', '1554133922026497', True),
+    ('Dear迪丽热巴后援会', '83228158038', '1588018019031053', True),
+    ('Dear迪丽热巴部落', '87064177182', '1593266355155971', True),
+    ('迪丽热巴吧', '82810146175', '1587817676795918', True),
+    ('杨幂官方粉丝团', '74176036712', '1582880577073165', True),
+    ('唐嫣', '53750742095', '53910221361', True),
+    ('莫文蔚', '67027185115', '66938754237', True),
+    ('赵丽颖颖宝', '86304143775', '1589728210990087', True),
+    ('郭碧婷', '59283663371', '59258777731', True),
+    ('TwiceChic', '88759632870', '59258777731', True),
+    ('江一燕', '52567586994', '52593173007', True),
+    ('时尚巴莎', '3506867453', '3456229542', True),
+    ('嘉人', '4734412771', '4734412771', True),
+    ('辛芷蕾', '18908392620', '60783515819', True),
+    ('倪妮', '55614951807', '55667333055', True),
+    ('刘亦菲', '63874654903', '63896281829', True),
+    ('张俪', '1842368843', '3148925926', True),
+    ('董洁', '52448714594', '52448834772', True),
+    ('张静初', '56137701890', '56082754590', True),
+    ('歐陽娜娜Nana', '58512505418', '58376920867', True),
+    ('邓丽欣', '69704938139', '69610691059', True),
+    ('孙怡', '7866749048', '55665864123', True),
+    ('赵薇V爱', '109064938509', '1620803459355655', True),
+    ('文咏珊', '102106709586', '1607132784850948', True),
+    ('许晴的窝窝', '88594173917', '1629056073226254', True),
+    ('张钧甯', '103401034929', '1609648790618119', True),
+    ('关晓彤', '6867592696', '59899061090', True),
+    ('黄圣依', '54650316956', '54652189281', True)
 ]
 
-all_users1 = [all_users[-2]]
+all_users1 = [all_users[-1]]
 
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
 
 WAIT_RESPONSE = 5
-END_CMD_LIMIT = 100
+END_CMD_LIMIT = 50
 # END_CMD_LIMIT = 1000
 # END_CMD_LIMIT = 1
 
@@ -145,26 +173,29 @@ def extract_pic_type_2(html_text):
 
 
 def extract_pic_type_3(html_text):
+    # p = re.compile(
+    #     '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002Fpgc-image\\\\u002F(.+?)"', re.S)
     p = re.compile(
-        '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002Fpgc-image\\\\u002F(.+?)"', re.S)
+        '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002F(.+?)\\\\u002F(.+?)"', re.S)
     result = re.findall(p, html_text)
     pic_urls = []
-    for (p, id) in result:
-        url = 'https://%s/img/pgc-image/%s' % (p, id)
+    for (p, img, id) in result:
+        url = 'https://%s/img/%s/%s' % (p, img, id)
         # print(url)
         pic_urls.append(url)
     return pic_urls
 
-def extract_pic_type_4(html_text):
-    p = re.compile(
-        '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002Ftos-cn-i-0022\\\\u002F(.+?)"', re.S)
-    result = re.findall(p, html_text)
-    pic_urls = []
-    for (p, id) in result:
-        url = 'https://%s/img/tos-cn-i-0022/%s' % (p, id)
-        # print(url)
-        pic_urls.append(url)
-    return pic_urls
+
+# def extract_pic_type_4(html_text):
+#     p = re.compile(
+#         '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002Ftos-cn-i-0022\\\\u002F(.+?)"', re.S)
+#     result = re.findall(p, html_text)
+#     pic_urls = []
+#     for (p, id) in result:
+#         url = 'https://%s/img/tos-cn-i-0022/%s' % (p, id)
+#         # print(url)
+#         pic_urls.append(url)
+#     return pic_urls
 
 
 def get_page_source(page_url):
@@ -191,9 +222,9 @@ def get_pic_urls_from_a_page(page_url):
         result = extract_pic_type_3(html)
         if result != []:
             return result
-        result = extract_pic_type_4(html)
-        if result != []:
-            return result
+        # result = extract_pic_type_4(html)
+        # if result != []:
+        #     return result
 
         else:
             print('Error: %s %s' % (ERR_WEB_EXTRACT_FAIL, page_url))
