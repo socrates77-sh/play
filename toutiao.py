@@ -68,10 +68,11 @@ all_users = [
     ('林允儿YOONAYA应援站', '87472203354', '1590351320123399', True),
     ('张天爱', '51869645312', '51891565257', True),
     ('郭碧婷', '59283663371', '59258777731', True),
-    ('莫文蔚', '67027185115', '66938754237', True)
+    ('莫文蔚', '67027185115', '66938754237', True),
+    ('时尚中国', '96454134877', '1596815857982478', True)
 ]
 
-all_users1 = [all_users[0]]
+all_users1 = [all_users[-1]]
 
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
