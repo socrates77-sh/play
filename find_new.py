@@ -17,7 +17,7 @@ import pandas as pd
 
 VERSION = '1.2'
 
-INFO_FILE = r'd:\temp\picinfo.csv'
+INFO_FILE = r'f:\temp\picinfo.csv'
 PIC_PATH = r'.'
 DUP_PATH = '3'
 

@@ -14,8 +14,8 @@ import pandas as pd
 VERSION = '2.0'
 
 # PIC_PATH = r'e:\temp\pic'
-PIC_PATH = r'd:\pic'
-SAVE_FILE = r'd:\temp\picinfo.csv'
+PIC_PATH = r'f:\pic'
+SAVE_FILE = r'f:\temp\picinfo.csv'
 
 # df_pic = pd.DataFrame(columns=['name', 'md5'])
 

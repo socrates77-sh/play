@@ -10,7 +10,7 @@ import shutil
 from msvcrt import getch
 
 VERSION = '1.1'
-PIC_DIR = r'd:\pic'
+PIC_DIR = r'f:\pic'
 
 
 def print_version(version):

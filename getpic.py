@@ -12,7 +12,7 @@ import shutil
 
 VERSION = '1.0'
 
-PIC_PATH = r'd:\pic'
+PIC_PATH = r'f:\pic'
 DST_PATH = r'.\1'
 
 
