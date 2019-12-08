@@ -3,6 +3,7 @@
 # 2019/06/01  v1.1  optimize display
 # 2019/06/22  v1.2  modify log
 # 2019/07/25  v1.3  update web access method
+# 2019/12/08  v1.4  change chrome options
 
 import time
 import sys
@@ -15,8 +16,9 @@ import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
 
-VERSION = '1.3'
+VERSION = '1.4'
 
 DST_PATH = r'f:\download'
 
@@ -49,7 +51,7 @@ all_users = [
     ('TwiceChic', '88759632870', '59258777731', True),
     ('江一燕', '52567586994', '52593173007', True),
     ('时尚巴莎', '3506867453', '3456229542', True),
-    ('嘉人', '4734412771', '4734412771', True), 
+    ('嘉人', '4734412771', '4734412771', True),
     ('辛芷蕾', '18908392620', '60783515819', True),
     ('倪妮', '55614951807', '55667333055', True),
     ('刘亦菲', '63874654903', '63896281829', True),
@@ -80,7 +82,7 @@ ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
 WAIT_RESPONSE = 5
 END_CMD_LIMIT = 50
 # END_CMD_LIMIT = 200
-# END_CMD_LIMIT = 1
+# END_CMD_LIMIT = 2
 
 pic_count = 0
 f_log = 0
@@ -112,14 +114,22 @@ class TTUserValidPages():
 
     def __init_web(self, user_url):
         chrome_options = Options()
-        chrome_options.add_argument('--headless')
+        # chrome_options.add_argument('--headless')
         self.__web_driver = webdriver.Chrome(options=chrome_options)
         # self.__web_driver = webdriver.Chrome()
+        # print(user_url)
         self.__web_driver.get(user_url)
         wait_refresh()
+        # wait = WebDriverWait(self.__web_driver, 30)
+
+
+# 　      elm = wait.until(lambda x: x.find_element_by_xpath(Xpath))
         if self.weitoutiao:
             tab_xpath = '//div[@id="wrapper"]/div[2]/div[1]/ul/li[3]'
             elem = self.__web_driver.find_element_by_xpath(xpath=tab_xpath)
+            # elem = wait.until(
+            #     self.__web_driver.find_element_by_xpath(xpath=tab_xpath))
+
             if elem:
                 elem.click()
                 wait_refresh()
@@ -207,7 +217,7 @@ def extract_pic_type_3(html_text):
 
 def get_page_source(page_url):
     chrome_options = Options()
-    chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--headless')
     browser = webdriver.Chrome(options=chrome_options)
     browser.get(page_url)
     time.sleep(WAIT_RESPONSE)

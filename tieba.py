@@ -52,11 +52,11 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '何穗', '奚梦瑶', '坎迪斯', '安布罗休', '辛芷蕾', '张蓝心', '钟楚曦', '宋祖儿', '张芷溪',
          '孙怡', '户田惠梨香', '白百合', '文咏珊', '林珍娜',  '桥本环奈',
          '林珍娜', '蛯原友里',
-         'amberheard', 'mackenziefoy', 'evanrachelwood', 'lilyjames', 'emiliaclarke',
-         '盖尔加朵']
+         'amberheard', 'mackenziefoy', 'evanrachelwood', 'lilyjames', 'emiliaclarke', 'sashaluss',
+         '盖尔加朵', '吴谨言']
 
 
-stars1 = ['盖尔加朵']
+stars1 = ['sashaluss']
 # stars = ['孙允珠']
 
 VERSION = '2.5'  # 版本号
