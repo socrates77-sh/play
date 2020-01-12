@@ -4,6 +4,7 @@
 # 2019/06/22  v1.2  modify log
 # 2019/07/25  v1.3  update web access method
 # 2019/12/08  v1.4  change chrome options
+# 2019/12/28  v1.6  update extract_pic_type_3
 
 import time
 import sys
@@ -18,7 +19,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 
-VERSION = '1.4'
+VERSION = '1.5'
 
 DST_PATH = r'f:\download'
 
@@ -27,6 +28,7 @@ DST_PATH = r'f:\download'
 
 all_users = [
     ('美事图说', '78359514777', '1630072746298382', False),
+    ('美人图赏', '3640708109', '1566815609876482', False),
     ('安全的情网', '107952533857', '1628218742667278', False),
     ('倾城视图', '58868350934', '1577199391283214', False),
     ('图影度光阴', '65767525786', '1631120772459524', False),
@@ -74,7 +76,7 @@ all_users = [
     ('时尚中国', '96454134877', '1596815857982478', True)
 ]
 
-all_users1 = [all_users[-1]]
+all_users1 = [all_users[0]]
 
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
@@ -193,8 +195,9 @@ def extract_pic_type_3(html_text):
     # p = re.compile(
     #     '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002Fpgc-image\\\\u002F(.+?)"', re.S)
     p = re.compile(
-        '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002F(.+?)\\\\u002F(.+?)"', re.S)
+        '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002F(.+?)\\\\u002F(.+?)\?.+?"', re.S)
     result = re.findall(p, html_text)
+    # print(result)
     pic_urls = []
     for (p, img, id) in result:
         url = 'https://%s/img/%s/%s' % (p, img, id)
@@ -228,7 +231,7 @@ def get_page_source(page_url):
 
 def get_pic_urls_from_a_page(page_url):
     html = get_page_source(page_url)
-    # print(res.text)
+    # print(html)
     if html:
         result = extract_pic_type_1(html)
         if result != []:
@@ -270,7 +273,10 @@ def download_a_page(username, page_url, save_path):
     pic_urls = get_pic_urls_from_a_page(page_url)
     # print(pic_urls)
     for url in pic_urls:
+        # print(url)
         pic_url = url.replace('\\', '')
+        # pic_url = pic_url.replace('=', '')
+        # pic_url = pic_url.replace('?', '')
         filename = username + '_' + pic_url.split('/')[-1] + '.jpg'
         save_a_pic(pic_url, save_path, filename)
 

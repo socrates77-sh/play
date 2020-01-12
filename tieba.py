@@ -1,6 +1,7 @@
 # history:
 # 2019/03/28  v2.4  add input function
 # 2019/06/22  v2.5  modify log
+# 2020/01/10  v2.6  pic html rule change
 
 import re
 import requests
@@ -56,10 +57,10 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '盖尔加朵', '吴谨言']
 
 
-stars1 = ['sashaluss']
+stars1 = ['angelababy']
 # stars = ['孙允珠']
 
-VERSION = '2.5'  # 版本号
+VERSION = '2.6'  # 版本号
 # # star = '孙允珠'
 # star = '倪妮'
 # # star = '杨幂'
@@ -138,8 +139,9 @@ class TiebaPicPage():
         '''
         time.sleep(INTERVAL1)
         post_id = self.post_id()
-        url = 'http://tieba.baidu.com/p/%s?pid=%s#%s' % (
-            self.tid, post_id, post_id)
+        url = 'http://tieba.baidu.com/p/%s' % (self.tid)
+        # url = 'http://tieba.baidu.com/p/%s?pid=%s#%s' % (
+        #     self.tid, post_id, post_id)
         # r = requests.get(url=url, cookies=my_cookies, headers=my_headers)
         # r = requests.get(url)
         # print(url)
@@ -149,7 +151,9 @@ class TiebaPicPage():
                 break
         html_text = r.text
         # print(html_text)
-        p = re.compile('http://imgsrc\.baidu\.com/forum/w.*?.jpg', re.S)
+        # p = re.compile('http://imgsrc\.baidu\.com/forum/w.*?.jpg', re.S)
+        p = re.compile(
+            'http://tiebapic.baidu.com/forum/w.*?.jpg|http://imgsrc.baidu.com/forum/w.*?.jpg', re.S)
         # p = re.compile('src="http://imgsrc\.baidu\.com.*?.jpg"', re.S)
         # p = re.compile('src="http://imgsrc\.baidu\.com.*?.jpg"', re.S)
         l_pic = re.findall(p, html_text)
@@ -196,8 +200,9 @@ class TiebaPicPage():
         if not os.path.exists(save_path_date):
             os.mkdir(save_path_date)
         full_file = os.path.join(save_path_date, self.name + '_' + save_file)
-        pid = save_file.split('.')[0]
-        down_url = 'http://imgsrc.baidu.com/forum/pic/item/%s.jpg' % pid
+        # pid = save_file.split('.')[0]
+        # down_url = 'http://imgsrc.baidu.com/forum/pic/item/%s.jpg' % pid
+        down_url = pic_url
         try:
             res = requests.get(down_url, timeout=60)
             if res.status_code != 200:
