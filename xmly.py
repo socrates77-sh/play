@@ -2,6 +2,7 @@
 # 2018/07/01  v1.0  initial
 # 2018/07/02  v1.1  skip existed file when download
 # 2018/07/31  v1.2  delete invalid char of file name
+# 2020/01/14  v1.3  json format change
 
 
 import re
@@ -11,7 +12,7 @@ import sys
 import io
 import os
 
-VERSION = '1.2'
+VERSION = '1.3'
 
 INVALID_CHAR_OF_FILENAME = ['.', '?', '\\', '/', ':', '*', '<', '>', '"', '|']
 
@@ -61,13 +62,12 @@ class XmldAlbum():
 
     def __extract_tracks(self, album_url):
         res = requests.get(album_url, headers=HEADERS)
-        # print(album_url)
         if res.status_code == 200:
             html_text = res.text
-            # print(html_text)
             p = re.compile(
                 '{"index":(\d+?),"trackId":(\d+?),"isPaid":false,"tag":0,"title":"(.+?)","playCount"', re.S)
             result = re.findall(p, html_text)
+            # print(result)
             if(result != []):
                 self.__track_list = remove_duplicate(result)
                 self.__count_of_tracks = len(self.track_list)
@@ -98,14 +98,19 @@ def download_track(track):
     track_id = track[1]
     title = track[2].strip()
 
-    url = URL_TRACK + track_id
+    url = 'https://www.ximalaya.com/revision/play/v1/audio?id=%s&ptype=1' % track_id
+    # print(index, track_id, title)
+    # print(url)
     res = requests.get(url, headers=HEADERS)
-    # print(res.text)
+    # response_json = res.json()
+    # print(response_json)
+    # m4a_url = response_json['data']['src']
+    # print(m4a_url)
 
     if res.status_code == 200:
         try:
             response_json = res.json()
-            m4a_url = response_json['data']['tracksForAudioPlay'][0]['src']
+            m4a_url = response_json['data']['src']
             # print(m4a_url)
         except Exception as e:
             print('Error: %s %s' % (ERR_WEB_EXTRACT_FAIL, url))
@@ -127,8 +132,8 @@ def download_track(track):
 
 def main():
     # sys.stdout = io.TextIOWrapper(sys.stdout, encoding='gb18030')
-    sys.stdout = io.TextIOWrapper(
-        sys.stdout.buffer, encoding='gb18030', line_buffering=True)
+    # sys.stdout = io.TextIOWrapper(
+    #     sys.stdout.buffer, encoding='gb18030', line_buffering=True)
 
     print_version(VERSION)
     if len(sys.argv) != 2:
@@ -137,6 +142,8 @@ def main():
 
     album_url = sys.argv[1]
     album = XmldAlbum(album_url)
+    # print(album.count_of_tracks)
+    # print(album.track_list)
 
     count_of_download = 0
     for track in album.track_list:
