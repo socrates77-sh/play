@@ -5,7 +5,6 @@
 # 2019/07/25  v1.3  update web access method
 # 2019/12/08  v1.4  change chrome options
 # 2019/12/28  v1.6  update extract_pic_type_3
-# 2020/03/01  v2.0  new strategy
 
 import time
 import sys
@@ -14,13 +13,15 @@ import re
 import msvcrt
 import datetime
 import requests
-import json
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
 
-VERSION = '2.0'
+VERSION = '1.5'
 
 DST_PATH = r'f:\download'
-CHROME_LOG = DST_PATH + r'\log\chrome.log'
 
 # https://www.toutiao.com/c/user/107952533857/#mid=1628218742667278
 # https://www.toutiao.com/c/user/4472462177744952/#mid=1634147228048398
@@ -335,7 +336,7 @@ def input_last_date():
     return input_line
 
 
-def main1():
+def main():
     global pic_count
     # sys.stdout = io.TextIOWrapper(
     #     sys.stdout.buffer, encoding='gb18030', line_buffering=True)
@@ -370,55 +371,6 @@ def main1():
     print('=' * 70)
     print('%d pictures download' % pic_count)
     save_info('%d pictures download' % pic_count)
-
-    wait_any_key()
-
-
-def read_sheet_urls(chrome_log_file):
-    with open(chrome_log_file, 'r', encoding='utf-8') as f:
-        l_lines = f.readlines()
-    return l_lines
-
-
-def get_pages(sheet_url):
-    try:
-        r = requests.get(sheet_url)
-    except Exception:
-        print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, sheet_url))
-    print(r.text)
-
-
-def main():
-    # user_url = 'https://www.toutiao.com/c/user/96454134877/#mid=1596815857982478'
-    # chrome_option = '--proxy-server=127.0.0.1:8080 -ignore-certificate-errors'
-    # os.system('chrome %s %s' % (chrome_option, user_url))
-    # print('shutdown proxy first!!!')
-    # wait_any_key()
-
-    sheet_urls = read_sheet_urls(CHROME_LOG)
-    # print(sheet_urls)
-    # print(sheet_urls[0])
-    sheet = json.loads(sheet_urls[1])
-    # for k in sheet.keys():
-    #     print(k)
-    #     print(sheet[k])
-    print(sheet.keys())
-    # for l in sheet['data']:
-    #     print(l)
-    
-    # print(len(sheet['data']))
-    print(sheet['data'][0])
-    # print(sheet['data'][0].keys())
-    # print(sheet['data'][3].keys())
-
-    for d in sheet['data']:
-        # print(d['title'])
-        print(d['item_id'], d['behot_time'])
-        # print(d['behot_time'])
-    print(len(sheet['data']))
-    print(sheet['data'][0].keys())
-
-    # get_pages(sheet_urls[0])
 
     wait_any_key()
 
