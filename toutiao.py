@@ -16,6 +16,9 @@ import datetime
 import requests
 import json
 
+import abc
+from enum import Enum, auto
+
 
 VERSION = '2.0'
 
@@ -77,7 +80,8 @@ all_users = [
     # ('张天爱', '51869645312', '51891565257', True),
     # ('郭碧婷', '59283663371', '59258777731', True),
     # ('莫文蔚', '67027185115', '66938754237', True),
-    ('时尚中国', '96454134877', '1596815857982478', True)
+    # ('时尚中国', '96454134877', '1596815857982478', True)
+    ('歐陽娜娜Nana', '58512505418', '58376920867', True)
 ]
 
 all_users = [all_users[0]]
@@ -374,53 +378,147 @@ def main1():
     wait_any_key()
 
 
-def read_sheet_urls(chrome_log_file):
+def get_all_sheets_text(chrome_log_file):
     with open(chrome_log_file, 'r', encoding='utf-8') as f:
         l_lines = f.readlines()
     return l_lines
 
 
-def get_pages(sheet_url):
-    try:
-        r = requests.get(sheet_url)
-    except Exception:
-        print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, sheet_url))
-    print(r.text)
+# def get_pages(sheet_url):
+#     try:
+#         r = requests.get(sheet_url)
+#     except Exception:
+#         print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, sheet_url))
+#     print(r.text)
+
+class Style(Enum):
+    unknown = auto()
+    article = auto()
+    weitoutiao = auto()
+
+
+class TTSheet():
+    def __init__(self, sheet_text):
+        self.__text = sheet_text
+        self.__json = json.loads(self.__text)
+
+    @property
+    def style(self):
+        keys = self.__json.keys()
+        if keys == {'data', 'message', 'has_more', 'next'}:
+            return Style.weitoutiao
+        elif keys == {'login_status', 'has_more', 'next', 'page_type', 'message', 'data', 'is_self'}:
+            return Style.article
+        else:
+            return Style.unknown
+
+    @property
+    def page_count(self):
+        if(self.style == Style.unknown):
+            return None
+        else:
+            return len(self.__json['data'])
+
+    @property
+    def page_data(self):
+        return self.__json['data']
+
+
+class TTPage(metaclass=abc.ABCMeta):
+    def __init__(self, data):
+        self._data = data
+        # self.__json = json.loads(self.__data)
+
+    @property
+    def keys(self):
+        return self._data.keys()
+
+    @abc.abstractmethod
+    def get_name(self):
+        pass
+
+    @abc.abstractmethod
+    def get_title(self):
+        pass
+
+
+class TTPageArticle(TTPage):
+    def get_name(self):
+        return self._data['source']
+
+    def get_title(self):
+        return self._data['title']
+
+
+class TTPageWeitoutiao(TTPage):
+    def get_name(self):
+        a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+        return a['user']['name']
+
+    def get_title(self):
+        a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+        return a['content']
 
 
 def main():
-    # user_url = 'https://www.toutiao.com/c/user/96454134877/#mid=1596815857982478'
+    # user_url = 'https://www.toutiao.com/c/user/58512505418/#mid=58376920867'
     # chrome_option = '--proxy-server=127.0.0.1:8080 -ignore-certificate-errors'
     # os.system('chrome %s %s' % (chrome_option, user_url))
     # print('shutdown proxy first!!!')
     # wait_any_key()
 
-    sheet_urls = read_sheet_urls(CHROME_LOG)
-    # print(sheet_urls)
-    # print(sheet_urls[0])
-    sheet = json.loads(sheet_urls[1])
-    # for k in sheet.keys():
-    #     print(k)
-    #     print(sheet[k])
-    print(sheet.keys())
-    # for l in sheet['data']:
-    #     print(l)
-    
-    # print(len(sheet['data']))
-    print(sheet['data'][0])
-    # print(sheet['data'][0].keys())
-    # print(sheet['data'][3].keys())
+    sheets_text = get_all_sheets_text(CHROME_LOG)
+    for s in sheets_text:
+        sheet = TTSheet(s)
+        for d in sheet.page_data:
+            if sheet.style == Style.article:
+                page = TTPageArticle(d)
+            else:
+                page = TTPageWeitoutiao(d)
+                # print(page.keys)
+                # print(page._data['concern_talk_cell']['packed_json_str'].keys())
+                # a = json.loads(
+                #     page._data['concern_talk_cell']['packed_json_str'])['user']
+                # print(a)
+                # # print(a.keys())
+                # print(json.dumps(a, indent=2))
+                # print(a.keys())
+                # print(a['name'])
+                # print()
+                # print(a['content'])
+            print(page.get_name())
+            print(page.get_title())
 
-    for d in sheet['data']:
-        # print(d['title'])
-        print(d['item_id'], d['behot_time'])
-        # print(d['behot_time'])
-    print(len(sheet['data']))
-    print(sheet['data'][0].keys())
+            # print(json.dumps(page, indent=2))
+
+        # print(sheet.style)
+        # print(sheet.page_data[0])
+
+    # # print(sheet_urls)
+    # # print(sheet_urls[0])
+    # sheet = json.loads(sheet_urls[1])
+    # # for k in sheet.keys():
+    # #     print(k)
+    # #     print(sheet[k])
+    # print(sheet.keys())
+    # # for l in sheet['data']:
+    # #     print(l)
+
+    # # print(len(sheet['data']))
+    # print(sheet['data'][0])
+    # # print(sheet['data'][0].keys())
+    # # print(sheet['data'][3].keys())
+
+    # for d in sheet['data']:
+    #     # print(d['title'])
+    #     print(d['item_id'], d['behot_time'])
+    #     # print(d['behot_time'])
+    # print(len(sheet['data']))
+    # print(sheet['data'][0].keys())
 
     # get_pages(sheet_urls[0])
 
-    wait_any_key()
+    # wait_any_key()
 
 
 if __name__ == '__main__':
