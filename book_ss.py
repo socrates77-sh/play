@@ -57,7 +57,7 @@ def extract_txt(htm_txt):
             '</font></span><span class="body" style="font-size: 12pt"><font color="#FF80C0">', ' <<')
         line2 = line1.replace(
             '</font></span><span class="body" style="font-size: 14pt"><font color="#0000A0">', '>> ')
-        result += '    ' + line2 + '\n'
+        result += '  ' + line2 + '\n'
         # result += line2 + '\n'
 
     result += '\n\n\n'

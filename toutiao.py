@@ -22,8 +22,24 @@ from enum import Enum, auto
 
 VERSION = '2.0'
 
-DST_PATH = r'f:\download'
+URL_PREFIX = 'https://www.toutiao.com'
+# DST_PATH = r'f:\download'
+DST_PATH = r'e:\py\play\temp\download'
 CHROME_LOG = DST_PATH + r'\log\chrome.log'
+
+my_cookies = dict(
+    tt_webid='6799909822613816839',
+    SLARDAR_WEB_ID='af7b4416-a9b8-478c-bb20-4f684478d8c6',
+    s_v_web_id='verify_k7bopouy_2eV8cMtk_jUaG_44Po_BfIq_P5yGzNqpNpom',
+    ttcid='122e3477857d4e80bae24ae318131c7c33',
+    __tasessionId='8yn21ol4n1583227396858',
+    csrftoken='f6e2ca9457ab2175dadf0ba3d6680b95',
+    tt_scid='RyGXxYSSFc6U3IrmprduUSXK7xuONKOCp-dUcMeS6FD0U8GzXH9SK3ySm4yjCJZ6d09a')
+
+my_headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36'
+}
+
 
 # https://www.toutiao.com/c/user/107952533857/#mid=1628218742667278
 # https://www.toutiao.com/c/user/4472462177744952/#mid=1634147228048398
@@ -233,19 +249,18 @@ def extract_pic_type_3(html_text):
 
 
 def get_page_source(page_url):
-    chrome_options = Options()
-    # chrome_options.add_argument('--headless')
-    browser = webdriver.Chrome(options=chrome_options)
-    browser.get(page_url)
-    time.sleep(WAIT_RESPONSE)
-    html = browser.page_source
-    browser.quit()
-    return html
+    r = ''
+    try:
+        # r = requests.get(page_url, headers=my_headers, cookies=my_cookies)
+        r = requests.get(page_url, headers=my_headers)
+        print(r.text)
+    except Exception:
+        print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, page_url))
+    return r.text
 
 
 def get_pic_urls_from_a_page(page_url):
     html = get_page_source(page_url)
-    # print(html)
     if html:
         result = extract_pic_type_1(html)
         if result != []:
@@ -441,6 +456,18 @@ class TTPage(metaclass=abc.ABCMeta):
     def get_title(self):
         pass
 
+    @abc.abstractmethod
+    def get_time(self):
+        pass
+
+    @abc.abstractmethod
+    def get_tid(self):
+        pass
+
+    @abc.abstractmethod
+    def get_pic_url_list(self):
+        pass
+
 
 class TTPageArticle(TTPage):
     def get_name(self):
@@ -448,6 +475,22 @@ class TTPageArticle(TTPage):
 
     def get_title(self):
         return self._data['title']
+
+    def get_time(self):
+        return self._data['behot_time']
+
+    def get_tid(self):
+        return self._data['item_id']
+
+    def get_pic_url_list(self):
+        url_list = []
+        img_list = self._data['image_list']
+        for img in img_list:
+            url_org = img['url']
+            url = 'http:' + url_org.replace('list', 'large')
+            url_list.append(url)
+
+        return url_list
 
 
 class TTPageWeitoutiao(TTPage):
@@ -459,67 +502,89 @@ class TTPageWeitoutiao(TTPage):
         a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
         return a['content']
 
+    def get_time(self):
+        a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+        return a['create_time']
+
+    def get_tid(self):
+        a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+        return a['thread_id']
+
+    def get_pic_url_list(self):
+        pass
+
 
 def main():
     # user_url = 'https://www.toutiao.com/c/user/58512505418/#mid=58376920867'
+    # user_url = 'https://www.toutiao.com/c/user/96454134877/#mid=1596815857982478'
     # chrome_option = '--proxy-server=127.0.0.1:8080 -ignore-certificate-errors'
     # os.system('chrome %s %s' % (chrome_option, user_url))
     # print('shutdown proxy first!!!')
     # wait_any_key()
 
+    save_path_date = r'%s\%s_tt' % (
+        DST_PATH, datetime.datetime.now().date().strftime('%y%m%d'))
+
+    if(not os.path.exists(save_path_date)):
+        os.makedirs(save_path_date, exist_ok=True)
+
     sheets_text = get_all_sheets_text(CHROME_LOG)
-    for s in sheets_text:
-        sheet = TTSheet(s)
-        for d in sheet.page_data:
-            if sheet.style == Style.article:
-                page = TTPageArticle(d)
-            else:
-                page = TTPageWeitoutiao(d)
-                # print(page.keys)
-                # print(page._data['concern_talk_cell']['packed_json_str'].keys())
-                # a = json.loads(
-                #     page._data['concern_talk_cell']['packed_json_str'])['user']
-                # print(a)
-                # # print(a.keys())
-                # print(json.dumps(a, indent=2))
-                # print(a.keys())
-                # print(a['name'])
-                # print()
-                # print(a['content'])
-            print(page.get_name())
-            print(page.get_title())
 
-            # print(json.dumps(page, indent=2))
+    s = sheets_text[0]
+    sheet = TTSheet(s)
+    d = sheet.page_data[0]
+    page = TTPageArticle(d)
+    print(page.get_pic_url_list())
+    print(page.get_title())
+    print(page._data)
 
-        # print(sheet.style)
-        # print(sheet.page_data[0])
+    page_url = '%s/i%s' % (URL_PREFIX, page.get_tid())
+    t = get_page_source(page_url)
+    print(t)
+    download_a_page(page.get_name(), page_url, save_path_date)
 
-    # # print(sheet_urls)
-    # # print(sheet_urls[0])
-    # sheet = json.loads(sheet_urls[1])
-    # # for k in sheet.keys():
-    # #     print(k)
-    # #     print(sheet[k])
-    # print(sheet.keys())
-    # # for l in sheet['data']:
-    # #     print(l)
+    # for s in sheets_text:
+    #     sheet = TTSheet(s)
 
-    # # print(len(sheet['data']))
-    # print(sheet['data'][0])
-    # # print(sheet['data'][0].keys())
-    # # print(sheet['data'][3].keys())
+    #     for d in sheet.page_data:
+    #         # if sheet.style == Style.weitoutiao:
+    #         #     page = TTPageWeitoutiao(d)
+    #         #     # a = json.loads(page._data['concern_talk_cell']
+    #         #     #             ['packed_json_str'])
+    #         #     # print(a)
+    #         #     # print(a.keys())
+    #         #     # print()
+    #         #     # print(page.get_tid())
 
-    # for d in sheet['data']:
-    #     # print(d['title'])
-    #     print(d['item_id'], d['behot_time'])
-    #     # print(d['behot_time'])
-    # print(len(sheet['data']))
-    # print(sheet['data'][0].keys())
+    #         # if sheet.style == Style.article:
+    #         #     page = TTPageArticle(d)
+    #         #     print(page.keys)
 
-    # get_pages(sheet_urls[0])
+    #         if sheet.style == Style.article:
+    #             page = TTPageArticle(d)
+    #             page_url = '%s/i%s' % (URL_PREFIX, page.get_tid())
+    #         else:
+    #             page = TTPageWeitoutiao(d)
+    #             page_url = '%s/a%s' % (URL_PREFIX, page.get_tid())
 
-    # wait_any_key()
+    #         # print(page.get_name())
+    #         # print(page.get_title())
+    #         # print(page.get_time(), page.get_tid(), sheet.style)
+    #         # print(page.get_tid())
 
+    #         # download_a_page(page.get_name(), page_url, save_path_date)
+    #         print('='*40)
+    #         print(json.dumps(page._data, indent=2))
+    #         print(page.get_title())
+
+    #         # print(sheet.style)
+    #         # print(sheet.page_data[0])
+
+    #         # wait_any_key()
+
+
+# http://p1.pstatp.com/large/pgc-image/c1538bdff7ea4b90b8e92e7dd763b5f5
+# http://p1.pstatp.com/list/pgc-image/c1538bdff7ea4b90b8e92e7dd763b5f5
 
 if __name__ == '__main__':
     main()
