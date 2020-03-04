@@ -16,7 +16,7 @@ import datetime
 import requests
 import json
 
-import abc
+# import abc
 from enum import Enum, auto
 
 
@@ -24,8 +24,9 @@ VERSION = '2.0'
 
 URL_PREFIX = 'https://www.toutiao.com'
 DST_PATH = r'f:\download'
-# DST_PATH = r'e:\py\play\temp\download'
+DST_PATH = r'e:\py\play\temp\download'
 CHROME_LOG = DST_PATH + r'\log\chrome.log'
+CHROME_LOG = DST_PATH + r'\log\2.log'
 
 my_cookies = dict(
     tt_webid='6799909822613816839',
@@ -407,10 +408,17 @@ def get_all_sheets_text(chrome_log_file):
 #         print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, sheet_url))
 #     print(r.text)
 
-class Style(Enum):
+class SheetStyle(Enum):
     unknown = auto()
     article = auto()
     weitoutiao = auto()
+
+
+class PageStyle(Enum):
+    unknown = auto()
+    type_1 = auto()
+    type_2 = auto()
+    type_3 = auto()
 
 
 class TTSheet():
@@ -422,15 +430,15 @@ class TTSheet():
     def style(self):
         keys = self.__json.keys()
         if keys == {'data', 'message', 'has_more', 'next'}:
-            return Style.weitoutiao
+            return SheetStyle.weitoutiao
         elif keys == {'login_status', 'has_more', 'next', 'page_type', 'message', 'data', 'is_self'}:
-            return Style.article
+            return SheetStyle.article
         else:
-            return Style.unknown
+            return SheetStyle.unknown
 
     @property
     def page_count(self):
-        if(self.style == Style.unknown):
+        if(self.style == SheetStyle.unknown):
             return None
         else:
             return len(self.__json['data'])
@@ -440,62 +448,101 @@ class TTSheet():
         return self.__json['data']
 
 
-class TTPage(metaclass=abc.ABCMeta):
+# class TTPage(metaclass=abc.ABCMeta):
+#     def __init__(self, data):
+#         self._data = data
+#         # self.__json = json.loads(self.__data)
+
+#     @property
+#     def keys(self):
+#         return self._data.keys()
+
+#     @abc.abstractmethod
+#     def get_name(self):
+#         pass
+
+#     @abc.abstractmethod
+#     def get_title(self):
+#         pass
+
+#     @abc.abstractmethod
+#     def get_time(self):
+#         pass
+
+#     @abc.abstractmethod
+#     def get_tid(self):
+#         pass
+
+
+class TTPage():
     def __init__(self, data):
         self._data = data
-        # self.__json = json.loads(self.__data)
+        if 'source' in data.keys():
+            self.__type = PageStyle.type_1
+        else:
+            if data['concern_talk_cell']:
+                self.__type = PageStyle.type_2
+            else:
+                self.__type = PageStyle.type_3
 
-    @property
-    def keys(self):
-        return self._data.keys()
-
-    @abc.abstractmethod
     def get_name(self):
-        pass
-
-    @abc.abstractmethod
-    def get_title(self):
-        pass
-
-    @abc.abstractmethod
-    def get_time(self):
-        pass
-
-    @abc.abstractmethod
-    def get_tid(self):
-        pass
-
-
-class TTPageArticle(TTPage):
-    def get_name(self):
-        return self._data['source']
+        if self.__type == PageStyle.type_1:
+            return self._data['source']
+        elif self.__type == PageStyle.type_2:
+            a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+            return a['user']['name']
+        else:
+            a = json.loads(self._data['stream_cell']['raw_data'])
+            return a['comment_base']['user']['info']['name']
 
     def get_title(self):
-        return self._data['title']
+        if self.__type == PageStyle.type_1:
+            return self._data['title']
+        elif self.__type == PageStyle.type_2:
+            a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+            return a['content']
+        else:
+            a = json.loads(self._data['stream_cell']['raw_data'])
+            # print(json.dumps(a,indent=4))
+            return a['comment_base']['content']
 
     def get_time(self):
-        return self._data['behot_time']
+        if self.__type == PageStyle.type_1:
+            return self._data['behot_time']
+        elif self.__type == PageStyle.type_2:
+            a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+            return a['create_time']
+        else:
+            a = json.loads(self._data['stream_cell']['raw_data'])
+            return a['comment_base']['create_time']
 
     def get_tid(self):
-        return self._data['item_id']
+        if self.__type == PageStyle.type_1:
+            return self._data['item_id']
+        elif self.__type == PageStyle.type_2:
+            a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+            return a['thread_id']
+        else:
+            a = json.loads(self._data['stream_cell']['raw_data'])
+            return a['id']
 
 
-class TTPageWeitoutiao(TTPage):
-    def get_name(self):
-        a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
-        return a['user']['name']
+# class TTPageWeitoutiao(TTPage):
+#     def get_name(self):
+#         a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+#         return a['user']['name']
 
-    def get_title(self):
-        a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
-        return a['content']
+#     def get_title(self):
+#         a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+#         return a['content']
 
-    def get_time(self):
-        a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
-        return a['create_time']
+#     def get_time(self):
+#         a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+#         return a['create_time']
 
-    def get_tid(self):
-        a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
-        return a['thread_id']
+#     def get_tid(self):
+#         a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
+#         return a['thread_id']
 
 
 def open_chrome(uid, mid):
@@ -552,20 +599,33 @@ def main():
 
     for i in range(len(sheets_text)):
         sheet = TTSheet(sheets_text[i])
+        if sheet.style == SheetStyle.article:
+            style_text = 'artile'
+            page_code = 'i'
+        else:
+            style_text = 'weitoutiao'
+            page_code = 'a'
 
         for j in range(len(sheet.page_data)):
-            print(sheet.style)
-            if sheet.style == Style.article:
-                page = TTPageArticle(sheet.page_data[j])
-                page_url = '%s/i%s' % (URL_PREFIX, page.get_tid())
-                style_text = 'article'
-            else:
-                page = TTPageWeitoutiao(sheet.page_data[j])
-                a = page._data
-                print(json.dumps(a, indent=2))
-                print(a)
-                page_url='%s/a%s' % (URL_PREFIX, page.get_tid())
-                style_text='weitoutiao'
+            page = TTPage(sheet.page_data[j])
+            page_url = '%s/%s%s' % (URL_PREFIX, page_code, page.get_tid())
+            # print(json.dumps(page._data, indent=4))
+            # print(page._data)
+            print(page.get_name())
+            print(page.get_title())
+            print(page.get_tid())
+            print(page.get_time())
+            # if sheet.style == SheetStyle.article:
+            #     page = TTPageArticle(sheet.page_data[j])
+            #     page_url = '%s/i%s' % (URL_PREFIX, page.get_tid())
+            #     style_text = 'article'
+            # else:
+            #     page = TTPageWeitoutiao(sheet.page_data[j])
+            #     a = page._data
+            #     # print(json.dumps(a, indent=2))
+            #     # print(a)
+            #     page_url = '%s/a%s' % (URL_PREFIX, page.get_tid())
+            #     style_text = 'weitoutiao'
 
             print()
             print(page_url)
@@ -574,7 +634,8 @@ def main():
             if page.get_time() <= last_time:
                 print('===skip===')
             else:
-                download_a_page(page.get_name(), page_url, save_path_date)
+                print('===download===')
+                # download_a_page(page.get_name(), page_url, save_path_date)
             print('sheet[%d/%d]:%s, page[%d/%d] <%d pictures> ' % (i+1, len(sheets_text),
                                                                    style_text, j+1, len(sheet.page_data), pic_count))
 
