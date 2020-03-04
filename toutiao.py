@@ -24,9 +24,9 @@ VERSION = '2.0'
 
 URL_PREFIX = 'https://www.toutiao.com'
 DST_PATH = r'f:\download'
-DST_PATH = r'e:\py\play\temp\download'
+# DST_PATH = r'e:\py\play\temp\download'
 CHROME_LOG = DST_PATH + r'\log\chrome.log'
-CHROME_LOG = DST_PATH + r'\log\2.log'
+# CHROME_LOG = DST_PATH + r'\log\2.log'
 
 my_cookies = dict(
     tt_webid='6799909822613816839',
@@ -49,159 +49,68 @@ my_headers = {
 # username&weitoutiao is useless now
 
 all_users = [
+    ('孙允珠写真', '1077146809284925', '1628140616779787', False),
+    ('孙允珠时尚写真', '6242084862', '1597610377320462', False),
     ('孙允珠美珠', '1789630365055400', '1658847850889223', False),
-    # ('dissemblerSH', '110928569060', '1625448678462467', False),
-    # ('孙允珠图赏', '3199462578', '50394050415', False),
-    # ('灵犀之声', '51595829405', '51590705887', False),
-    # ('虚竹他爹', '72972943448', '1609046918037511', False),
-    # ('美事图说', '78359514777', '1630072746298382', False),
-    # ('美人图赏', '3640708109', '1566815609876482', False),
-    # ('倾城视图', '58868350934', '1577199391283214', False),
-    # ('图影度光阴', '65767525786', '1631120772459524', False),
-    # ('一路高飞', '4187341958', '1575656257167374', False),
-    # ('在下子程', '3161840699049672', '1650812929504263', False),
-    # ('小小的世界我只保护泥', '3635977242', '1570148542825474', False),
-    # ('丹丹视觉美', '89923571455', '1591554527990797', False),
-    # ('美图珠', '61704193641', '1589024159354893', False)
+    ('dissemblerSH', '110928569060', '1625448678462467', False),
+    ('孙允珠图赏', '3199462578', '50394050415', False),
+    ('灵犀之声', '51595829405', '51590705887', False),
+    ('虚竹他爹', '72972943448', '1609046918037511', False),
+    ('美事图说', '78359514777', '1630072746298382', False),
+    ('美人图赏', '3640708109', '1566815609876482', False),
+    ('倾城视图', '58868350934', '1577199391283214', False),
+    ('图影度光阴', '65767525786', '1631120772459524', False),
+    ('一路高飞', '4187341958', '1575656257167374', False),
+    ('在下子程', '3161840699049672', '1650812929504263', False),
+    ('小小的世界我只保护泥', '3635977242', '1570148542825474', False),
+    ('丹丹视觉美', '89923571455', '1591554527990797', False),
+    ('美图珠', '61704193641', '1589024159354893', False),
 
-    # ('周秀娜', '63324591791', '63326138854', True),
-    # ('Angelababy情报站', '4472462177744952', '1634147228048398', True),
-    # ('AngelaBaby官方粉丝团', '53020919205', '1554133922026497', True),
-    # ('Dear迪丽热巴后援会', '83228158038', '1588018019031053', True),
-    # ('Dear迪丽热巴部落', '87064177182', '1593266355155971', True),
-    # ('迪丽热巴吧', '82810146175', '1587817676795918', True),
-    # ('杨幂官方粉丝团', '74176036712', '1582880577073165', True),
-    # ('唐嫣', '53750742095', '53910221361', True),
-    # ('莫文蔚', '67027185115', '66938754237', True),
-    # ('赵丽颖颖宝', '86304143775', '1589728210990087', True),
-    # ('郭碧婷', '59283663371', '59258777731', True),
-    # ('TwiceChic', '88759632870', '59258777731', True),
-    # ('江一燕', '52567586994', '52593173007', True),
-    # ('时尚巴莎', '3506867453', '3456229542', True),
-    # ('嘉人', '4734412771', '4734412771', True),
-    # ('辛芷蕾', '18908392620', '60783515819', True),
-    # ('倪妮', '55614951807', '55667333055', True),
-    # ('刘亦菲', '63874654903', '63896281829', True),
-    # ('张俪', '1842368843', '3148925926', True),
-    # ('董洁', '52448714594', '52448834772', True),
-    # ('张静初', '56137701890', '56082754590', True),
-    # ('歐陽娜娜Nana', '58512505418', '58376920867', True),
-    # ('邓丽欣', '69704938139', '69610691059', True),
-    # ('孙怡', '7866749048', '55665864123', True),
-    # ('赵薇V爱', '109064938509', '1620803459355655', True),
-    # ('文咏珊', '102106709586', '1607132784850948', True),
-    # ('许晴的窝窝', '88594173917', '1629056073226254', True),
-    # ('张钧甯', '103401034929', '1609648790618119', True),
-    # ('关晓彤', '6867592696', '59899061090', True),
-    # ('黄圣依', '54650316956', '54652189281', True),
-    # ('林允儿YOONAYA应援站', '87472203354', '1590351320123399', True),
-    # ('张天爱', '51869645312', '51891565257', True),
-    # ('郭碧婷', '59283663371', '59258777731', True),
-    # ('莫文蔚', '67027185115', '66938754237', True),
-    # ('时尚中国', '96454134877', '1596815857982478', True)
-    ('歐陽娜娜Nana', '58512505418', '58376920867', True)
+    ('周秀娜', '63324591791', '63326138854', True),
+    ('Angelababy情报站', '4472462177744952', '1634147228048398', True),
+    ('AngelaBaby官方粉丝团', '53020919205', '1554133922026497', True),
+    ('Dear迪丽热巴后援会', '83228158038', '1588018019031053', True),
+    ('Dear迪丽热巴部落', '87064177182', '1593266355155971', True),
+    ('迪丽热巴吧', '82810146175', '1587817676795918', True),
+    ('杨幂官方粉丝团', '74176036712', '1582880577073165', True),
+    ('唐嫣', '53750742095', '53910221361', True),
+    ('莫文蔚', '67027185115', '66938754237', True),
+    ('赵丽颖颖宝', '86304143775', '1589728210990087', True),
+    ('郭碧婷', '59283663371', '59258777731', True),
+    ('TwiceChic', '88759632870', '59258777731', True),
+    ('江一燕', '52567586994', '52593173007', True),
+    ('时尚巴莎', '3506867453', '3456229542', True),
+    ('嘉人', '4734412771', '4734412771', True),
+    ('辛芷蕾', '18908392620', '60783515819', True),
+    ('倪妮', '55614951807', '55667333055', True),
+    ('刘亦菲', '63874654903', '63896281829', True),
+    ('张俪', '1842368843', '3148925926', True),
+    ('董洁', '52448714594', '52448834772', True),
+    ('张静初', '56137701890', '56082754590', True),
+    ('歐陽娜娜Nana', '58512505418', '58376920867', True),
+    ('邓丽欣', '69704938139', '69610691059', True),
+    ('孙怡', '7866749048', '55665864123', True),
+    ('赵薇V爱', '109064938509', '1620803459355655', True),
+    ('文咏珊', '102106709586', '1607132784850948', True),
+    ('许晴的窝窝', '88594173917', '1629056073226254', True),
+    ('张钧甯', '103401034929', '1609648790618119', True),
+    ('关晓彤', '6867592696', '59899061090', True),
+    ('黄圣依', '54650316956', '54652189281', True),
+    ('林允儿YOONAYA应援站', '87472203354', '1590351320123399', True),
+    ('张天爱', '51869645312', '51891565257', True),
+    ('郭碧婷', '59283663371', '59258777731', True),
+    ('莫文蔚', '67027185115', '66938754237', True),
+    ('时尚中国', '96454134877', '1596815857982478', True)
 ]
 
-all_users1 = [all_users[0]]
+all_users = [all_users[0]]
 
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
 
-WAIT_RESPONSE = 5
-END_CMD_LIMIT = 50
-# END_CMD_LIMIT = 200
-# END_CMD_LIMIT = 2
-
 pic_count = 0
 f_log = 0
-
-
-def my_str2dt(dt_str):
-    return datetime.datetime.strptime(dt_str, "%Y-%m-%d %H:%M")
-
-
-def wait_refresh():
-    time.sleep(WAIT_RESPONSE)
-
-
-class TTUserValidPages():
-    def __init__(self, username, user_url, last_date, weitoutiao):
-        self.weitoutiao = weitoutiao
-        self.__page_list = []
-        self.__last_date = last_date
-        self.__init_web(user_url)
-        self.__username = username
-        self.__extract_pages()
-
-    # def __del__(self):
-    #     self.__web_driver.close()
-
-    @property
-    def page_list(self):
-        return self.__page_list
-
-    def __init_web(self, user_url):
-        chrome_options = Options()
-        # chrome_options.add_argument('--headless')
-        # chrome_options.add_argument('disable-infobars')
-        # chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
-        chrome_options.add_argument("--proxy-server=127.0.0.1:8080")
-        chrome_options.add_argument("--ignore-certificate-errors")
-        self.__web_driver = webdriver.Chrome(options=chrome_options)
-        # self.__web_driver = webdriver.Firefox(options=chrome_options)2020
-        # self.__web_driver = webdriver.Chrome()
-        # self.__web_driver = webdriver.Firefox()
-        # print(user_url)
-        self.__web_driver.get(user_url)
-        wait_refresh()
-        # wait = WebDriverWait(self.__web_driver, 30)
-
-
-# 　      elm = wait.until(lambda x: x.find_element_by_xpath(Xpath))
-        if self.weitoutiao:
-            tab_xpath = '//div[@id="wrapper"]/div[2]/div[1]/ul/li[3]'
-            elem = self.__web_driver.find_element_by_xpath(xpath=tab_xpath)
-            # elem = wait.until(
-            #     self.__web_driver.find_element_by_xpath(xpath=tab_xpath))
-
-            if elem:
-                elem.click()
-                wait_refresh()
-                # self.weitoutiao = True
-
-    def __find_pages(self):
-        html_txt = self.__web_driver.page_source
-        if self.weitoutiao:
-            p = re.compile(
-                '"ugc_comment_count" target="_blank" href="(https://www.toutiao.com/a.+?)".+?(;)(\d{4}-\d{2}-\d{2} \d{2}:\d{2})', re.S)
-        else:
-            p = re.compile(
-                r'<a class=\"link title\" target=\"_blank\" href=\"/item/(.*?)/\">(.*?)</a>.*?<span class=\"lbtn\">.*?(\d{4}.*?)</span>', re.M)
-        result = re.findall(p, html_txt)
-        return result
-
-    def __refresh_cmd(self):
-        webdriver.ActionChains(self.__web_driver).key_down(Keys.END).perform()
-        wait_refresh()
-
-    def __valid_pages(self, pages):
-        ret = []
-        for p in pages:
-            dt = my_str2dt(p[2])
-            if dt >= self.__last_date:
-                ret.append(p)
-
-        return ret
-
-    def __extract_pages(self):
-        for i in range(END_CMD_LIMIT):
-            self.__refresh_cmd()
-            print('%s: send end command %d/%d' %
-                  (self.__username, i+1, END_CMD_LIMIT))
-
-        pages = self.__find_pages()
-        self.__page_list = self.__valid_pages(pages)
-        self.__web_driver.quit()
+last_time_new = 0
 
 
 def extract_pic_type_1(html_text):
@@ -253,8 +162,8 @@ def extract_pic_type_4(html_text):
 def get_page_source(page_url):
     r = ''
     try:
-        # r = requests.get(page_url, headers=my_headers, cookies=my_cookies)
-        r = requests.get(page_url, headers=my_headers)
+        r = requests.get(page_url, headers=my_headers, cookies=my_cookies)
+        # r = requests.get(page_url, headers=my_headers)
         # print(r.text)
     except Exception:
         print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, page_url))
@@ -303,6 +212,8 @@ def save_a_pic(pic_url, path, filename):
 def download_a_page(username, page_url, save_path):
     pic_urls = get_pic_urls_from_a_page(page_url)
     # print(pic_urls)
+    if pic_urls == []:
+        return False
     for url in pic_urls:
         # print(url)
         pic_url = url.replace('\\', '')
@@ -310,13 +221,7 @@ def download_a_page(username, page_url, save_path):
         # pic_url = pic_url.replace('?', '')
         filename = username + '_' + pic_url.split('/')[-1] + '.jpg'
         save_a_pic(pic_url, save_path, filename)
-
-
-# def save_log():
-#     log_file = DST_PATH + r'\log\log_tt.txt'
-#     now_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-#     with open(log_file, 'w') as f:
-#         f.write(now_date + '\n')
+    return True
 
 
 def open_log():
@@ -356,43 +261,15 @@ def input_last_time():
     return input_line
 
 
-def main1():
-    global pic_count
-    # sys.stdout = io.TextIOWrapper(
-    #     sys.stdout.buffer, encoding='gb18030', line_buffering=True)
-
-    print_version(VERSION)
-
-    save_path_date = r'%s\%s_tt' % (
-        DST_PATH, datetime.datetime.now().date().strftime('%y%m%d'))
-
-    if(not os.path.exists(save_path_date)):
-        os.makedirs(save_path_date, exist_ok=True)
-
-    open_log()
-    save_date()
-
-    last_date = my_str2dt(input_last_date())
-
-    for (username, uid, mid, weitoutiao) in all_users:
-        user_url = 'https://www.toutiao.com/c/user/%s/#mid=%s' % (uid, mid)
-        tt = TTUserValidPages(username, user_url, last_date, weitoutiao)
-        pages = tt.page_list
-        # print(pages)
-        count_pages = len(pages)
-        for i in range(count_pages):
-            if tt.weitoutiao:
-                page_url = pages[i][0]
-            else:
-                page_url = 'https://www.toutiao.com/i%s/' % pages[i][0]
-            print('%s %s [%d/%d] ' % (page_url, pages[i][2], i+1, count_pages))
-            download_a_page(username, page_url, save_path_date)
-
-    print('=' * 70)
-    print('%d pictures download' % pic_count)
-    save_info('%d pictures download' % pic_count)
-
-    wait_any_key()
+def input_refresh_http():
+    print('refresh http [y/n]:')
+    key_in = msvcrt.getch()
+    choice = (key_in.decode() in 'yY')
+    if choice:
+        print('confirm!')
+    else:
+        print('skip refresh')
+    return choice
 
 
 def get_all_sheets_text(chrome_log_file):
@@ -400,13 +277,6 @@ def get_all_sheets_text(chrome_log_file):
         l_lines = f.readlines()
     return l_lines
 
-
-# def get_pages(sheet_url):
-#     try:
-#         r = requests.get(sheet_url)
-#     except Exception:
-#         print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, sheet_url))
-#     print(r.text)
 
 class SheetStyle(Enum):
     unknown = auto()
@@ -448,32 +318,6 @@ class TTSheet():
         return self.__json['data']
 
 
-# class TTPage(metaclass=abc.ABCMeta):
-#     def __init__(self, data):
-#         self._data = data
-#         # self.__json = json.loads(self.__data)
-
-#     @property
-#     def keys(self):
-#         return self._data.keys()
-
-#     @abc.abstractmethod
-#     def get_name(self):
-#         pass
-
-#     @abc.abstractmethod
-#     def get_title(self):
-#         pass
-
-#     @abc.abstractmethod
-#     def get_time(self):
-#         pass
-
-#     @abc.abstractmethod
-#     def get_tid(self):
-#         pass
-
-
 class TTPage():
     def __init__(self, data):
         self._data = data
@@ -503,7 +347,7 @@ class TTPage():
             return a['content']
         else:
             a = json.loads(self._data['stream_cell']['raw_data'])
-            # print(json.dumps(a,indent=4))
+            # print(json.dumps(a, indent=4))
             return a['comment_base']['content']
 
     def get_time(self):
@@ -513,8 +357,8 @@ class TTPage():
             a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
             return a['create_time']
         else:
-            a = json.loads(self._data['stream_cell']['raw_data'])
-            return a['comment_base']['create_time']
+            # a = json.loads(self._data['stream_cell']['raw_data'])
+            return self._data['base_cell']['behot_time']
 
     def get_tid(self):
         if self.__type == PageStyle.type_1:
@@ -523,26 +367,8 @@ class TTPage():
             a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
             return a['thread_id']
         else:
-            a = json.loads(self._data['stream_cell']['raw_data'])
-            return a['id']
-
-
-# class TTPageWeitoutiao(TTPage):
-#     def get_name(self):
-#         a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
-#         return a['user']['name']
-
-#     def get_title(self):
-#         a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
-#         return a['content']
-
-#     def get_time(self):
-#         a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
-#         return a['create_time']
-
-#     def get_tid(self):
-#         a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
-#         return a['thread_id']
+            # a = json.loads(self._data['stream_cell']['raw_data'])
+            return self._data['base_cell']['log_pb']['fw_id']
 
 
 def open_chrome(uid, mid):
@@ -551,27 +377,27 @@ def open_chrome(uid, mid):
     os.system('chrome %s %s' % (chrome_option, user_url))
 
 
+# user_url = 'https://www.toutiao.com/c/user/58512505418/#mid=58376920867'
+# user_url = 'https://www.toutiao.com/c/user/96454134877/#mid=1596815857982478'
+# user_url = 'https://www.toutiao.com/c/user/1789630365055400/#mid=1658847850889223'
+
 def main():
     print_version(VERSION)
+    if input_refresh_http():
+        for user in all_users:
+            uid = user[1]
+            mid = user[2]
+            open_chrome(uid, mid)
 
-    # user_url = 'https://www.toutiao.com/c/user/58512505418/#mid=58376920867'
-    # user_url = 'https://www.toutiao.com/c/user/96454134877/#mid=1596815857982478'
-    # user_url = 'https://www.toutiao.com/c/user/1789630365055400/#mid=1658847850889223'
-    # chrome_option = '--proxy-server=127.0.0.1:8080 -ignore-certificate-errors'
-    # os.system('chrome %s %s' % (chrome_option, user_url))
-
-    # for user in all_users:
-    #     uid = user[1]
-    #     mid = user[2]
-    #     open_chrome(uid, mid)
-
-    # print('shutdown proxy first!!!')
-    # wait_any_key()
+        print('shutdown proxy first!!!')
+        wait_any_key()
 
     global pic_count
+    global last_time_new
 
-    # last_time = eval(input_last_time())
-    last_time = 1583136150
+    last_time = eval(input_last_time())
+    # last_time = 1583136150
+    last_time_new = last_time
 
     save_path_date = r'%s\%s_tt' % (
         DST_PATH, datetime.datetime.now().date().strftime('%y%m%d'))
@@ -584,18 +410,22 @@ def main():
 
     sheets_text = get_all_sheets_text(CHROME_LOG)
 
-    # s = sheets_text[2]
+    # s = sheets_text[1]
     # sheet = TTSheet(s)
     # d = sheet.page_data[0]
-    # page = TTPageArticle(d)
-    # # print(page.get_pic_url_list())
-    # # print(page.get_title())
-    # # print(page._data)
-
-    # page_url = '%s/i%s' % (URL_PREFIX, page.get_tid())
-    # t = get_page_source(page_url)
-    # download_a_page(page.get_name(), page_url, save_path_date)
+    # page = TTPage(d)
+    # if sheet.style == SheetStyle.article:
+    #     style_text = 'artile'
+    #     page_code = 'i'
+    # else:
+    #     style_text = 'weitoutiao'
+    #     page_code = 'a'
+    # page_url = '%s/%s%s' % (URL_PREFIX, page_code, page.get_tid())
+    # print(page.get_name())
     # print(page.get_title())
+    # print(page.get_tid())
+    # print(page.get_time())
+    # download_a_page(page.get_name(), page_url, save_path_date)
 
     for i in range(len(sheets_text)):
         sheet = TTSheet(sheets_text[i])
@@ -609,39 +439,26 @@ def main():
         for j in range(len(sheet.page_data)):
             page = TTPage(sheet.page_data[j])
             page_url = '%s/%s%s' % (URL_PREFIX, page_code, page.get_tid())
-            # print(json.dumps(page._data, indent=4))
-            # print(page._data)
-            print(page.get_name())
-            print(page.get_title())
-            print(page.get_tid())
-            print(page.get_time())
-            # if sheet.style == SheetStyle.article:
-            #     page = TTPageArticle(sheet.page_data[j])
-            #     page_url = '%s/i%s' % (URL_PREFIX, page.get_tid())
-            #     style_text = 'article'
-            # else:
-            #     page = TTPageWeitoutiao(sheet.page_data[j])
-            #     a = page._data
-            #     # print(json.dumps(a, indent=2))
-            #     # print(a)
-            #     page_url = '%s/a%s' % (URL_PREFIX, page.get_tid())
-            #     style_text = 'weitoutiao'
 
             print()
             print(page_url)
             # print(page.get_title())
             # print(page.get_time())
             if page.get_time() <= last_time:
-                print('===skip===')
+                print('===old & skip===')
             else:
-                print('===download===')
-                # download_a_page(page.get_name(), page_url, save_path_date)
+                # print('===download===')
+                ret = download_a_page(
+                    page.get_name(), page_url, save_path_date)
+                if ret:
+                    last_time_new = page.get_time()
+
             print('sheet[%d/%d]:%s, page[%d/%d] <%d pictures> ' % (i+1, len(sheets_text),
                                                                    style_text, j+1, len(sheet.page_data), pic_count))
 
     print('=' * 70)
     print('%d pictures download' % pic_count)
-    save_info('%d pictures download' % pic_count)
+    save_info('%d pictures download\nlast:%d' % (pic_count, last_time_new))
 
     wait_any_key()
 
