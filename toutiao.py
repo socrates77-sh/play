@@ -29,16 +29,17 @@ CHROME_LOG = DST_PATH + r'\log\chrome.log'
 # CHROME_LOG = DST_PATH + r'\log\2.log'
 
 my_cookies = dict(
-    tt_webid='6799909822613816839',
-    SLARDAR_WEB_ID='af7b4416-a9b8-478c-bb20-4f684478d8c6',
-    s_v_web_id='verify_k7bopouy_2eV8cMtk_jUaG_44Po_BfIq_P5yGzNqpNpom',
-    ttcid='122e3477857d4e80bae24ae318131c7c33',
-    __tasessionId='8yn21ol4n1583227396858',
-    csrftoken='f6e2ca9457ab2175dadf0ba3d6680b95',
-    tt_scid='RyGXxYSSFc6U3IrmprduUSXK7xuONKOCp-dUcMeS6FD0U8GzXH9SK3ySm4yjCJZ6d09a')
+    tt_webid='6741558964419626509',
+    SLARDAR_WEB_ID='987ff669-f73a-441f-b1ba-87a050433e0a',
+    s_v_web_id='verify_k7eq67da_j4Yz1vJS_0dp2_4abR_9KpO_s7BUUNoL7vKm',
+    ttcid='8dfd4d1fe69146e09c563b761e16584694',
+    __tasessionId='bihmlchj11583411248403',
+    csrftoken='9a084254d44eab1965baf1a28dc168fd',
+    tt_scid='N9jrBvIpLhMpmTyUTuR0GX2uRjDeagD8lmer6Bt7A.9aCg1VCJd7tZI8J7HKoO4Vdbd0')
+
 
 my_headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
 }
 
 
@@ -103,7 +104,7 @@ all_users = [
     ('时尚中国', '96454134877', '1596815857982478', True)
 ]
 
-all_users = [all_users[0]]
+all_users = [all_users[1]]
 
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
@@ -162,11 +163,12 @@ def extract_pic_type_4(html_text):
 def get_page_source(page_url):
     r = ''
     try:
-        r = requests.get(page_url, headers=my_headers, cookies=my_cookies)
-        # r = requests.get(page_url, headers=my_headers)
-        # print(r.text)
+        # r = requests.get(page_url, headers=my_headers, cookies=my_cookies)
+        r = requests.get(page_url, headers=my_headers)
+        # print(r.content)
     except Exception:
         print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, page_url))
+    # return r.text
     return r.text
 
 
