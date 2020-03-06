@@ -19,6 +19,11 @@ import json
 # import abc
 from enum import Enum, auto
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
+
 
 VERSION = '2.0'
 
@@ -106,6 +111,8 @@ all_users = [
 
 all_users = [all_users[1]]
 
+WAIT_RESPONSE = 5
+
 ERR_WEB_ACCESS_FAIL = 'Cannot access web'
 ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
 
@@ -114,83 +121,71 @@ f_log = 0
 last_time_new = 0
 
 
-def extract_pic_type_1(html_text):
-    p = re.compile('(http://p.+?pstatp.com/large/pgc-image/.+?)"', re.S)
-    # http://p9.pstatp.com/large/pgc-image/f52f5ffc3842460ea84f492276e6542d
-    result = re.findall(p, html_text)
-    return result
+def extract_pic(html_text):
+    pic_url_list = []
+    p = re.compile('gallery: JSON.parse\("({\\\\".+?})"\),', re.S)
+    ret = re.search(p, html_text)
+    if ret:
+        j_ret = json.loads(ret.group(1).replace('\\\"', '"'))
+        sub_images = j_ret['sub_images']
+        for img in sub_images:
+            url_dirty = img['url']
+            url = url_dirty.replace('\\', '')
+            pic_url_list.append(url)
+    if pic_url_list != []:
+        return pic_url_list
+
+    p = re.compile('images: (\[.+?])', re.S)
+    ret = re.search(p, html_text)
+    if ret:
+        images = eval(ret.group(1))
+        for img in images:
+            url = 'https:' + img.replace('\\u002F', '/')
+            pic_url_list.append(url)
+    if pic_url_list != []:
+        return pic_url_list
+
+    p = re.compile('&quot;(http:.+?)\\\\&quot;', re.S)
+    ret = re.findall(p, html_text)
+    if ret != []:
+        for img in ret:
+            url = img.replace('\\u002F', '/')
+            pic_url_list.append(url)
+    if pic_url_list != []:
+        return pic_url_list
+
+    return pic_url_list
 
 
-def extract_pic_type_2(html_text):
-    p = re.compile(
-        'url_list....{."url.":."http:\\\\.+?(p.+?pstatp.com)\\\\.+?origin\\\\.+?pgc-image\\\\.......(.+?)"', re.S)
-    result = re.findall(p, html_text)
-    pic_urls = []
-    for (p, id) in result:
-        url = 'http://%s/origin/pgc-image/%s' % (p, id)
-        pic_urls.append(url)
-    # print(result)
-    return pic_urls
-
-
-def extract_pic_type_3(html_text):
-    # p = re.compile(
-    #     '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002Fpgc-image\\\\u002F(.+?)"', re.S)
-    p = re.compile(
-        '"\\\\u002F\\\\u002F(p.+?-tt.byteimg.com)\\\\u002Fimg\\\\u002F(.+?)\\\\u002F(.+?)\?.+?"', re.S)
-    result = re.findall(p, html_text)
-    # print(result)
-    pic_urls = []
-    for (p, img, id) in result:
-        url = 'https://%s/img/%s/%s' % (p, img, id)
-        # print(url)
-        pic_urls.append(url)
-    return pic_urls
-
-
-def extract_pic_type_4(html_text):
-    p = re.compile(
-        'http:\\\\u002F\\\\u002F(p.+?pstatp.com)\\\\u002Flarge\\\\u002Fpgc-image\\\\u002F(.+?)\\\\&quot', re.S)
-    result = re.findall(p, html_text)
-    pic_urls = []
-    for (p, id) in result:
-        url = 'http://%s/large/pgc-image/%s' % (p, id)
-        pic_urls.append(url)
-    # print(pic_urls)
-    return pic_urls
-
-
-def get_page_source(page_url):
+def get_page_source1(page_url):
     r = ''
     try:
         # r = requests.get(page_url, headers=my_headers, cookies=my_cookies)
-        r = requests.get(page_url, headers=my_headers)
-        # print(r.content)
+        r = requests.get(page_url)
     except Exception:
         print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, page_url))
-    # return r.text
     return r.text
+
+
+def get_page_source(page_url):
+    chrome_options = Options()
+    # chrome_options.add_argument('--headless')
+    web_driver = webdriver.Chrome(options=chrome_options)
+    web_driver.minimize_window()
+    web_driver.get(page_url)
+    time.sleep(WAIT_RESPONSE)
+    html_txt = web_driver.page_source
+    # print(html_txt)
+    return html_txt
 
 
 def get_pic_urls_from_a_page(page_url):
     html = get_page_source(page_url)
     if html:
-        result = extract_pic_type_1(html)
-        if result != []:
-            return result
-        result = extract_pic_type_2(html)
-        if result != []:
-            return result
-        result = extract_pic_type_3(html)
-        if result != []:
-            return result
-        result = extract_pic_type_4(html)
-        if result != []:
-            return result
-
-        else:
+        result = extract_pic(html)
+        if result == []:
             print('Error: %s %s' % (ERR_WEB_EXTRACT_FAIL, page_url))
-            return []
+        return result
     else:
         print('Error: %s %s' % (ERR_WEB_ACCESS_FAIL, page_url))
         return []
@@ -219,8 +214,8 @@ def download_a_page(username, page_url, save_path):
     for url in pic_urls:
         # print(url)
         pic_url = url.replace('\\', '')
-        # pic_url = pic_url.replace('=', '')
-        # pic_url = pic_url.replace('?', '')
+        pic_url = pic_url.replace('?from=post', '')
+        # pic_url = pic_url.replace('?', '')n
         filename = username + '_' + pic_url.split('/')[-1] + '.jpg'
         save_a_pic(pic_url, save_path, filename)
     return True
@@ -243,7 +238,7 @@ def save_info(info):
     f_log.write('=' * 30)
     f_log.write('\n')
     f_log.write(info)
-    f_log.close()
+    # f_log.close()
 
 
 def wait_any_key():
@@ -291,6 +286,7 @@ class PageStyle(Enum):
     type_1 = auto()
     type_2 = auto()
     type_3 = auto()
+    type_4 = auto()
 
 
 class TTSheet():
@@ -328,6 +324,8 @@ class TTPage():
         else:
             if data['concern_talk_cell']:
                 self.__type = PageStyle.type_2
+            elif data['stream_cell']['data_type']==1:
+                self.__type = PageStyle.type_4
             else:
                 self.__type = PageStyle.type_3
 
@@ -368,6 +366,8 @@ class TTPage():
         elif self.__type == PageStyle.type_2:
             a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
             return a['thread_id']
+        elif self.__type == PageStyle.type_4:
+            return 'vedio'
         else:
             # a = json.loads(self._data['stream_cell']['raw_data'])
             return self._data['base_cell']['log_pb']['fw_id']
@@ -412,23 +412,6 @@ def main():
 
     sheets_text = get_all_sheets_text(CHROME_LOG)
 
-    # s = sheets_text[1]
-    # sheet = TTSheet(s)
-    # d = sheet.page_data[0]
-    # page = TTPage(d)
-    # if sheet.style == SheetStyle.article:
-    #     style_text = 'artile'
-    #     page_code = 'i'
-    # else:
-    #     style_text = 'weitoutiao'
-    #     page_code = 'a'
-    # page_url = '%s/%s%s' % (URL_PREFIX, page_code, page.get_tid())
-    # print(page.get_name())
-    # print(page.get_title())
-    # print(page.get_tid())
-    # print(page.get_time())
-    # download_a_page(page.get_name(), page_url, save_path_date)
-
     for i in range(len(sheets_text)):
         sheet = TTSheet(sheets_text[i])
         if sheet.style == SheetStyle.article:
@@ -450,10 +433,13 @@ def main():
                 print('===old & skip===')
             else:
                 # print('===download===')
-                ret = download_a_page(
-                    page.get_name(), page_url, save_path_date)
-                if ret:
-                    last_time_new = page.get_time()
+                if(page.get_tid()!='vedio'):
+                    ret = download_a_page(
+                        page.get_name(), page_url, save_path_date)
+                    if ret:
+                        last_time_new = page.get_time()
+                    else:
+                        save_info(page_url)
 
             print('sheet[%d/%d]:%s, page[%d/%d] <%d pictures> ' % (i+1, len(sheets_text),
                                                                    style_text, j+1, len(sheet.page_data), pic_count))
@@ -461,12 +447,29 @@ def main():
     print('=' * 70)
     print('%d pictures download' % pic_count)
     save_info('%d pictures download\nlast:%d' % (pic_count, last_time_new))
+    f_log.close()
 
     wait_any_key()
 
 
-# http://p1.pstatp.com/large/pgc-image/c1538bdff7ea4b90b8e92e7dd763b5f5
-# http://p1.pstatp.com/list/pgc-image/c1538bdff7ea4b90b8e92e7dd763b5f5
+    # s = sheets_text[0]
+    # sheet = TTSheet(s)
+    # d = sheet.page_data[5]
+    # page = TTPage(d)
+    # if sheet.style == SheetStyle.article:
+    #     style_text = 'artile'
+    #     page_code = 'i'
+    # else:
+    #     style_text = 'weitoutiao'
+    #     page_code = 'a'
+    # page_url = '%s/%s%s' % (URL_PREFIX, page_code, page.get_tid())
+    # print(page.get_name())
+    # print(page.get_title())
+    # print(page.get_tid())
+    # print(page.get_time())
+    # print(page._data)
+    # print(page._data['stream_cell']['data_type'])
+    # download_a_page(page.get_name(), page_url, save_path_date)
 
 if __name__ == '__main__':
     main()
