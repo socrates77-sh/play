@@ -87,7 +87,7 @@ def get_page_source1(page_url):
 def get_page_source(page_url):
     chrome_options = Options()
     web_driver = webdriver.Chrome(options=chrome_options)
-    web_driver.minimize_window()
+    web_driver.minimize_window() 
     web_driver.get(page_url)
     
     html_txt = web_driver.page_source
@@ -115,7 +115,7 @@ def main():
     page_url = 'https://www.toutiao.com/i6800291741090972164'
     page_url = 'https://www.toutiao.com/i6795042890620862980'
     page_url = 'https://www.toutiao.com/a1652953486829582'
-    # page_url = 'https://www.toutiao.com/a0000000000'
+    page_url = 'https://www.toutiao.com/a1660415017418759'
 
     ret = get_pic_urls_from_a_page(page_url)
     print(ret)

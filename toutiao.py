@@ -109,7 +109,7 @@ all_users = [
     ('时尚中国', '96454134877', '1596815857982478', True)
 ]
 
-all_users = [all_users[1]]
+all_users1 = [all_users[0]]
 
 WAIT_RESPONSE = 5
 
@@ -118,6 +118,7 @@ ERR_WEB_EXTRACT_FAIL = 'Cannot extract web'
 
 pic_count = 0
 f_log = 0
+f_missing = 0
 last_time_new = 0
 
 
@@ -138,7 +139,10 @@ def extract_pic(html_text):
     p = re.compile('images: (\[.+?])', re.S)
     ret = re.search(p, html_text)
     if ret:
-        images = eval(ret.group(1))
+        try:
+            images = eval(ret.group(1))
+        except Exception:
+            images = []
         for img in images:
             url = 'https:' + img.replace('\\u002F', '/')
             pic_url_list.append(url)
@@ -223,8 +227,11 @@ def download_a_page(username, page_url, save_path):
 
 def open_log():
     global f_log
+    global f_missing
     log_file = DST_PATH + r'\log\log_tt.txt'
+    missing_file = DST_PATH + r'\log\missing_tt.txt'
     f_log = open(log_file, 'w')
+    f_missing = open(missing_file, 'w')
 
 
 def save_date():
@@ -235,10 +242,14 @@ def save_date():
 
 def save_info(info):
     # global f_log
-    f_log.write('=' * 30)
-    f_log.write('\n')
-    f_log.write(info)
+    # f_log.write('=' * 30)
+    # f_log.write('\n')
+    f_log.write(info + '\n')
     # f_log.close()
+
+
+def save_missing(info):
+    f_missing.write(info + '\n')
 
 
 def wait_any_key():
@@ -313,7 +324,10 @@ class TTSheet():
 
     @property
     def page_data(self):
-        return self.__json['data']
+        if self.style == SheetStyle.unknown:
+            return []
+        else:
+            return self.__json['data']
 
 
 class TTPage():
@@ -324,7 +338,7 @@ class TTPage():
         else:
             if data['concern_talk_cell']:
                 self.__type = PageStyle.type_2
-            elif data['stream_cell']['data_type']==1:
+            elif data['stream_cell']['data_type'] == 1:
                 self.__type = PageStyle.type_4
             else:
                 self.__type = PageStyle.type_3
@@ -367,7 +381,7 @@ class TTPage():
             a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
             return a['thread_id']
         elif self.__type == PageStyle.type_4:
-            return 'vedio'
+            return 'video'
         else:
             # a = json.loads(self._data['stream_cell']['raw_data'])
             return self._data['base_cell']['log_pb']['fw_id']
@@ -386,9 +400,12 @@ def open_chrome(uid, mid):
 def main():
     print_version(VERSION)
     if input_refresh_http():
-        for user in all_users:
+        for i in range(len(all_users)):
+            user = all_users[i]
+            name = user[0]
             uid = user[1]
             mid = user[2]
+            print('[%d/%d] %s' % (i+1, len(all_users), name))
             open_chrome(uid, mid)
 
         print('shutdown proxy first!!!')
@@ -412,7 +429,8 @@ def main():
 
     sheets_text = get_all_sheets_text(CHROME_LOG)
 
-    for i in range(len(sheets_text)):
+    # for i in range(len(sheets_text)):
+    for i in range(69, len(sheets_text)):
         sheet = TTSheet(sheets_text[i])
         if sheet.style == SheetStyle.article:
             style_text = 'artile'
@@ -423,6 +441,7 @@ def main():
 
         for j in range(len(sheet.page_data)):
             page = TTPage(sheet.page_data[j])
+            # page = TTPage(sheet.page_data[6])
             page_url = '%s/%s%s' % (URL_PREFIX, page_code, page.get_tid())
 
             print()
@@ -433,24 +452,27 @@ def main():
                 print('===old & skip===')
             else:
                 # print('===download===')
-                if(page.get_tid()!='vedio'):
+                if(page.get_tid() != 'video'):
                     ret = download_a_page(
                         page.get_name(), page_url, save_path_date)
+                    # ret = 1
                     if ret:
-                        last_time_new = page.get_time()
+                        if last_time_new < page.get_time():
+                            last_time_new = page.get_time()
                     else:
-                        save_info(page_url)
+                        save_missing(page_url)
 
             print('sheet[%d/%d]:%s, page[%d/%d] <%d pictures> ' % (i+1, len(sheets_text),
                                                                    style_text, j+1, len(sheet.page_data), pic_count))
 
     print('=' * 70)
     print('%d pictures download' % pic_count)
-    save_info('%d pictures download\nlast:%d' % (pic_count, last_time_new))
+    save_info('=' * 30)
+    save_info('%d pictures download\nlast: %d' % (pic_count, last_time_new))
     f_log.close()
+    f_missing.close()
 
     wait_any_key()
-
 
     # s = sheets_text[0]
     # sheet = TTSheet(s)
@@ -470,6 +492,7 @@ def main():
     # print(page._data)
     # print(page._data['stream_cell']['data_type'])
     # download_a_page(page.get_name(), page_url, save_path_date)
+
 
 if __name__ == '__main__':
     main()
