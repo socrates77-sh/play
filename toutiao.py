@@ -104,8 +104,6 @@ all_users = [
     ('黄圣依', '54650316956', '54652189281', True),
     ('林允儿YOONAYA应援站', '87472203354', '1590351320123399', True),
     ('张天爱', '51869645312', '51891565257', True),
-    ('郭碧婷', '59283663371', '59258777731', True),
-    ('莫文蔚', '67027185115', '66938754237', True),
     ('时尚中国', '96454134877', '1596815857982478', True)
 ]
 
@@ -429,8 +427,8 @@ def main():
 
     sheets_text = get_all_sheets_text(CHROME_LOG)
 
-    # for i in range(len(sheets_text)):
-    for i in range(69, len(sheets_text)):
+    for i in range(len(sheets_text)):
+    # for i in range(69, len(sheets_text)):
         sheet = TTSheet(sheets_text[i])
         if sheet.style == SheetStyle.article:
             style_text = 'artile'
