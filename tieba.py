@@ -54,10 +54,10 @@ stars = ['孙允珠', '滨崎步', '安室奈美惠', '相武纱季', '刚力彩
          '孙怡', '户田惠梨香', '白百合', '文咏珊', '林珍娜',  '桥本环奈',
          '林珍娜', '蛯原友里',
          'amberheard', 'mackenziefoy', 'evanrachelwood', 'lilyjames', 'emiliaclarke', 'sashaluss',
-         '盖尔加朵', '吴谨言']
+         '盖尔加朵', '吴谨言', '西野七濑']
 
 
-stars1 = ['angelababy']
+stars1 = ['西野七濑']
 # stars = ['孙允珠']
 
 VERSION = '2.6'  # 版本号
