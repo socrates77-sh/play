@@ -6,6 +6,7 @@
 # 2019/12/08  v1.4  change chrome options
 # 2019/12/28  v1.6  update extract_pic_type_3
 # 2020/03/01  v2.0  new strategy
+# 2020/05/23  v2.1  last time change because toutiao changed
 
 import time
 import sys
@@ -25,10 +26,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 
 
-VERSION = '2.0'
+VERSION = '2.1'
 
 URL_PREFIX = 'https://www.toutiao.com'
-DST_PATH = r'f:\download'
+DST_PATH = r'e:\download'
 # DST_PATH = r'e:\py\play\temp\download'
 CHROME_LOG = DST_PATH + r'\log\chrome.log'
 # CHROME_LOG = DST_PATH + r'\log\2.log'
@@ -368,11 +369,14 @@ class TTPage():
             return a['comment_base']['content']
 
     def get_time(self):
+        # print(self.__type)
         if self.__type == PageStyle.type_1:
-            return self._data['behot_time']
+            # return self._data['behot_time']
+            return eval(self._data['item_id'])
         elif self.__type == PageStyle.type_2:
             a = json.loads(self._data['concern_talk_cell']['packed_json_str'])
-            return a['create_time']
+            # return a['create_time']
+            return a['thread_id']
         else:
             # a = json.loads(self._data['stream_cell']['raw_data'])
             return self._data['base_cell']['behot_time']
@@ -432,8 +436,8 @@ def main():
 
     sheets_text = get_all_sheets_text(CHROME_LOG)
 
-    for i in range(len(sheets_text)):
-    # for i in range(70, len(sheets_text)):
+    # for i in range(len(sheets_text)):
+    for i in range(0, len(sheets_text)):
         sheet = TTSheet(sheets_text[i])
         if sheet.style == SheetStyle.article:
             style_text = 'artile'
@@ -442,20 +446,27 @@ def main():
             style_text = 'weitoutiao'
             page_code = 'a'
 
-        for j in range(len(sheet.page_data)):
+        # for j in range(len(sheet.page_data)):
+        for j in range(0, len(sheet.page_data)):
             page = TTPage(sheet.page_data[j])
+
             # page = TTPage(sheet.page_data[6])
             page_url = '%s/%s%s' % (URL_PREFIX, page_code, page.get_tid())
 
             print()
+            # print(page._data)
             print(page_url)
             # print(page.get_title())
             # print(page.get_time())
-            if page.get_time() <= last_time:
-                print('===old & skip===')
+            if page.get_tid() == 'video':
+                print('===video & skip===')
             else:
-                # print('===download===')
-                if(page.get_tid() != 'video'):
+                if page.get_time() <= last_time:
+                    # if page.get_time():
+                    print('===old & skip===')
+                else:
+                    # print('===download===')
+                    # if(page.get_tid() != 'video'):
                     ret = download_a_page(
                         page.get_name(), page_url, save_path_date)
                     # ret = 1
