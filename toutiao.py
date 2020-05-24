@@ -29,7 +29,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 VERSION = '2.1'
 
 URL_PREFIX = 'https://www.toutiao.com'
-DST_PATH = r'e:\download'
+DST_PATH = r'f:\download'
 # DST_PATH = r'e:\py\play\temp\download'
 CHROME_LOG = DST_PATH + r'\log\chrome.log'
 # CHROME_LOG = DST_PATH + r'\log\2.log'
