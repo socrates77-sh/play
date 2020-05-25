@@ -1,5 +1,5 @@
 # history:
-# 2020/05/24  v1.0  initial
+# 2020/05/25  v1.0  initial
 
 
 import re
@@ -8,10 +8,13 @@ import json
 import sys
 import io
 import os
+import time
 
 VERSION = '1.0'
 
 DST_PATH = r'f:\download\douban'
+
+WAIT_RESPONSE = 0.1
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36'
@@ -57,8 +60,9 @@ def save_a_pic(pic_url, path, filename):
     global pic_count
     full_file = os.path.join(path, filename)
     try:
-        res = requests.get(pic_url, timeout=60)
+        res = requests.get(pic_url, headers=HEADERS, timeout=60)
         if res.status_code != 200:
+            print(res.status_code)
             return False
     except Exception as e:
         print(e)
@@ -80,24 +84,32 @@ def download_a_page(url):
     result = re.findall(p, html_text)
     # print(result)
     for a_pic_url in result:
-        print(a_pic_url)
-        print(a_pic_url.replace('/m/', '/l/'))
-        print(a_pic_url)
-        filename = a_pic_url.split('/')[-1]
-        save_a_pic(a_pic_url, DST_PATH, filename)
+        # print(a_pic_url)
+        # print(a_pic_url.replace('/m/', '/l/'))
+        # print(a_pic_url)
+        url = a_pic_url.replace('/m/', '/l/')
+        filename = url.split('/')[-1]
+        # print(url)
+        time.sleep(WAIT_RESPONSE)
+        save_a_pic(url, DST_PATH, filename)
+
+
+def input_url():
+    print('input url:')
+    input_line = sys.stdin.readline().strip()
+    return input_line
 
 
 def main():
     global pic_count
 
     print_version(VERSION)
-    # if len(sys.argv) != 2:
-    #     usage()
-    #     sys.exit(1)
 
-    # album_url = sys.argv[1]
-    album_url = 'https://movie.douban.com/celebrity/1348586/photos/'
-    album_url = 'https://movie.douban.com/celebrity/1316810/photos/'
+    album_url = input_url()
+    print()
+
+    # album_url = 'https://movie.douban.com/celebrity/1348586/photos/'
+    # album_url = 'https://movie.douban.com/celebrity/1316810/photos/'
 
     all_page_urls = [album_url]
     url = album_url
@@ -115,12 +127,12 @@ def main():
     if(not os.path.exists(DST_PATH)):
         os.makedirs(DST_PATH, exist_ok=True)
 
-    # for i in range(0, n_page):
-    for i in range(0, 1):
+    for i in range(0, n_page):
+        # for i in range(0, 1):
         url = all_page_urls[i]
+        print(url)
         download_a_page(url)
         print('page[%d/%d] <%d pictures>\n' % (i+1, n_page, pic_count))
-        print(url)
 
     print('=' * 30)
     print('%d pictures download\n' % pic_count)
