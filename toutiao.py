@@ -56,7 +56,7 @@ my_headers = {
 # username&weitoutiao is useless now
 
 all_users = [
-    ('葵颜靓影', '93212009455', '1646453162087438', False),
+    # ('葵颜靓影', '93212009455', '1646453162087438', False),
     # ('小小美眉阁', '2330579003770488', '1660493814653955', False),
     # ('美图悦赏', '95481509774', '1595796583089155', False),
     # ('江左盟盟主梅长苏', '2335007478648700', '1650690918688779', False),
@@ -225,6 +225,8 @@ def download_a_page(username, page_url, save_path):
         # pic_url = pic_url.replace(':', '')
         filename = username + '_' + pic_url.split('/')[-1] + '.jpg'
         filename = filename.replace(':', '')
+        filename = filename.replace(';', '')
+        filename = filename.replace('?', '')
         save_a_pic(pic_url, save_path, filename)
     return True
 

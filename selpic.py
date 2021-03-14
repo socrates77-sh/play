@@ -86,7 +86,7 @@ class ImageShow(Frame):
         self.lbl.config(height=1, anchor='w')
         self.lbl.pack(expand=YES, fill=BOTH)
         self.canvas = Canvas(
-            self, bg='gray', height=SHOW_HEIGHT, width=SHOW_WIDTH)
+            self, bg='black', height=SHOW_HEIGHT, width=SHOW_WIDTH)
         self.canvas.pack(side=LEFT, fill=BOTH, expand=YES)
 
         self.pack(expand=YES, fill=BOTH)
