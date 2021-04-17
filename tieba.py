@@ -58,11 +58,11 @@ stars = [
     '林珍娜', '蛯原友里',
     'amberheard', 'mackenziefoy', 'emiliaclarke', 'sashaluss',
     '盖尔加朵', '吴谨言', '西野七濑', '山本舞香', '佐久间由衣', '松本若菜', '土屋太凤', '广濑铃',
-    '万茜','松井爱莉', 
+    '万茜','松井爱莉', 'blackpink', 'lisa', 'jennie',
     '迪丽热巴', ]
 
 
-stars1 = ['松井爱莉']
+stars1 = ['blackpink']
 # stars = ['孙允珠']
 
 VERSION = '2.7'  # 版本号
@@ -238,7 +238,8 @@ class TiebaAll():
         for b in self.name.encode('utf-8'):
             s += '%%%2X' % b
         # first_page_url = 'http://tieba.baidu.com/f?kw=%s&ie=utf-8' % s
-        first_page_url = 'http://tieba.baidu.com/f?kw=%s' % s
+        # first_page_url = 'http://tieba.baidu.com/f?kw=%s' % s
+        first_page_url = 'https://tieba.baidu.com/f?kw=%s' % s
         r = requests.get(first_page_url)
         # print(r.text)
         p = re.compile(

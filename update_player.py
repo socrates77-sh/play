@@ -1,5 +1,7 @@
 # history:
 # 2021/3/12   v1.0  initial
+# 2021/4/17   v1.1  solve GK problem
+
 
 import numpy as np
 import pandas as pd
@@ -11,9 +13,9 @@ import openpyxl
 from openpyxl.styles import colors, Font, Color, Border, Side, Alignment, PatternFill
 from openpyxl.utils import get_column_letter
 
-VERSION = '1.0'
+VERSION = '1.1'
 
-FIRST_TEAM_NUMBER = 20
+FIRST_TEAM_NUMBER = 22
 
 bak_dir = './bak'
 csv_file = './a.csv'
@@ -127,20 +129,35 @@ def set_general_format(ws, nrows, ncols):
 
 def set_first_team(ws, nrows, ncols):
     font_first_team = Font(name='Arial', size=10, color=colors.RED, bold=True)
-    n_gk_no_larger = 0
+    # n_gk_no_larger = 0
     n_found_gk = 0
+    n_first = 0
 
     for i in range(1, nrows):
         pos = ws.cell(i+1, 2).value
-        val = ws.cell(i+1, 4).value
-        if ('GK' in pos) and n_found_gk < 2:
-            ws.cell(i+1, 1).font = font_first_team
-            n_found_gk += 1
-            if i > FIRST_TEAM_NUMBER:
-                n_gk_no_larger += 1
+        # val = ws.cell(i+1, 4).value
+        if n_first >= FIRST_TEAM_NUMBER:
+            break
+        else:
+            if ('GK' in pos):
+                if n_found_gk < 2:
+                    ws.cell(i+1, 1).font = font_first_team
+                    n_found_gk += 1
+                    n_first += 1
+                else:
+                    continue
+            else:
+                ws.cell(i+1, 1).font = font_first_team
+                n_first += 1
 
-    for i in range(1, FIRST_TEAM_NUMBER-n_gk_no_larger+1):
-        ws.cell(i+1, 1).font = font_first_team
+        # if ('GK' in pos) and n_found_gk < 2 and n_first < FIRST_TEAM_NUMBER:
+        #     ws.cell(i+1, 1).font = font_first_team
+        #     n_found_gk += 1
+        #     if i > FIRST_TEAM_NUMBER:
+        #         n_gk_no_larger += 1
+
+    # for i in range(1, FIRST_TEAM_NUMBER-n_gk_no_larger+1):
+    #     ws.cell(i+1, 1).font = font_first_team
 
 
 def set_value_color(ws, nrows, ncols):
