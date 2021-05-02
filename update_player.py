@@ -1,7 +1,7 @@
 # history:
 # 2021/3/12   v1.0  initial
 # 2021/4/17   v1.1  solve GK problem
-
+# 2021/5/2    v1.2  add GK_FIRST_TEAM_NUMBER
 
 import numpy as np
 import pandas as pd
@@ -13,9 +13,10 @@ import openpyxl
 from openpyxl.styles import colors, Font, Color, Border, Side, Alignment, PatternFill
 from openpyxl.utils import get_column_letter
 
-VERSION = '1.1'
+VERSION = '1.2'
 
-FIRST_TEAM_NUMBER = 22
+FIRST_TEAM_NUMBER = 24
+GK_FIRST_TEAM_NUMBER =3
 
 bak_dir = './bak'
 csv_file = './a.csv'
@@ -140,7 +141,7 @@ def set_first_team(ws, nrows, ncols):
             break
         else:
             if ('GK' in pos):
-                if n_found_gk < 2:
+                if n_found_gk < GK_FIRST_TEAM_NUMBER:
                     ws.cell(i+1, 1).font = font_first_team
                     n_found_gk += 1
                     n_first += 1
