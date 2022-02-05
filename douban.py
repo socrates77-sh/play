@@ -73,6 +73,7 @@ def save_a_pic(pic_url, path, filename):
 
 
 def download_a_page(url):
+    time.sleep(WAIT_RESPONSE*30)
     html_text = get_page_text(url)
     # print(html_text)
     # <img src="https://img1.doubanio.com/view/photo/m/public/p2292192778.jpg" class="" />
@@ -99,6 +100,10 @@ def input_url():
     input_line = sys.stdin.readline().strip()
     return input_line
 
+def input_start_idx():
+    print('input start index:')
+    input_line = sys.stdin.readline().strip()
+    return input_line
 
 def main():
     global pic_count
@@ -106,7 +111,8 @@ def main():
     print_version(VERSION)
 
     album_url = input_url()
-    print()
+    start_idx = eval(input_start_idx())-1
+    print
 
     # album_url = 'https://movie.douban.com/celebrity/1348586/photos/'
     # album_url = 'https://movie.douban.com/celebrity/1316810/photos/'
@@ -127,7 +133,8 @@ def main():
     if(not os.path.exists(DST_PATH)):
         os.makedirs(DST_PATH, exist_ok=True)
 
-    for i in range(0, n_page):
+    # for i in range(0, n_page):
+    for i in range(start_idx, n_page):
         # for i in range(0, 1):
         url = all_page_urls[i]
         print(url)
@@ -140,3 +147,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# https://movie.douban.com/celebrity/1018667/photos
+# https://movie.douban.com/celebrity/1275528/photos/
+# https://movie.douban.com/celebrity/1275344/photos/
+# https://movie.douban.com/celebrity/1315335/photos/

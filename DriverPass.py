@@ -44,7 +44,8 @@ def response(flow):
     #     logger.warning(flow.request.url)
     global fh
     # url_like ='www.toutiao.com/api/pc/feed/'
-    if ('www.toutiao.com/api/pc/feed/' in flow.request.url) or ('www.toutiao.com/c/user/article' in flow.request.url):
+    # if ('www.toutiao.com/api/pc/feed/' in flow.request.url) or ('www.toutiao.com/c/user/article' in flow.request.url):
+    if 'www.toutiao.com/api/pc/list/user/feed' in flow.request.url:
         # logger.warning(flow.request.url)
         logger.warning(flow.response.text)
         # logger.warning('='*70)
